@@ -50,6 +50,11 @@ class PurchaseOrder(models.Model):
     pay_to = fields.Many2one('res.bank')
 
     # WADIDAAAAWWWWWWW
+    # su
+    # san
+    # to
+
+
 
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")
