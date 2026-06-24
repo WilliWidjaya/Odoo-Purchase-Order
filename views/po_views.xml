@@ -1,0 +1,354 @@
+<odoo>
+    <data>
+        <record id="po_content_view_list" model="ir.ui.view">
+            <field name="name">po.content.view.list</field>
+            <field name="model">purchase_order_content</field>
+            <field name="arch" type="xml">
+                <list string = "Channel" editable="bottom">
+                    <field name="item_id" width = "75px"/>
+                    <field name="item_name" width = "125px"/>
+                    <field name="free_text" width = "75px"/>
+                    <field name="quantity_consider" width = "75px"/>
+                    <field name="quantity_packaging" width = "75px"/>
+                    <field name="packaging_ucm" width = "75px"/>
+                    <field name="quantity" width = "75px"/>
+                    <field name="ucm" width = "75px"/>
+                    <field name="price" width = "75px"/>
+                    <field name="discount_percentage" width = "75px"/>
+                    <field name="total" width = "75px"/>
+                    <field name="tax_code" width = "75px"/>
+                    <field name="rate" width = "75px"/>
+                    <field name="total_after_discount" width = "75px"/>
+                    <field name="gross_after_discount" width = "75px"/>
+                    <field name="taxline" width = "75px"/>
+                    <!-- <field name="warehouse"/> -->
+                    <field name="pi_number" width = "75px"/>
+                    <field name="slaughterhouse" width = "75px"/>
+                    <field name="quantity_real" width = "75px"/>
+                    <!-- <field name="linestat"/> -->
+                    <!-- <field name="DocEntrySomething"/> -->
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_freight_view_list" model="ir.ui.view">
+            <field name="name">po.freight.view.list</field>
+            <field name="model">purchase_order_freight</field>
+            <field name="arch" type="xml">
+                <list string = "Channel" editable="bottom">
+                    <field name="purchase_order_id"/>
+                    <field name="express_id"/>
+                    <field name="expense_name"/>
+                    <field name="remarks"/>
+                    <field name="tax_code"/>
+                    <field name="gross_amount"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_attachment_list" model="ir.ui.view">
+            <field name="name">po.view.list</field>
+            <field name="model">purchase_order</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <field name="po_number" width = "50px"/>
+                    <field name="name" width = "50px"/>
+                    <field name="due_date" width = "50px"/>
+                    <field name="total_amount" width = "50px"/>
+                    <field name="payment_terms" width = "50px"/>
+                    <field name="status" width = "50px"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_view_list" model="ir.ui.view">
+            <field name="name">po.attachment.list</field>
+            <field name="model">purchase_order_attachment</field>
+            <field name="arch" type="xml">
+                <list string = "Attachment List">
+                    <field name="t_attachment"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_form" model="ir.ui.view">
+            <field name="name">po.form</field>
+            <field name="model">purchase_order</field>
+            <field name="arch" type="xml">
+                <form string="Halaman Estate">
+                    <header>
+                        <button type = "object" string = "Send" name ="count_total"/>
+                        <button type = "object" string = "Update" name ="count_total"/>
+                        <button type = "object" string = "Print PO" name ="count_total"/>
+                    </header>
+                    <sheet>
+                        <group class ="format-grid">
+                            <group class = "format-bg">
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">PO Number</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="po_number" placeholder = "e.g. PO2244001"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Vendor</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="vendor"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Name</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="name" placeholder = "e.g. John Doe Johnson"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Contact Person</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="contact_person"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Vendor Ref. No.</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="vendor_ref_no" placeholder = "e.g. 112200334"/>
+                                </div>
+                            </group>
+                            <group class = "format-bg">
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">STA Date</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="sta_date"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Posting Date</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="posting_date"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Payment Date</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="payment_date"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Due Date</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="due_date"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Rate</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="rate"/>
+                                </div>
+                            </group>
+                            <group class = "format-bg">
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Discount (%)</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="discount_percentage"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Tax</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="tax"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override readonly">Total Before Disc.</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box readonly-bg" name="total_before_disc"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override readonly">Discount Amnt.</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box readonly-bg" name="discount_amount"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override readonly">Total</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box readonly-bg" name="total_amount"/>
+                                </div>
+                            </group>
+                            <group class = "format-bg-with-remarks">
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Payment Term</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="payment_terms"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Status</div>
+                                </span>
+                                <div>
+                                    <field class = "input-box" name="status"/>
+                                </div>
+                                <span class = "o_form_label o_td_label">
+                                    <div class = "o_form_label_override">Remarks</div>
+                                </span>
+                                <div>
+                                    <field class = "remarks-input-box" name="remarks" placeholder = "Write relevant remarks"/>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Content">
+                                <field name="purchase_contents"/>
+                            </page>
+                            <page string="Logistics">
+                                <group>
+                                    <field name="ship_to" placeholder = "Select location to ship to.."/>
+                                    <field name="pay_to" placeholder = "Select payment recipient.."/>
+                                </group>
+                            </page>
+                            <page string="Freight">
+                                <field name="purchase_freights"/>
+                            </page>
+                            <page string="Attachment">
+                                <field name="att_attachment"/>
+                            </page>
+                            <page string = "Additional">
+                                <group class = "format-grid-additional">
+                                    <group class = "format-bg-add">
+
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Vessel / Flight</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_vessel_flight" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Container</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_container" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">AWB No/ BI No</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_awb" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Pesawat</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_pesawat" placeholder="---"/>
+                                        </div>
+                                        <div>Kurang Disini</div>
+                                    </group>
+                                    <group class = "format-bg-add">
+
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Vendor DO No</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_vendor_DO_no" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">No dan tanggal PIB</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_no_tanggal_PIB" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">PIB Nomor Pesan</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_PIB_pesan" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Bank Name</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_bank_name" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">PPH</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_pph" placeholder="---"/>
+                                        </div>
+                                        
+                                    </group>
+                                    <group class = "format-bg-add">
+
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Tgl BBCP</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_tgl_bbpcp" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Total CF</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_total_cf" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">NDPBM</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_NDPBM" placeholder="---"/>
+                                        </div>
+                                        
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">PI Date</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_pi_date" placeholder="---"/>
+                                        </div>
+
+                                    </group>
+                                    <group class = "format-bg">
+
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Tgl Invoice</div>
+                                        </span>
+                                        <div>
+                                            <field class = "input-box" name="ad_tgl_invoice" placeholder="---"/>
+                                        </div>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Tampilan Form Secara Individu -->
+        <record id="po_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Form</field>
+            <field name="res_model">purchase_order</field>
+            <field name="view_mode">form</field>
+        </record>
+        
+        <!-- Tampilan form itu tersendiri -->
+        <record id="po_list_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order List</field>
+            <field name="res_model">purchase_order</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

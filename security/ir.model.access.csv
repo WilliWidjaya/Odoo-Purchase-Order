@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+purchase_order.access_purchase_order,access_purchase_order,purchase_order.model_purchase_order,base.group_user,1,1,1,1
+purchase_order.access_purchase_order_content,access_purchase_order_content,purchase_order.model_purchase_order_content,base.group_user,1,1,1,1
+purchase_order.access_purchase_order_freight,access_purchase_order_freight,purchase_order.model_purchase_order_freight,base.group_user,1,1,1,1
+purchase_order.access_purchase_order_attachment,access_purchase_order_attachment,purchase_order.model_purchase_order_attachment,base.group_user,1,1,1,1
