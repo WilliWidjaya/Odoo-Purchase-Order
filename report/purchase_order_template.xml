@@ -1,0 +1,35 @@
+<odoo>
+    <template id="report_purchase_order_template">
+        <t t-foreach="docs" t-as="po">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            <span t-field="po.name"/>
+                        </h2>
+                        <div>
+                            <strong>Total Amount: </strong>
+                            <span t-field="po.total_amount"/>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Freights</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="freight" t-value="po.mapped('purchase_freights')"/>
+                                <tr t-foreach="freight" t-as="freight">
+                                    <td>
+                                        <span t-field="freight.express_id"/>
+                                        <span t-field="freight.remarks"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

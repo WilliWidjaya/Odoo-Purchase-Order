@@ -7,6 +7,8 @@
         'views/po_views.xml',
         'views/po_menus.xml',
         'security/ir.model.access.csv',
+        'report/purchase_order_template.xml',
+        'report/purchase_order_report.xml'
     ],
     'assets': {
         'web.assets_frontend': [
