@@ -31,8 +31,6 @@ class PurchaseOrder(models.Model):
     discount_amount = fields.Float(string = "Discounted Amount", readonly = True)
     tax = fields.Float(string = "Tax")
 
-
-
     total_amount = fields.Float(string = "Total Amount", readonly = True)
 
     # etc.
@@ -50,6 +48,8 @@ class PurchaseOrder(models.Model):
     #Logistics
     ship_to = fields.Many2one('res.country')
     pay_to = fields.Many2one('res.bank')
+
+    # WADIDAAAAWWWWWWW
 
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")
