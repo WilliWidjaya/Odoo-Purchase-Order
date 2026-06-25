@@ -79,7 +79,7 @@
                     <header>
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
-                        <button type = "object" string = "Print PO" name ="count_total"/>
+                        <button type = "action" string = "Print PO" name ="purchase_order.report_purchase_order_two"/>
                     </header>
                     <sheet>
                         <group class ="format-grid">

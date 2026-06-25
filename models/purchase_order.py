@@ -1,5 +1,6 @@
 from odoo import api, fields, models, exceptions
 from odoo.exceptions import ValidationError
+from jinja2 import Environment
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
@@ -85,6 +86,19 @@ class PurchaseOrder(models.Model):
         ('check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount percentage must be between 0 and 100'),
     ]
 
+    # -------------------------------------------------
+
+    def create_report(self):
+        return self.env.ref('purchase_order.report_purchase_order').report_action(self)
+
+    def get_main_data(self):
+        self.ensure_one()
+        return {
+            'code' : self.po_number,
+            'name' : self.name,
+            'total' : self.total_amount,
+        }
+
     def count_total(self):
         count_total_amount = 0
         for i in self.purchase_contents:
@@ -122,14 +136,24 @@ class PurchaseOrder(models.Model):
             i.discount_amount = final_discounted_price
             self.count_total()
 
-    # @api.constrains('po_number')
-    # def _check_po_number(self):
-    #     if self.po_number == "":
-    #         return 
-    #     for i in self:
-    #         if i.po_number == "":
-    #             raise ValidationError("PO Number must not be empty.")
-    #             return
-    #         if len(i.po_number) < 6:
-    #             raise ValidationError("PO Number must not be empty & longer than 5 characters")
-    #             return
+# class PurchaseOrderReport(models.AbstractModel):
+#     _name = "report.purchase_order.report_purchase_order_template"
+#     _description = "null"
+
+#     @api.model
+#     def _get_report_values(self, docids, data=None):
+#         docs = self.env['purchase_order'].browse(docids)
+
+#         summaries = {}
+#         for i in docs:
+#             summaries["po_id"] = i.po_number
+#             summaries["name"] = i.name
+#             summaries["total"] = i.total_amount
+
+#         return {
+#             'doc_ids' : docids,
+#             'doc_model' : 'purchase_order',
+#             'docs' : docs,
+#             'summaries' : summaries,
+#             'report_title' : 'Purchase Order'
+#         }
