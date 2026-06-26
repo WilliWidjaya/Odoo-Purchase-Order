@@ -100,7 +100,7 @@
                             </div>
                             <div>
                                 Discount
-                                <span t-field="po.discount_amount"/>
+                                <span t-field="po.discounted_value"/>
                             </div>
                             <div>
                                 Total
@@ -108,7 +108,7 @@
                             </div>
                             <div>
                                 Tax
-                                <span t-field="po.tax"/>
+                                <span t-field="po.taxed_amount"/>
                             </div>
                             <div>
                                 By Shipment
@@ -132,7 +132,7 @@
                             </div>
                             <div>
                                 Grand Total
-                                <span t-field="po.tax"/>
+                                <span t-field="po.total_amount"/>
                             </div>
                         </div>
                     </div>

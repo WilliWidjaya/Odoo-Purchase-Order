@@ -1,6 +1,11 @@
 from odoo import api, fields, models, exceptions
 from odoo.exceptions import ValidationError
-from jinja2 import Environment
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
+from weasyprint import HTML, CSS
+
+# For Opening the file after making the pdf
+import os
+import webbrowser
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
@@ -27,11 +32,21 @@ class PurchaseOrder(models.Model):
         selection = [('pay_cash', 'Cash'), ('pay_bank', 'Bank')],
         help = "Tentukan Payment Terms"
     )
-    total_before_disc = fields.Float(string = "Total Before Disc.", compute = "_calculate_total_before_discount")
-    discount_percentage = fields.Float(string = "Discount Percentage")
-    discount_amount = fields.Float(string = "Discounted Amount", readonly = True)
-    tax = fields.Float(string = "Tax")
 
+    # Sub Total
+    total_before_disc = fields.Float(string = "Total Before Disc.", compute = "_calculate_total_before_discount")
+    # Discount in Percentage
+    discount_percentage = fields.Float(string = "Discount Percentage")
+    # Discounted Value
+    discounted_value = fields.Float(string = "Discounted Amount", readonly = True)
+    # Total (before Tax)
+    discount_amount = fields.Float(string = "Discounted Total", readonly = True)
+
+    # Tax
+    tax = fields.Float(string = "Tax") # Between 0.00 and 100.00, must not exceed the top and bottom threshold
+    taxed_amount = fields.Float(string = "Amount to Tax")
+
+    # Grand Total (post discount and post tax)
     total_amount = fields.Float(string = "Total Amount", readonly = True)
 
     # etc.
@@ -83,35 +98,83 @@ class PurchaseOrder(models.Model):
         ('check_po_length', 'CHECK(LENGTH(po_number) > 6)', 'Ermm PO must be longer than 5 or 6'),
         ('check_po_unique', 'UNIQUE(po_number)', 'PO number must be distinct or unique'),
         ('check_rate', 'CHECK(rate >= 0)', 'YOU GOTTA SET THIS RATE RIGHT BRO'),
+        ('check_tax', 'CHECK(tax >= 0 AND tax <= 100)', 'The Tax Percentage must be reasonable.'),
         ('check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount percentage must be between 0 and 100'),
     ]
 
     # -------------------------------------------------
 
+    def test_jinja(self):
+        def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
+        env = Environment(
+        loader=FileSystemLoader(def_filepath + 'purchase_order/templates'),
+        autoescape=select_autoescape()
+        )
+        template = env.get_template("purchase_order.html")
+   
+        # The part when It renders the things
+        template_render = template.render(
+            name = self.name,
+            po_number = self.po_number,
+            purchase_data = self.grab_purchase_content(),
+            sub_total = self.total_before_disc,
+            discount = self.discounted_value,
+            total = self.discount_amount,
+            tax = self.taxed_amount,
+            grand_total = self.total_amount
+        )
+
+        template_html = HTML(string = template_render)
+        po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
+        w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
+        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css, w3css_css])
+        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+
+    def grab_purchase_content(self):
+        return_dict = {}
+        for i in self.purchase_contents:
+            return_dict[i.item_id] = {}
+            return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
+            return_dict[i.item_id]["quantity"] = i.quantity
+            return_dict[i.item_id]["price"] = i.price
+            return_dict[i.item_id]["total"] = i.total
+        return return_dict
+
+
+    def test_weasyprint(self):
+        HTML('/home/laptop-it/odoo_src/src/tutorials/purchase_order/templates/purchase_order.html').write_pdf('/home/laptop-it/Downloads/da_example.pdf')
+
     def create_report(self):
         return self.env.ref('purchase_order.report_purchase_order').report_action(self)
 
-    def get_main_data(self):
-        self.ensure_one()
-        return {
-            'code' : self.po_number,
-            'name' : self.name,
-            'total' : self.total_amount,
-        }
-
     def count_total(self):
+        # self.total_amount must be the grand total of everything
+        # this includes discount + tax + everything else that might be added in the future.
         count_total_amount = 0
         for i in self.purchase_contents:
             count_total_amount += i.price
         if count_total_amount == 0:
             self.total_amount = 0
             return
-        if self.discount_percentage <= 0.00:
-            self.total_amount = count_total_amount
+        if self.discount_percentage <= 0.00: # Put the Discounted Price here.
+            self.discount_amount = count_total_amount
+            self.discounted_value = 0
 
-        discounted_tottal = count_total_amount - ((self.discount_percentage/100.0) * count_total_amount)
+        self.discounted_value = (self.discount_percentage/100.0) * count_total_amount
+
+        # Calculate the Discounter Price
+        discounted_tottal = count_total_amount - self.discounted_value
         self.discount_amount = discounted_tottal
-        self.total_amount = discounted_tottal
+
+        self.taxed_amount = (self.tax / 100) * discounted_tottal
+
+        # Calculate the grand total.
+        # Calculate this from the discounted price + percentage of that discounted amount
+        self.total_amount = discounted_tottal + self.taxed_amount
+
+    @api.onchange('tax')
+    def _calculate_on_tax_change(self):
+        self.count_total()
 
     @api.onchange('discount_percentage')
     def _calculate_on_discount_change(self):
@@ -133,7 +196,7 @@ class PurchaseOrder(models.Model):
         #       for some reason
         for i in self:
             i.total_before_disc = final_total_price
-            i.discount_amount = final_discounted_price
+            # i.discount_amount = final_discounted_price
             self.count_total()
 
 # class PurchaseOrderReport(models.AbstractModel):
