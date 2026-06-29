@@ -114,6 +114,7 @@ class PurchaseOrder(models.Model):
    
         # The part when It renders the things
         template_render = template.render(
+            # Main Information, Table Information
             name = self.name,
             po_number = self.po_number,
             purchase_data = self.grab_purchase_content(),
@@ -121,16 +122,22 @@ class PurchaseOrder(models.Model):
             discount = f"{self.discounted_value:,}",
             total = f"{self.discount_amount:,}",
             tax = f"{self.taxed_amount:,}",
-            grand_total = f"{self.total_amount:,}"
+            grand_total = f"{self.total_amount:,}",
+            remarks = self.remarks,
+            # Additional Information
+            pi_no = "",
+            cont_awb_no = self.ad_awb,
+            eta_jkt = self.sta_date,
+            dated = self.due_date
         )
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
         w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css, w3css_css])
-        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+        webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
-    def test_jinja(self):
+    def create_purchase_order_report(self):
         def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
         env = Environment(
         loader=FileSystemLoader(def_filepath + 'purchase_order/templates'),
@@ -140,6 +147,7 @@ class PurchaseOrder(models.Model):
    
         # The part when It renders the things
         template_render = template.render(
+            # Main Information, Table Information
             name = self.name,
             po_number = self.po_number,
             purchase_data = self.grab_purchase_content(),
@@ -147,7 +155,13 @@ class PurchaseOrder(models.Model):
             discount = f"{self.discounted_value:,}",
             total = f"{self.discount_amount:,}",
             tax = f"{self.taxed_amount:,}",
-            grand_total = f"{self.total_amount:,}"
+            grand_total = f"{self.total_amount:,}",
+            remarks = self.remarks,
+            # Additional Information
+            pi_no = "",
+            cont_awb_no = self.ad_awb,
+            eta_jkt = self.sta_date,
+            dated = self.due_date
         )
 
         template_html = HTML(string = template_render)

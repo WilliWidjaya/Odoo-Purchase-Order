@@ -61,15 +61,16 @@
         <table class = "table-style">
             <thead>
                 <tr>
-                    <th rowspan="2" style = "width: 35%"><strong>DESCRIPTION</strong></th>
-                    <th colspan="2" style = "width: 20%">ORDER QUANTITY</th>
-                    <th rowspan="2" style = "width: 10%"><strong>EST</strong></th>
-                    <th rowspan="2" style = "width: 15%"><strong>UNIT PRICE</strong></th>
-                    <th rowspan="2" style = "width: 15%"><strong>TOTAL VALUE</strong></th>
+                    <th rowspan="2" style = "width: 25%"><strong>DESCRIPTION</strong></th>
+                    <th colspan="2" style = "width: 25%">ORDER QUANTITY</th>
+                    <th colspan="2" style = "width: 25%">RECEIVED</th>
+                    <th rowspan="2" style = "width: 25%"><strong>Remarks</strong></th>
                 </tr>
                 <tr>
-                    <th ><strong>Supplier UOM</strong></th>
-                    <th ><strong>Our UOM</strong></th> 
+                    <th><strong>Supplier UOM</strong></th>
+                    <th><strong>Our UOM</strong></th>
+                    <th><strong>Supplier UOM</strong></th>
+                    <th><strong>Our UOM</strong></th> 
                 </tr>
             </thead>
             <tbody>
@@ -94,105 +95,22 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class = "summary">
-            <div class = "summary-container">
-                <div class = "summary-presentation">
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Sub Total</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ sub_total }}</div>
-                    </div>
-                    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Discount</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ discount }}</div>
-                    </div>
-                </div>
-            </div>
+
+        <div class = "summary-receiving">
+            <div></div>
+            <hr class ="hr-bold hr-padding-margin"/>
             
-            <hr class ="hr-padding-margin"/>
-            
-            <div class = "summary-container">
-                <div class = "summary-presentation">
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Total</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class ="hr-padding-margin"/>
-
-            <div class = "summary-container">
-                <div class = "summary-presentation">
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Tax</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ tax }}</div>
-                    </div>
-    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">By Shipment</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total_before_disc }}</div>
-                    </div>
-    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Inland Fuel</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total_before_disc }}</div>
-                    </div>
-                    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Sticker Free</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total_before_disc }}</div>
-                    </div>
-                    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Ocean Fuel</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total_before_disc }}</div>
-                    </div>
-    
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">GST</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ total_before_disc }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class ="hr-padding-margin"/>
-
             <div class = "summary-container-end">
-                <div style="font-weight: bold;">GRAND TOTAL</div>
-                <div style="font-weight: bold;">400.00 CTN</div>
-                <div class = "summary-presentation">
-                    <div class = "the-summary">
-                        <div style="font-weight: bold;">Grand Total</div>
-                        <div>:</div>
-                        <div>IDR</div>
-                        <div>{{ grand_total }}</div>
-                    </div>
-                </div>
+                <div style="font-weight: bold;">TOTAL</div>
             </div>
 
-            <hr class ="hr-padding-margin"/>
+            <hr class ="hr-bold hr-padding-margin"/>
+            <div></div>
         </div>
         
+        
         <div class="gap">
+        
         </div>
 
         <div class="additional">
@@ -200,36 +118,36 @@
                 <div class = "additional-info">
                     <div style="font-weight: bold;">PI No</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ pi_no }}</div>
                 </div>
                 <div class = "additional-info">
                     <div style="font-weight: bold;">INVOICE No.</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ invoice_no }}</div>
                 </div>
                 <div class = "additional-info">
                     <div style="font-weight: bold;">Cont. / Awb No</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ cont_awb_no }}</div>
                 </div>
                 <div class = "additional-info">
                     <div style="font-weight: bold;">VESSEL</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ vessel }}</div>
                 </div>
                 <div class = "additional-info">
                     <div style="font-weight: bold;">ETA JKT</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ eta_jkt }}</div>
                 </div>
                 <div class = "additional-info">
                     <div style="font-weight: bold;">Dated</div>
                     <div>:</div>
-                    <div>INFO</div>
+                    <div>{{ dated }}</div>
                 </div>
             </div>
            <div class = "handsign-arrangement">
-                <div style="font-size: 10px; font-weight: bold;">Warehouse Manager</div>
+                <div style="font-size: 10px; font-weight: bold;">Procurement Manager</div>
                 <div class = "handsign-space">
                     <div style="text-align: left;">(</div>
                     <div style="text-align: right;">)</div>
