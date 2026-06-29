@@ -19,6 +19,7 @@
         'web.assets_backend':[
             'purchase_order/static/src/scss/stylesheet.scss',
             'purchase_order/static/src/**/*',
+            'purchase_order/static/src/**/*',
         ]
     },
     'application' : True,
