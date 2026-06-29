@@ -104,45 +104,74 @@ div{
 }
 
 .summary{
-    background-color: green;
+    // background-color: green;
     display: grid;
     grid-template-rows: 1fr;
-    align-items: right;
-    justify-content: right;
-    width: auto;
+    // align-items: right;
+    // justify-content: right;
+    width: stretch;
+}
+
+.summary-container{
+    // background-color: bisque;
+    display:flex;
+    flex-direction: row-reverse;
+    height: fit-content;
+    padding-right: 3px;
+}
+
+.summary-container-end{
+    margin:0px;
+    padding: 0px;
+    // background-color: purple;
+    // display: flex;
+    // flex-direction: row;
+    padding-left: 20px;
+    padding-right: 3px;
+    display: grid;
+    grid-template-columns: auto auto 300px;
+    height: fit-content;
+    width: max-content;
+}
+
+.the-summary{
+    margin: 0px;
+    padding : 0px;
+    display: grid;
+    grid-template-columns: 30% 32% 5% 33%;
 }
 
 .summary-presentation{
-    background-color: grey;
+    margin: 0px;
+    padding: 0px;
+    // background-color: grey;
     width: max-content;
     display: grid;
-    grid-template-columns: 30% 35% 5% 30%;
-    width: fit-content;
-    height: fit-content;
+    // grid-template-columns: 30% 32% 5% 33%;
+    grid-template-columns: 300px;
+    width: 300px;
+    height:fit-content;
+
+    align-items: right;
+    justify-content: right;
 
     text-align: end;
     align-items: right;
     justify-content: right;
-    // align-items: center;
-    // justify-content: center;
-}
-
-.summary-presentation div {
-    // background-color: aquamarine;
-    padding-bottom: 5px;
 }
 
 .top-header{
     display: flex;
     flex-direction: row;
     justify-content: end;
+    margin-bottom: 2px;
 }
 
 .top-header-box{
     border-style: solid;
     border-width: 2px;
     height: 100px;
-    width: 180px;
+    width: 200px;
     display: grid;
     align-items: center;
 }
@@ -150,7 +179,7 @@ div{
 .top-header-arrange{
     padding: 4px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .top-header-arrange div{

@@ -6,22 +6,18 @@
             <div class = "top-header-arrange">
                 <div style = "font-weight: bold; text-align: center;">No Dokumen</div>
                 <div>:</div>
-                <div>SOMETHING</div>
             </div>
             <div class = "top-header-arrange">
                 <div style = "font-weight: bold; text-align: center;">No Revisi</div>
                 <div>:</div>
-                <div>SOMETHING</div>
             </div>
             <div class = "top-header-arrange">
                 <div style = "font-weight: bold; text-align: center;">Tgl Berlaku</div>
                 <div>:</div>
-                <div>SOMETHING</div>
             </div>
             <div class = "top-header-arrange">
                 <div style = "font-weight: bold; text-align: center;">Hal</div>
                 <div>:</div>
-                <div>SOMETHING</div>
             </div>
         </div>
     </div>
@@ -99,69 +95,98 @@
             </tbody>
         </table>
         <div class = "summary">
-            <div class = "summary-presentation">
-                <div>Sub Total</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ sub_total }}</div>
-
-                <div>Discount</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ discount }}</div>
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div>Sub Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ sub_total }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div>Discount</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ discount }}</div>
+                    </div>
+                </div>
             </div>
             
             <hr/>
-
-            <div class = "summary-presentation">
-                <div>Total</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total }}</div>
+            
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div>Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total }}</div>
+                    </div>
+                </div>
             </div>
 
             <hr/>
 
-            <div class = "summary-presentation">
-                <div>Tax</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ tax }}</div>
-
-                <div>By Shipment</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total_before_disc }}</div>
-
-                <div>Inland Fuel</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total_before_disc }}</div>
-                
-                <div>Sticker Free</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total_before_disc }}</div>
-
-                <div>Ocean Fuel</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total_before_disc }}</div>
-
-                <div>GST</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ total_before_disc }}</div>
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div>Tax</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ tax }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div>By Shipment</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div>Inland Fuel</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div>Sticker Free</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div>Ocean Fuel</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div>GST</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                </div>
             </div>
 
-            JINJA JINJA JINJAAAAAAAAAAAAAA
             <hr/>
 
-            <div class = "summary-presentation">
-                <div>Grand Total</div>
-                <div>:</div>
-                <div>IDR</div>
-                <div>{{ grand_total }}</div>
+            <div class = "summary-container-end">
+                <div style="font-weight: bold;">GRAND TOTAL</div>
+                <div style="font-weight: bold;">400.00 CTN</div>
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div>Grand Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ grand_total }}</div>
+                    </div>
+                </div>
             </div>
 
         </div>
