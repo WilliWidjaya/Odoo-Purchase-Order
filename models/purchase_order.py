@@ -134,7 +134,7 @@ class PurchaseOrder(models.Model):
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
         w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
-        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css, w3css_css])
+        template_html.write_pdf('/home/laptop-it/Downloads/da_example_receiving.pdf', stylesheets = [po_css, w3css_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
     def create_purchase_order_report(self):
