@@ -1,4 +1,4 @@
-<div>
+<div class = "page">
     <!--  This will divide the row into two partitions -->
     <!-- Company, Recipient/Vendor name | No. and Date: -->
     <div class = "top-header">
@@ -98,14 +98,14 @@
             <div class = "summary-container">
                 <div class = "summary-presentation">
                     <div class = "the-summary">
-                        <div>Sub Total</div>
+                        <div style="font-weight: bold;">Sub Total</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ sub_total }}</div>
                     </div>
                     
                     <div class = "the-summary">
-                        <div>Discount</div>
+                        <div style="font-weight: bold;">Discount</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ discount }}</div>
@@ -113,12 +113,12 @@
                 </div>
             </div>
             
-            <hr/>
+            <hr class ="hr-padding-margin"/>
             
             <div class = "summary-container">
                 <div class = "summary-presentation">
                     <div class = "the-summary">
-                        <div>Total</div>
+                        <div style="font-weight: bold;">Total</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total }}</div>
@@ -126,47 +126,47 @@
                 </div>
             </div>
 
-            <hr/>
+            <hr class ="hr-padding-margin"/>
 
             <div class = "summary-container">
                 <div class = "summary-presentation">
                     <div class = "the-summary">
-                        <div>Tax</div>
+                        <div style="font-weight: bold;">Tax</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ tax }}</div>
                     </div>
     
                     <div class = "the-summary">
-                        <div>By Shipment</div>
+                        <div style="font-weight: bold;">By Shipment</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total_before_disc }}</div>
                     </div>
     
                     <div class = "the-summary">
-                        <div>Inland Fuel</div>
+                        <div style="font-weight: bold;">Inland Fuel</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total_before_disc }}</div>
                     </div>
                     
                     <div class = "the-summary">
-                        <div>Sticker Free</div>
+                        <div style="font-weight: bold;">Sticker Free</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total_before_disc }}</div>
                     </div>
                     
                     <div class = "the-summary">
-                        <div>Ocean Fuel</div>
+                        <div style="font-weight: bold;">Ocean Fuel</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total_before_disc }}</div>
                     </div>
     
                     <div class = "the-summary">
-                        <div>GST</div>
+                        <div style="font-weight: bold;">GST</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ total_before_disc }}</div>
@@ -174,14 +174,14 @@
                 </div>
             </div>
 
-            <hr/>
+            <hr class ="hr-padding-margin"/>
 
             <div class = "summary-container-end">
                 <div style="font-weight: bold;">GRAND TOTAL</div>
                 <div style="font-weight: bold;">400.00 CTN</div>
                 <div class = "summary-presentation">
                     <div class = "the-summary">
-                        <div>Grand Total</div>
+                        <div style="font-weight: bold;">Grand Total</div>
                         <div>:</div>
                         <div>IDR</div>
                         <div>{{ grand_total }}</div>
@@ -189,6 +189,58 @@
                 </div>
             </div>
 
+            <hr class ="hr-padding-margin"/>
         </div>
+        <div class="gap">
+        </div>
+        <div class="additional">
+            <div class = "additional-rows">
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">PI No</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">INVOICE No.</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Cont. / Awb No</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">VESSEL</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">ETA JKT</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Dated</div>
+                    <div>:</div>
+                    <div>INFO</div>
+                </div>
+            </div>
+           <div class = "handsign-arrangement">
+                <div style="font-size: 9px; font-weight: bold;">Warehouse Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div>
+            </div>
+            <div class = "handsign-arrangement">
+                <div style="font-size: 9px; font-weight: bold;">Warehouse Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div>
+            </div>
+        </div>
+            
     </div>
 </div>
