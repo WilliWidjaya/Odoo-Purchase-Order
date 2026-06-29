@@ -104,6 +104,32 @@ class PurchaseOrder(models.Model):
 
     # -------------------------------------------------
 
+    def create_receiving_report(self):
+        def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
+        env = Environment(
+        loader=FileSystemLoader(def_filepath + 'purchase_order/templates'),
+        autoescape=select_autoescape()
+        )
+        template = env.get_template("receiving_report.html")
+   
+        # The part when It renders the things
+        template_render = template.render(
+            name = self.name,
+            po_number = self.po_number,
+            purchase_data = self.grab_purchase_content(),
+            sub_total = f"{self.total_before_disc:,}",
+            discount = f"{self.discounted_value:,}",
+            total = f"{self.discount_amount:,}",
+            tax = f"{self.taxed_amount:,}",
+            grand_total = f"{self.total_amount:,}"
+        )
+
+        template_html = HTML(string = template_render)
+        po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
+        w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
+        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css, w3css_css])
+        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+
     def test_jinja(self):
         def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
         env = Environment(
@@ -117,11 +143,11 @@ class PurchaseOrder(models.Model):
             name = self.name,
             po_number = self.po_number,
             purchase_data = self.grab_purchase_content(),
-            sub_total = self.total_before_disc,
-            discount = self.discounted_value,
-            total = self.discount_amount,
-            tax = self.taxed_amount,
-            grand_total = self.total_amount
+            sub_total = f"{self.total_before_disc:,}",
+            discount = f"{self.discounted_value:,}",
+            total = f"{self.discount_amount:,}",
+            tax = f"{self.taxed_amount:,}",
+            grand_total = f"{self.total_amount:,}"
         )
 
         template_html = HTML(string = template_render)
@@ -136,8 +162,8 @@ class PurchaseOrder(models.Model):
             return_dict[i.item_id] = {}
             return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
-            return_dict[i.item_id]["price"] = i.price
-            return_dict[i.item_id]["total"] = i.total
+            return_dict[i.item_id]["price"] = f"{i.price:,}"
+            return_dict[i.item_id]["total"] = f"{i.total:,}"
         return return_dict
 
 

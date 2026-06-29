@@ -80,8 +80,9 @@
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
                         <button type = "action" string = "Print PO" name ="purchase_order.report_purchase_order_two"/>
-                        <button type = "object" string = "Uji Coba WeasyPrint" name ="test_weasyprint"/>
-                        <button type = "object" string = "Uji Coba Jinja" name ="test_jinja"/>
+                        <!-- <button type = "object" string = "Uji Coba WeasyPrint" name ="test_weasyprint"/> -->
+                        <button type = "object" string = "Create Purchase Order" name ="test_jinja"/>
+                        <button type = "object" string = "Create Receiving Report" name ="create_receiving_report"/>
                     </header>
                     <sheet>
                         <group class ="format-grid">

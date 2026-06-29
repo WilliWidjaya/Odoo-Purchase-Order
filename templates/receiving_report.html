@@ -55,7 +55,7 @@
         </div>
         
         <div class="mid-title">
-            PURCHASE ORDER
+            RECEIVING REPORT
         </div>
     
         <table class = "table-style">
@@ -64,8 +64,8 @@
                     <th rowspan="2" style = "width: 35%"><strong>DESCRIPTION</strong></th>
                     <th colspan="2" style = "width: 20%">ORDER QUANTITY</th>
                     <th rowspan="2" style = "width: 10%"><strong>EST</strong></th>
-                    <th rowspan="2" style = "width: 300px"><strong>UNIT PRICE</strong></th>
-                    <th rowspan="2" style = "width: 300px"><strong>TOTAL VALUE</strong></th>
+                    <th rowspan="2" style = "width: 15%"><strong>UNIT PRICE</strong></th>
+                    <th rowspan="2" style = "width: 15%"><strong>TOTAL VALUE</strong></th>
                 </tr>
                 <tr>
                     <th ><strong>Supplier UOM</strong></th>
@@ -79,14 +79,7 @@
                         <td>{{ purchase_data[item]["quantity"] }}</td>
                         <td>{{ purchase_data[item]["quantity"] }}</td>
                         <td>NIL</td>
-                        <td>
-                            <div style = "display: grid; grid-template-columns: 1fr 1fr;">
-                                <div>IDR</div>
-                                <div style="border: none; text-align: end;">
-                                    {{ purchase_data[item]["price"] }}
-                                </div>
-                            </div>
-                        </td>
+                        <td>IDR {{ purchase_data[item]["price"] }}</td>
                         <td>
                             <div style = "display: grid; grid-template-columns: 1fr 1fr;">
                                 <div>
@@ -198,7 +191,7 @@
 
             <hr class ="hr-padding-margin"/>
         </div>
-
+        
         <div class="gap">
         </div>
 
