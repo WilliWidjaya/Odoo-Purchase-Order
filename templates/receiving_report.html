@@ -61,27 +61,27 @@
         <table class = "table-style">
             <thead>
                 <tr>
-                    <th rowspan="2" style = "width: 25%"><strong>DESCRIPTION</strong></th>
-                    <th colspan="2" style = "width: 25%">ORDER QUANTITY</th>
-                    <th colspan="2" style = "width: 25%">RECEIVED</th>
-                    <th rowspan="2" style = "width: 25%"><strong>Remarks</strong></th>
+                    <th class = "table-header-left" rowspan="2" style = "width: 35%"><strong>DESCRIPTION</strong></th>
+                    <th class = "table-header-reg" colspan="2" style = "width: 25%">ORDER QUANTITY</th>
+                    <th class = "table-header-reg" colspan="2" style = "width: 25%">RECEIVED</th>
+                    <th class = "table-header-right" rowspan="2" style = "width: 15%"><strong>Remarks</strong></th>
                 </tr>
                 <tr>
-                    <th><strong>Supplier UOM</strong></th>
-                    <th><strong>Our UOM</strong></th>
-                    <th><strong>Supplier UOM</strong></th>
-                    <th><strong>Our UOM</strong></th> 
+                    <th style = "width: 12.5%;"class = "table-header-reg"><strong>Supplier UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Our UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Supplier UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Our UOM</strong></th> 
                 </tr>
             </thead>
             <tbody>
                 {% for item in purchase_data %}
                 <tr>
-                        <td>{{ purchase_data[item]["description"] }}</td>
-                        <td>{{ purchase_data[item]["quantity"] }}</td>
-                        <td>{{ purchase_data[item]["quantity"] }}</td>
-                        <td>NIL</td>
-                        <td>IDR {{ purchase_data[item]["price"] }}</td>
-                        <td>
+                        <td class = "table-style-leftmost">{{ purchase_data[item]["description"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
+                        <td class = "table-regular">NIL</td>
+                        <td class = "table-regular">IDR {{ purchase_data[item]["price"] }}</td>
+                        <td class = "table-style-rightmost">
                             <div style = "display: grid; grid-template-columns: 1fr 1fr;">
                                 <div>
                                     IDR

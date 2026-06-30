@@ -5,12 +5,13 @@ from weasyprint import HTML, CSS
 
 # For Opening the file after making the pdf
 import os
+from pathlib import Path
 import webbrowser
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
-    
+
     po_number = fields.Text(string = "Purchase Order No") # No Char
 
     # Vendor Information
@@ -65,11 +66,6 @@ class PurchaseOrder(models.Model):
     ship_to = fields.Many2one('res.country')
     pay_to = fields.Many2one('res.bank')
 
-    # WADIDAAAAWWWWWWW
-    # tarlim
-    # charitas
-    # gonzaga
-
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")
 
@@ -105,9 +101,11 @@ class PurchaseOrder(models.Model):
     # -------------------------------------------------
 
     def create_receiving_report(self):
-        def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
+        early_path = __file__
+        def_filepath = str(Path(early_path).resolve().parent.parent)
+        print("I AM FILEPATH : ", def_filepath)
         env = Environment(
-        loader=FileSystemLoader(def_filepath + 'purchase_order/templates'),
+        loader=FileSystemLoader(def_filepath + '/templates'),
         autoescape=select_autoescape()
         )
         template = env.get_template("receiving_report.html")
@@ -132,15 +130,19 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
-        w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
+        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        w3css_css = CSS(def_filepath + '/static/src/css/w3css.css')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example_receiving.pdf', stylesheets = [po_css, w3css_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
     def create_purchase_order_report(self):
-        def_filepath = "/home/laptop-it/odoo_src/src/tutorials/"
+        early_path = __file__
+        def_filepath = str(Path(early_path).resolve().parent.parent)
+        print("I AM FILEPATH : ", def_filepath)
+
+
         env = Environment(
-        loader=FileSystemLoader(def_filepath + 'purchase_order/templates'),
+        loader=FileSystemLoader(def_filepath + '/templates'),
         autoescape=select_autoescape()
         )
         template = env.get_template("purchase_order.html")
@@ -165,9 +167,8 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + 'purchase_order/templates/po_style.scss')
-        w3css_css = CSS(def_filepath + 'purchase_order/static/src/css/w3css.css')
-        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css, w3css_css])
+        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
 
     def grab_purchase_content(self):

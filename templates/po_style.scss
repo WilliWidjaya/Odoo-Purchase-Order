@@ -134,19 +134,69 @@ div{
 
 .table-style{
     border-style : solid;
+    // border-color: black;
+    border-width: 0px;
     border-color: black;
-    border-width: 2px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    border-bottom-width: 6px;
+    // border-left-width: 0px;
+    // border-right-width: 0px;
+    border-bottom-width: 4px;
+    border-collapse : collapse;
     max-width: 100%;
     width: 100%;
-    border-collapse : collapse;
 
     margin: 0px;
 }
 
-.table-style thead tr th{
+.table-style-leftmost{
+    border-style: solid;
+    border-color: black;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-left-width: 0px;
+    margin: 0px;
+}
+
+.table-style-rightmost{
+    border-style: solid;
+    border-color: black;
+    border-collapse: collapse;
+    border-width: 2px;
+    border-right-width: 0px;
+    margin: 0px;
+}
+
+.table-regular{
+    border-style: solid;
+    border-width: 2px;;
+    border-color: black;
+    border-collapse: collapse;
+
+    margin: 0px;
+}
+
+.table-header-left{
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    text-align: center;
+    border-collapse: collapse;
+
+    border-left-width: 0px;
+    margin: 0px;
+}
+
+.table-header-right{
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    text-align: center;
+    border-collapse: collapse;
+
+    border-right-width: 0px;
+    margin: 0px;
+}
+
+.table-header-reg{
     border-style: solid;
     border-width: 2px;
     border-color: black;
@@ -156,11 +206,21 @@ div{
     margin: 0px;
 }
 
+.table-style thead tr th{
+    // border-style: solid;
+    // border-width: 2px;
+    // border-color: black;
+    // text-align: center;
+    // border-collapse: collapse;
+
+    // margin: 0px;
+}
+
 .table-style tbody tr td{
-    border-style: solid;
-    border-width: 2px;;
-    border-color: black;
-    border-collapse: collapse;
+    // border-style: solid;
+    // border-width: 2px;;
+    // border-color: black;
+    // border-collapse: collapse;
 
     margin: 0px;
 }
