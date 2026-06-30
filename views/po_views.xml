@@ -64,9 +64,10 @@
         <record id="po_view_list" model="ir.ui.view">
             <field name="name">po.attachment.list</field>
             <field name="model">purchase_order_attachment</field>
+            <field name="inherit_id" ref="purchase_order.po_view_list"/>
             <field name="arch" type="xml">
-                <list string = "Attachment List">
-                    <field name="t_attachment"/>
+                <list string = "Attachment List" editable="bottom">
+                    <field name = "t_attachment"/>
                 </list>
             </field>
         </record>
@@ -85,11 +86,6 @@
                     <sheet>
                         <group class ="format-grid">
                             <group class = "format-bg">
-                                <!-- <div>a</div>
-                                <div>a</div>
-                                <div>a</div>
-                                <div>a</div>
-                                <div>a</div> -->
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">PO Number</div>
                                 </span>

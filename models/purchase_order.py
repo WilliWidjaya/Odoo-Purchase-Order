@@ -70,7 +70,8 @@ class PurchaseOrder(models.Model):
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")
 
     #Attachment
-    att_attachment = fields.Many2many('ir.attachment')
+    att_attachment = fields.Many2many(comodel_name="ir.attachment")
+    attachment_count = fields.Integer(string = "attachment_count", compute = "_compute_attachment_amount")
 
     #Additional Informatio
     ad_vessel_flight = fields.Text(string = "Vessel/Flight")
@@ -212,6 +213,11 @@ class PurchaseOrder(models.Model):
         # Calculate the grand total.
         # Calculate this from the discounted price + percentage of that discounted amount
         self.total_amount = discounted_tottal + self.taxed_amount
+
+    @api.depends('att_attachment')
+    def _compute_attachment_amount(self):
+        for i in self:
+            self.attachment_count = len(self.att_attachment)
 
     @api.onchange('tax')
     def _calculate_on_tax_change(self):
