@@ -10,9 +10,9 @@
                     <field name="free_text" width = "75px"/>
                     <field name="quantity_consider" width = "75px"/>
                     <field name="quantity_packaging" width = "75px"/>
-                    <field name="packaging_ucm" width = "75px"/>
+                    <field name="packaging_uom" width = "75px"/>
                     <field name="quantity" width = "75px"/>
-                    <field name="ucm" width = "75px"/>
+                    <field name="uom" width = "75px"/>
                     <field name="price" width = "75px"/>
                     <field name="discount_percentage" width = "75px"/>
                     <field name="total" width = "75px"/>
@@ -85,6 +85,11 @@
                     <sheet>
                         <group class ="format-grid">
                             <group class = "format-bg">
+                                <!-- <div>a</div>
+                                <div>a</div>
+                                <div>a</div>
+                                <div>a</div>
+                                <div>a</div> -->
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">PO Number</div>
                                 </span>
@@ -320,7 +325,6 @@
 
                                     </group>
                                     <group class = "format-bg">
-
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Tgl Invoice</div>
                                         </span>

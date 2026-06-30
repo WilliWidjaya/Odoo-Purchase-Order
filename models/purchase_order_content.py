@@ -14,7 +14,7 @@ class PurchaseOrderContent(models.Model):
     quantity_packaging = fields.Integer(string = "Packaging QTY")
     quantity_real = fields.Integer(string = "Qty PO Asli")
 
-    packaging_ucm = fields.Char(string = "Packaging")
+    packaging_uom = fields.Char(string = "Packaging")
     uom = fields.Char(string = "uom")
 
     price = fields.Float(string = "Price")

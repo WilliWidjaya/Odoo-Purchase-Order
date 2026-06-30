@@ -1,4 +1,5 @@
 .format-grid {
+    // background-color: khaki;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
@@ -14,6 +15,7 @@
     grid-template-rows: 24px 24px 24px 24px 24px 24px;
     width: max-content;
     height: fit-content;
+    // background-color: gray;
 }
 
 .format-bg-with-remarks{
@@ -37,7 +39,7 @@
     // background-color: rgb(235, 235, 235);
     height: 24px;
     max-height: 24px;
-    width: auto;
+    width: max-content;
     white-space: nowrap;
     overflow-x: auto;
     // Border

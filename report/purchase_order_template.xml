@@ -79,10 +79,10 @@
                                         <span t-field="po_order.item_name"/>
                                     </td>
                                     <td style="width: 15px;">
-                                        <span t-field="po_order.packaging_ucm"/>
+                                        <span t-field="po_order.packaging_uom"/>
                                     </td>
                                     <td style="width: 15px;">
-                                        <span t-field="po_order.packaging_ucm"/>
+                                        <span t-field="po_order.packaging_uom"/>
                                     </td>
                                     <td style="width: 15px;">
                                         <span t-field="po_order.price"/>

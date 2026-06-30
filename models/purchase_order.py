@@ -10,7 +10,7 @@ import webbrowser
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
-
+    
     po_number = fields.Text(string = "Purchase Order No") # No Char
 
     # Vendor Information
