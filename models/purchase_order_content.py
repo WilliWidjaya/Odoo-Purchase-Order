@@ -15,7 +15,7 @@ class PurchaseOrderContent(models.Model):
     quantity_real = fields.Integer(string = "Qty PO Asli")
 
     packaging_ucm = fields.Char(string = "Packaging")
-    ucm = fields.Char(string = "ucm")
+    uom = fields.Char(string = "uom")
 
     price = fields.Float(string = "Price")
     discount_percentage = fields.Float(string = "Discount (%)")
