@@ -98,10 +98,15 @@ class PurchaseOrder(models.Model):
         ('check_rate', 'CHECK(rate >= 0)', 'YOU GOTTA SET THIS RATE RIGHT BRO'),
         ('check_tax', 'CHECK(tax >= 0 AND tax <= 100)', 'The Tax Percentage must be reasonable.'),
         ('check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount percentage must be between 0 and 100'),
+        # Check Posting date
+        ('check_posting_date','CHECK(posting_date IS NOT NULL)', 'Please fill in the posting date.'),
     ]
 
     # -------------------------------------------------
     def create_receiving_report(self):
+        if self.posting_date == False:
+            raise ValidationError("Please fill in the posting date before moving on.")
+
         early_path = __file__
         def_filepath = str(Path(early_path).resolve().parent.parent)
         print("I AM FILEPATH : ", def_filepath)
@@ -140,6 +145,9 @@ class PurchaseOrder(models.Model):
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
     def create_purchase_order_report(self):
+        if self.posting_date == False:
+            raise ValidationError("Please fill in the posting date before moving on.")
+        
         early_path = __file__
         def_filepath = str(Path(early_path).resolve().parent.parent)
         print("I AM FILEPATH : ", def_filepath)
