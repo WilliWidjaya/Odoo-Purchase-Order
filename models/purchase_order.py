@@ -100,14 +100,22 @@ class PurchaseOrder(models.Model):
         ('check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount percentage must be between 0 and 100'),
         # Check Posting date
         ('check_posting_date','CHECK(posting_date IS NOT NULL)', 'Please fill in the posting date.'),
+        # ---- CHECK NAME ----
+        # Check if name is filled
+        ('check_name_filled', 'CHECK(name IS NOT NULL)', 'Please fill in [name] for this entry.'),
+        # Check is name is too short or too long
+        ('check_name_length', 'CHECK(LENGTH(name) >= 5 AND LENGTH(name) <= 45)', 'Name must be between 3 and 45 characters.'), 
+        # Check if vendor is filled or nah
+        ('check_vendor_filled', 'CHECK(vendor IS NOT NULL)', 'Please fill in a vendor.')
     ]
 
-    # -------------------------------------------------
+    # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
+
     def create_receiving_report(self):
-        if self.posting_date == False:
+        if self.posting_date == False: # SQL Constraint already checks if the posting date is null. Kinda redundant.
             raise ValidationError("Please fill in the posting date before moving on.")
 
-        early_path = __file__
+        early_path = __file__ # __file__ is this current .py file.
         def_filepath = str(Path(early_path).resolve().parent.parent)
         print("I AM FILEPATH : ", def_filepath)
         env = Environment(
@@ -118,7 +126,8 @@ class PurchaseOrder(models.Model):
    
         # The part when It renders the things
         template_render = template.render(
-            # Main Information, Table Information
+            # +++++++ Main Information, Table Information
+            page_amount = 2,
             name = self.name,
             po_number = self.po_number,
             date = self.grab_current_date(),
@@ -129,7 +138,7 @@ class PurchaseOrder(models.Model):
             tax = f"{self.taxed_amount:,}",
             grand_total = f"{self.total_amount:,}",
             remarks = self.remarks,
-            # Additional Information
+            # ++++++++ Additional Information
             pi_no = "",
             cont_awb_no = self.ad_awb,
             eta_jkt = self.sta_date,
@@ -145,13 +154,12 @@ class PurchaseOrder(models.Model):
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
     def create_purchase_order_report(self):
-        if self.posting_date == False:
+        if self.posting_date == False: # SQL Constraint checks already checks for this one also.
             raise ValidationError("Please fill in the posting date before moving on.")
         
-        early_path = __file__
-        def_filepath = str(Path(early_path).resolve().parent.parent)
-        print("I AM FILEPATH : ", def_filepath)
-
+        early_path = __file__ # __file__ points to this current .py file.
+        def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
+        print("I AM FILEPATH : ", def_filepath) 
 
         env = Environment(
         loader=FileSystemLoader(def_filepath + '/templates'),
@@ -161,7 +169,8 @@ class PurchaseOrder(models.Model):
    
         # The part when It renders the things
         template_render = template.render(
-            # Main Information, Table Information
+            # ========== Main Information, Table Information
+            page_amount = 2,
             name = self.name,
             po_number = self.po_number,
             date = self.grab_current_date(),
@@ -172,7 +181,7 @@ class PurchaseOrder(models.Model):
             tax = f"{self.taxed_amount:,}",
             grand_total = f"{self.total_amount:,}",
             remarks = self.remarks,
-            # Additional Information
+            # =========== Additional Information
             pi_no = "",
             cont_awb_no = self.ad_awb,
             eta_jkt = self.sta_date,
@@ -185,6 +194,22 @@ class PurchaseOrder(models.Model):
         po_css = CSS(def_filepath + '/templates/po_style.scss')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+
+    def get_page_count(self):
+        # Count how many purchase content entries that we have
+        # we'll have 7-8 pages per thing.
+        pg_count = 1
+        chr_count = 0
+        max_chr = 7 * 117
+        for i in self.purchase_contents:
+            c_desc = i.item_id + " -- " + i.item_name
+            chr_count = len(c_desc)
+            if len(c_desc) >= max_chr: # Create new page
+                pg_count += 1
+                chr_count = 0
+
+
+    # ------------------------------ END OF REPORT CREATION
 
     # ------------------------------ DATA GETTER START
     # Find a way to grab out own corporation so we don't have to change it.
