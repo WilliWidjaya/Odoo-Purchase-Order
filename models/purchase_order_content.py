@@ -31,6 +31,27 @@ class PurchaseOrderContent(models.Model):
     total_after_discount = fields.Float(string = "Price after discount")
     gross_after_discount = fields.Float(string = "Gross after discount")
 
+    _sql_constraints = [
+        # Check if item ID is not null
+        ('poc_check_item_id_filled', 'CHECK(item_id IS NOT NULL)', 'Please fill in the item ID.'),
+        # Check Item ID Length
+        ('poc_check_item_id_len', 'CHECK(LENGTH(item_id) >= 3 AND LENGTH(item_id) <= 20)', 'Item ID length must be at least 3 characters and at most 20 characters.'),
+        # Check item ID Unique
+        ('poc_check_item_id_unique', 'UNIQUE(item_id)', 'Item ID must be unique, or distinct.'),
+        # Check if item name is filled or not.
+        ('poc_check_item_name_filled', 'CHECK(item_name IS NOT NULL)', 'Please fill the item name.'),
+        # Check item name length
+        ('poc_check_item_name_length', 'CHECK(LENGTH(item_name) <= 75 AND LENGTH(item_name) >= 3)', 'Item name length must be at least 3 characters, and at most 75 characters.'),
+        # Check if discount percentage is >= 0 and <= 100
+        ('poc_check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount Percentage must be valid (Between 0 and 100)'),
+        # Check if quantity is >= 0
+        ('poc_check_quantity', 'CHECK(quantity >= 0)', 'Quantity must not be negative (>= 0)'),
+        # Check if price is filled by checking if its > 0
+        ('poc_check_price_filled', 'CHECK(price > 0)', 'Please fill in a price above or greater than zero.'),
+        # Check if price is in the negatives
+        ('poc_check_price_positive', 'CHECK(price >= 0)', 'Prices must be positive. (>= 0)'),
+    ]
+
     # linestat = fields.Text(string = "Linestat")
     # DocEntry Something yang gua belom terlalu tau apaan, maybe when I get a clear view of it.
 

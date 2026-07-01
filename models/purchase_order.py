@@ -93,7 +93,7 @@ class PurchaseOrder(models.Model):
 
     _sql_constraints = [
         ('check_po_code', 'CHECK(po_number IS NOT NULL)', 'You must fill the PO number.'),
-        ('check_po_length', 'CHECK(LENGTH(po_number) > 6)', 'Ermm PO must be longer than 5 or 6'),
+        ('check_po_length', 'CHECK(LENGTH(po_number) >= 5)', 'Ermm PO must be longer than 5 or 6'),
         ('check_po_unique', 'UNIQUE(po_number)', 'PO number must be distinct or unique'),
         ('check_rate', 'CHECK(rate >= 0)', 'YOU GOTTA SET THIS RATE RIGHT BRO'),
         ('check_tax', 'CHECK(tax >= 0 AND tax <= 100)', 'The Tax Percentage must be reasonable.'),
@@ -114,7 +114,7 @@ class PurchaseOrder(models.Model):
         # The part when It renders the things
         template_render = template.render(
             # Main Information, Table Information
-            name = self.name + " " + input_num,
+            name = self.name,
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
