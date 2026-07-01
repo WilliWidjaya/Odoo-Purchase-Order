@@ -2,6 +2,7 @@ from odoo import api, fields, models, exceptions
 from odoo.exceptions import ValidationError
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from weasyprint import HTML, CSS
+from datetime import datetime
 
 # For Opening the file after making the pdf
 import os
@@ -100,7 +101,6 @@ class PurchaseOrder(models.Model):
     ]
 
     # -------------------------------------------------
-
     def create_receiving_report(self):
         early_path = __file__
         def_filepath = str(Path(early_path).resolve().parent.parent)
@@ -114,8 +114,9 @@ class PurchaseOrder(models.Model):
         # The part when It renders the things
         template_render = template.render(
             # Main Information, Table Information
-            name = self.name,
+            name = self.name + " " + input_num,
             po_number = self.po_number,
+            date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
             sub_total = f"{self.total_before_disc:,}",
             discount = f"{self.discounted_value:,}",
@@ -155,6 +156,7 @@ class PurchaseOrder(models.Model):
             # Main Information, Table Information
             name = self.name,
             po_number = self.po_number,
+            date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
             sub_total = f"{self.total_before_disc:,}",
             discount = f"{self.discounted_value:,}",
@@ -178,6 +180,13 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ DATA GETTER START
     # Find a way to grab out own corporation so we don't have to change it.
+    def grab_current_date(self):
+        date_str = str(self.posting_date)
+
+        formatted_time = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d-%m-%Y")
+        print("FORMATTED TIME IS : "), formatted_time
+        return formatted_time
+
     def grab_our_location(self):
         return 
 
