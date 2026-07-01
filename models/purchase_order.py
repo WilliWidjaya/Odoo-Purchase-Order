@@ -127,7 +127,9 @@ class PurchaseOrder(models.Model):
             pi_no = "",
             cont_awb_no = self.ad_awb,
             eta_jkt = self.sta_date,
-            dated = self.due_date
+            dated = self.due_date,
+            vendor_name = self.grab_vendor_name(),
+            vendor_location = self.grab_vendor_location()
         )
 
         template_html = HTML(string = template_render)
@@ -164,13 +166,26 @@ class PurchaseOrder(models.Model):
             pi_no = "",
             cont_awb_no = self.ad_awb,
             eta_jkt = self.sta_date,
-            dated = self.due_date
+            dated = self.due_date,
+            vendor_name = self.grab_vendor_name(),
+            vendor_location = self.grab_vendor_location()
         )
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+
+    # ------------------------------ DATA GETTER START
+    # Find a way to grab out own corporation so we don't have to change it.
+    def grab_our_location(self):
+        return 
+
+    def grab_vendor_name(self):
+        return self.vendor.name.upper()
+
+    def grab_vendor_location(self):
+        return self.vendor.street # Grab Street1 only, and not street 2.
 
     def grab_purchase_content(self):
         return_dict = {}
@@ -181,6 +196,7 @@ class PurchaseOrder(models.Model):
             return_dict[i.item_id]["price"] = f"{i.price:,}"
             return_dict[i.item_id]["total"] = f"{i.total:,}"
         return return_dict
+    # ------------------------------ DATA GETTER END
 
 
     def test_weasyprint(self):

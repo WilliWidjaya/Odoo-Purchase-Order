@@ -5,9 +5,11 @@ class PurchaseOrderAttachment(models.Model):
     _description = "Purchase Order Attachment"
 
     purchase_order_id = fields.Many2one('purchase_order')
-    t_attachment : fields.Binary = fields.Binary(string = "Attachment", attachment = True)
+    t_attachment = fields.Binary(string = "Attachment", attachment = True)
 
     file_name = fields.Char(string="File Name")
+    file_Size = fields.Char(string="File Size")
+    file_type = fields.Char(string="File Size")
 
 
     # @api.onchange('t_attachment')

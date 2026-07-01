@@ -5,6 +5,10 @@
             <field name="model">purchase_order_content</field>
             <field name="arch" type="xml">
                 <list string = "Channel" editable="bottom">
+                    <control>
+                        <create name="custom_line" string="Create new entry.."/>
+                    </control>
+                    
                     <field name="item_id" width = "75px"/>
                     <field name="item_name" width = "125px"/>
                     <field name="free_text" width = "75px"/>
@@ -36,6 +40,9 @@
             <field name="model">purchase_order_freight</field>
             <field name="arch" type="xml">
                 <list string = "Channel" editable="bottom">
+                    <control>
+                        <create name="custom_line" string="Create new entry.."/>
+                    </control>
                     <field name="purchase_order_id"/>
                     <field name="express_id"/>
                     <field name="expense_name"/>
@@ -63,12 +70,28 @@
         
         <record id="po_view_list" model="ir.ui.view">
             <field name="name">po.attachment.list</field>
-            <field name="model">purchase_order_attachment</field>
-            <field name="inherit_id" ref="purchase_order.po_view_list"/>
-            <field name="arch" type="xml">
-                <list string = "Attachment List" editable="bottom">
-                    <field name = "t_attachment"/>
-                </list>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_tree"/>
+            <field name="arch" type="xml">               
+                <!-- Make an existing field invisible (optional) -->
+                <!-- <xpath expr="//list" position="attributes">
+                    <attribute name="editable">bottom</attribute>
+                </xpath> -->            
+                <xpath expr="//list" position="inside">
+                    <control>
+                        <create name="custom_line" string="Add an attachment"/>
+                    </control>
+                </xpath>
+         
+                <xpath expr="//field[@name='res_model']" position="attributes">
+                    <attribute name="column_invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='res_id']" position="attributes">
+                    <attribute name="column_invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='res_field']" position="attributes">
+                    <attribute name="column_invisible">True</attribute>
+                </xpath>
             </field>
         </record>
         
