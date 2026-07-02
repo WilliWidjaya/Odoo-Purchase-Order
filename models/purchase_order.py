@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from weasyprint import HTML, CSS
 from datetime import datetime
+import math
 
 # For Opening the file after making the pdf
 import os
@@ -210,17 +211,27 @@ class PurchaseOrder(models.Model):
         page_info = {}  # Dict for the page information
         pg_count = -1 # Page count starts at -1. Triggers the creation of a new page.
         chr_count = 0 # Counts the amount of description characters in one page.
-        max_chr = 850 # Approx 85 per row. 
+        max_chr = 980 # Approx 85 per row. 
         # The Summary row approx. takes up about 200 chars.
 
         element_count = 0 # Used to count the current self.purchase_contents index.
 
         for i in self.purchase_contents:
             c_desc = i.item_id + " -- " + i.item_name 
-            chr_count += len(c_desc)
+
+            temp_char_count = len(c_desc)
+
+            # Consider each row is 40 characters
+            if temp_char_count < 40:
+                chr_count += 40
+            else:
+                row_count = math.ceil(temp_char_count / 40)
+                temp_char_count = 40 * row_count
+                chr_count += temp_char_count
 
             # Create a new page if char exceeds max char, or when starting from -1.
             if chr_count >= max_chr or pg_count == -1: # If current char length is more than the max, or when starting the first page
+                max_chr = 980
                 print("<purchase_order.py> OVERFLOW - AT : ", chr_count)
                 pg_count += 1
                 chr_count = 0
@@ -244,7 +255,15 @@ class PurchaseOrder(models.Model):
                         is_last_index = True
                             
                     t_chr_str = ii.item_id + " -- " + ii.item_name
-                    t_chr_count += len(t_chr_str)
+
+                    cc_curr_len = len(t_chr_str)
+                    if cc_curr_len < 40:
+                        t_chr_count += 40
+                    else:
+                        t_row_count = math.ceil(cc_curr_len / 40)
+                        t_temp_char_count = 40 * t_row_count
+                        t_chr_count += t_temp_char_count
+
                     t_curr_idx += 1
 
                     if t_chr_count > max_chr:
@@ -253,13 +272,14 @@ class PurchaseOrder(models.Model):
 
                     if is_last_index:
                         print("<purchase_order.py> Last index reached.")
-                        if t_chr_count + 255 < (max_chr - 20): # This still has space, so we not gon do much
-                            print("<purchase_order.py> Summary can fit into the current page")
+                        if t_chr_count < (max_chr - 160): # This still has space, so we not gon do much
+                            print("<purchase_order.py> Summary can fit into the current page : ", t_chr_count, " ", t_chr_count + 160, " ", max_chr)
                         else:
-                            print("<purchase_order.py> Page can't fit Summary, decreating max char.")
-                            max_chr -= 150
+                            # THIS LOGIC DOES NOT WORK AS WELL AS I THINK IT DOES
+                            # This creates an undesirable gap in the page. 
+                            print("<purchase_order.py> Page can't fit Summary, decreating max char. ", t_chr_count, " ", t_chr_count + 160, " ", max_chr)
+                            max_chr -= 160
                             # Decrease current max to something..
-
 
             page_info[str(pg_count)][i.item_id] = i.item_id
             element_count += 1
