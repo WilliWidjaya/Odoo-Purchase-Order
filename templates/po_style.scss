@@ -70,6 +70,10 @@ div{
 
 }
 
+.gap-borderless{
+    border: none;
+}
+
 .header{
     // background-color : #e0e0e0;
     display:grid;
@@ -154,6 +158,7 @@ div{
     border-width: 2px;
     border-left-width: 0px;
     margin: 0px;
+    padding-left: 4px;
 }
 
 .table-style-rightmost{
@@ -163,6 +168,7 @@ div{
     border-width: 2px;
     border-right-width: 0px;
     margin: 0px;
+    padding-right: 4px;
 }
 
 .table-regular{
@@ -172,6 +178,12 @@ div{
     border-collapse: collapse;
 
     margin: 0px;
+}
+
+.table-center-text{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .table-header-left{
@@ -256,7 +268,7 @@ div{
     height: fit-content;
     margin: 0px;
     padding: 0px;
-    padding-right: 3px;
+    padding-right: 4px;
 
     
 }
@@ -278,6 +290,7 @@ div{
 .the-summary{
     margin: 0px;
     padding : 0px;
+    padding-right: 4px;
     display: grid;
     grid-template-columns: 36% 22% 5% 38%;
 }

@@ -1,4 +1,4 @@
-{% for pg in range(page_amount) %}
+{% for pg in page_info %}
 <div class = "page">
     <!--  This will divide the row into two partitions -->
     <!-- Company, Recipient/Vendor name | No. and Date: -->
@@ -74,34 +74,38 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in purchase_data %}
-                <tr>
-                        <td class = "table-style-leftmost">{{ purchase_data[item]["description"] }}</td>
-                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
-                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
-                        <td class = "table-regular">NIL</td>
-                        <td class = "table-regular">
-                            <div style = "display: grid; grid-template-columns: 1fr 1fr;">
-                                <div>IDR</div>
-                                <div style="border: none; text-align: end;">
-                                    {{ purchase_data[item]["price"] }}
+                {% for item in page_info[pg] %}
+                    {% if item != "last_page" %}
+                    <tr>
+                            <td class = "table-style-leftmost">{{ purchase_data[item]["description"] }}</td>
+                            <td class = "table-regular table-center-text">{{ purchase_data[item]["quantity"] }}</td>
+                            <td class = "table-regular table-center-text">{{ purchase_data[item]["quantity"] }}</td>
+                            <td class = "table-regular table-center-text">NIL</td>
+                            <td class = "table-regular">
+                                <div style = "display: grid; grid-template-columns: 1fr 1fr;">
+                                    <div>IDR</div>
+                                    <div style="border: none; text-align: end;">
+                                        {{ purchase_data[item]["price"] }}
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class = "table-style-rightmost">
-                            <div style = "display: grid; grid-template-columns: 1fr 1fr;">
-                                <div>
-                                    IDR
+                            </td>
+                            <td class = "table-style-rightmost">
+                                <div style = "display: grid; grid-template-columns: 1fr 1fr;">
+                                    <div>
+                                        IDR
+                                    </div>
+                                    <div style="border: none; text-align: end;">
+                                        {{ purchase_data[item]["total"] }}
+                                    </div>
                                 </div>
-                                <div style="border: none; text-align: end;">
-                                    {{ purchase_data[item]["total"] }}
-                                </div>
-                            </div>
-                        </td>
-                </tr>
+                            </td>
+                    </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
+
+        {% if page_info[pg]["last_page"] == True %}
         <div class = "summary">
             <div class = "summary-container">
                 <div class = "summary-presentation">
@@ -199,6 +203,12 @@
 
             <hr class ="hr-padding-margin"/>
         </div>
+        {% else %}
+            <div class="gap-borderless">
+        
+            </div>
+
+        {% endif %}
 
         <div class="gap">
         </div>

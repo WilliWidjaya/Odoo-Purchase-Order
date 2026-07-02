@@ -166,20 +166,21 @@ class PurchaseOrder(models.Model):
         autoescape=select_autoescape()
         )
         template = env.get_template("purchase_order.html")
-   
+
         # The part when It renders the things
         template_render = template.render(
             # ========== Main Information, Table Information
             page_amount = 2,
+            page_info = self.get_page_count(),
             name = self.name,
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
-            sub_total = f"{self.total_before_disc:,}",
-            discount = f"{self.discounted_value:,}",
-            total = f"{self.discount_amount:,}",
-            tax = f"{self.taxed_amount:,}",
-            grand_total = f"{self.total_amount:,}",
+            sub_total = f"{round(self.total_before_disc,2):,.2f}",
+            discount = f"{round(self.discounted_value,2):,.2f}",
+            total = f"{round(self.discount_amount,2):,.2f}",
+            tax = f"{round(self.taxed_amount,2):,.2f}",
+            grand_total = f"{round(self.total_amount,2):,.2f}",
             remarks = self.remarks,
             # =========== Additional Information
             pi_no = "",
@@ -195,19 +196,79 @@ class PurchaseOrder(models.Model):
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
 
-    def get_page_count(self):
-        # Count how many purchase content entries that we have
-        # we'll have 7-8 pages per thing.
-        pg_count = 1
-        chr_count = 0
-        max_chr = 7 * 117
+    def get_page_count(self): # This could be used by either the Purchase Report or the Receiving Report.
+
+        # dict structure :
+        # {
+        #     "page" : {
+        #         "item_id" : {},
+        #         "item_id2": {},
+        #         "last_page" : False,
+        #     },
+        # }
+
+        page_info = {}  # Dict for the page information
+        pg_count = -1 # Page count starts at -1. Triggers the creation of a new page.
+        chr_count = 0 # Counts the amount of description characters in one page.
+        max_chr = 850 # Approx 85 per row. 
+        # The Summary row approx. takes up about 200 chars.
+
+        element_count = 0 # Used to count the current self.purchase_contents index.
+
         for i in self.purchase_contents:
-            c_desc = i.item_id + " -- " + i.item_name
-            chr_count = len(c_desc)
-            if len(c_desc) >= max_chr: # Create new page
+            c_desc = i.item_id + " -- " + i.item_name 
+            chr_count += len(c_desc)
+
+            # Create a new page if char exceeds max char, or when starting from -1.
+            if chr_count >= max_chr or pg_count == -1: # If current char length is more than the max, or when starting the first page
+                print("<purchase_order.py> OVERFLOW - AT : ", chr_count)
                 pg_count += 1
                 chr_count = 0
+                page_info[str(pg_count)] = {}
+                page_info[str(pg_count)]["last_page"] = False
+                print("<purchase_order.py> CHAR COUNT RESET")
 
+                # Not a good practice, but this means that we're doing a nested loop here O(N^2)
+                t_chr_count = 0 
+                t_curr_idx = element_count
+                t_last_idx = len(self.purchase_contents) - 1 
+                is_last_index = False
+
+                # Note :
+                # This only performs calculations. This will check the page the last index would be able
+                # to fit the summary or not. 
+                # If the last page (where the last index would be) cannot fit the summary, It will decrease the
+                # max char threshold. So what this does is that It would increase the page amount on the next iteration.
+                for ii in self.purchase_contents[element_count:]:
+                    if t_curr_idx >= t_last_idx: # if True, Then this is the last index
+                        is_last_index = True
+                            
+                    t_chr_str = ii.item_id + " -- " + ii.item_name
+                    t_chr_count += len(t_chr_str)
+                    t_curr_idx += 1
+
+                    if t_chr_count > max_chr:
+                        print("<purchase_order.py> Exceeded char count for this page, breaking.")
+                        break
+
+                    if is_last_index:
+                        print("<purchase_order.py> Last index reached.")
+                        if t_chr_count + 255 < (max_chr - 20): # This still has space, so we not gon do much
+                            print("<purchase_order.py> Summary can fit into the current page")
+                        else:
+                            print("<purchase_order.py> Page can't fit Summary, decreating max char.")
+                            max_chr -= 150
+                            # Decrease current max to something..
+
+
+            page_info[str(pg_count)][i.item_id] = i.item_id
+            element_count += 1
+            print("CHAR AMOUNT IS - ", chr_count)
+
+        # Set info marker for last page,
+        page_info[str(pg_count)]["last_page"] = True
+        print("PAGE INFO : ", page_info)
+        return page_info
 
     # ------------------------------ END OF REPORT CREATION
 
@@ -235,8 +296,8 @@ class PurchaseOrder(models.Model):
             return_dict[i.item_id] = {}
             return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
-            return_dict[i.item_id]["price"] = f"{i.price:,}"
-            return_dict[i.item_id]["total"] = f"{i.total:,}"
+            return_dict[i.item_id]["price"] = f"{i.price:,.2f}"
+            return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
         return return_dict
     # ------------------------------ DATA GETTER END
 
