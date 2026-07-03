@@ -5,32 +5,22 @@
     margin : 0.2cm;
     // background-color: greenyellow;
     // margin: 0px;
-
-    @top-center{
-        content: element(real-header);
-        width:20.575cm;
-    }
-
-}
-
-.real-header{
-    position:running(real-header);
-    width: 100%;
-    margin-top: 6.86cm;
-    display: grid;
-    grid-template-rows: auto auto auto;
-
 }
 
 .page{
-    margin-top: 6.4cm;
-    display: block;
+    // size: A4 portrait;
+    // background-color: blueviolet;
+    height: 27cm;
+    // margin: 15px;
+    // display: flex;
+    // flex-direction: column;
 }
 
 .top-header{
     display: flex;
     flex-direction: row;
     justify-content: end;
+    margin-bottom: 2px;
 }
 
 .top-header-box{
@@ -52,33 +42,15 @@
     font-size: 8px;
 }
 
-.mid-title{
-    font-weight : bold;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-
-    margin: 0px;
-    padding: 0px;
-    height: min-content;
-
-    border: black solid;
-    border-width: 0px;
-    border-left-width: 2px;
-    border-right-width: 2px;
-
-}
 
 div{
     font-size: 12px;
 }
 
 .main-body{
+    // background-color: greenyellow;
     border-style: solid;
     border-width: 2px;
-    border-top-width: 0px;
-    
     padding : 0px;
     margin : 0px;
     height: 26cm;
@@ -89,20 +61,13 @@ div{
     grid-template-rows: 13% 3% min-content 10% auto 12%;
 }
 
-.testpage-gap{
-    border: solid;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    border-top-width: 0px;
-    border-bottom-width: 2px;
-}
-
 .gap{
     // background-color: aquamarine;
     border: solid;
     border-left: 0px;
     border-right: 0px;
     border-top: 0px;
+
 }
 
 .gap-borderless{
@@ -111,20 +76,11 @@ div{
 }
 
 .header{
-    margin-top: 0.2cm;
-    
-    border-style: solid;
-    border-color: black;
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-width: 2px;
-    border-bottom-width: 0px;
-
-    height: 3.38cm;
-
-    // background-color: greenyellow;
+    // background-color : #e0e0e0;
     display:grid;
     grid-template-columns: 1fr 1fr;
+    height: 150px;
+    // height: 10%;
 }
 
 .header-side-left{
@@ -167,25 +123,18 @@ div{
     margin-right: 8px;
 }
 
-.table-config{
-    width: 100%;
-    border-collapse: collapse;
-}
+.mid-title{
+    font-weight : bold;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
 
-.table-page-break{
-    break-after: always;
-}
+    margin-top: 8px;
+    margin-bottom: 4px;
 
-.table-page-break-inside{
-    break-inside: avoid;
-}
-
-.table-header{
-    display: table-header-group;
-}
-
-.table-foot{
-    display: table-footer-group;
+    padding: 0px;
+    height: min-content;
 }
 
 .table-style{

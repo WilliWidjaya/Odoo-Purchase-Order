@@ -112,6 +112,45 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
+    def create_header_test(self):
+        early_path = __file__ # __file__ points to this current .py file.
+        def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
+        print("I AM FILEPATH : ", def_filepath) 
+
+        env = Environment(
+        loader=FileSystemLoader(def_filepath + '/templates'),
+        autoescape=select_autoescape()
+        )
+        template = env.get_template("no_table.html")
+
+        # The part when It renders the things
+        template_render = template.render(
+            # ========== Main Information, Table Information
+            page_amount = 2,
+            name = self.name,
+            po_number = self.po_number,
+            date = self.grab_current_date(),
+            purchase_data = self.grab_purchase_content(),
+            sub_total = f"{round(self.total_before_disc,2):,.2f}",
+            discount = f"{round(self.discounted_value,2):,.2f}",
+            total = f"{round(self.discount_amount,2):,.2f}",
+            tax = f"{round(self.taxed_amount,2):,.2f}",
+            grand_total = f"{round(self.total_amount,2):,.2f}",
+            remarks = self.remarks,
+            # =========== Additional Information
+            pi_no = "",
+            cont_awb_no = self.ad_awb,
+            eta_jkt = self.sta_date,
+            dated = self.due_date,
+            vendor_name = self.grab_vendor_name(),
+            vendor_location = self.grab_vendor_location()
+        )
+
+        template_html = HTML(string = template_render)
+        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+
     def create_receiving_report(self):
         if self.posting_date == False: # SQL Constraint already checks if the posting date is null. Kinda redundant.
             raise ValidationError("Please fill in the posting date before moving on.")
@@ -149,7 +188,7 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        po_css = CSS(def_filepath + '/templates/po_style_original.scss')
         w3css_css = CSS(def_filepath + '/static/src/css/w3css.css')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example_receiving.pdf', stylesheets = [po_css, w3css_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
@@ -193,7 +232,7 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        po_css = CSS(def_filepath + '/templates/po_style_original.scss')
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
 
@@ -223,11 +262,13 @@ class PurchaseOrder(models.Model):
 
             # Consider each row is 40 characters
             if temp_char_count < 40:
-                chr_count += 80
+                chr_count += 40
             else:
                 row_count = math.ceil(temp_char_count / 40)
                 temp_char_count = 40 * row_count
                 chr_count += temp_char_count
+
+            # chr_count = 0
 
             # Create a new page if char exceeds max char, or when starting from -1.
             if chr_count > max_chr or pg_count == -1: # If current char length is more than the max, or when starting the first page
