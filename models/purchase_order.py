@@ -211,7 +211,7 @@ class PurchaseOrder(models.Model):
         page_info = {}  # Dict for the page information
         pg_count = -1 # Page count starts at -1. Triggers the creation of a new page.
         chr_count = 0 # Counts the amount of description characters in one page.
-        max_chr = 980 # Approx 85 per row. 
+        max_chr = 920 # Approx 85 per row. 
         # The Summary row approx. takes up about 200 chars.
 
         element_count = 0 # Used to count the current self.purchase_contents index.
@@ -223,15 +223,15 @@ class PurchaseOrder(models.Model):
 
             # Consider each row is 40 characters
             if temp_char_count < 40:
-                chr_count += 40
+                chr_count += 80
             else:
                 row_count = math.ceil(temp_char_count / 40)
                 temp_char_count = 40 * row_count
                 chr_count += temp_char_count
 
             # Create a new page if char exceeds max char, or when starting from -1.
-            if chr_count >= max_chr or pg_count == -1: # If current char length is more than the max, or when starting the first page
-                max_chr = 980
+            if chr_count > max_chr or pg_count == -1: # If current char length is more than the max, or when starting the first page
+                max_chr = 920
                 print("<purchase_order.py> OVERFLOW - AT : ", chr_count)
                 pg_count += 1
                 chr_count = 0
@@ -258,11 +258,12 @@ class PurchaseOrder(models.Model):
 
                     cc_curr_len = len(t_chr_str)
                     if cc_curr_len < 40:
-                        t_chr_count += 40
+                        t_chr_count += 80
                     else:
                         t_row_count = math.ceil(cc_curr_len / 40)
                         t_temp_char_count = 40 * t_row_count
                         t_chr_count += t_temp_char_count
+                        # t_chr_count += cc_curr_len
 
                     t_curr_idx += 1
 
@@ -272,16 +273,17 @@ class PurchaseOrder(models.Model):
 
                     if is_last_index:
                         print("<purchase_order.py> Last index reached.")
-                        if t_chr_count < (max_chr - 160): # This still has space, so we not gon do much
-                            print("<purchase_order.py> Summary can fit into the current page : ", t_chr_count, " ", t_chr_count + 160, " ", max_chr)
+                        if t_chr_count < (max_chr - 240): # This still has space, so we not gon do much
+                            print("<purchase_order.py> Summary can fit into the current page : ", t_chr_count, " ", t_chr_count + 240, " ", max_chr)
                         else:
                             # THIS LOGIC DOES NOT WORK AS WELL AS I THINK IT DOES
                             # This creates an undesirable gap in the page. 
-                            print("<purchase_order.py> Page can't fit Summary, decreating max char. ", t_chr_count, " ", t_chr_count + 160, " ", max_chr)
-                            max_chr -= 160
+                            print("<purchase_order.py> Page can't fit Summary, decreating max char. ", t_chr_count, " ", t_chr_count + 240, " ", max_chr)
+                            max_chr -= 240
                             # Decrease current max to something..
 
-            page_info[str(pg_count)][i.item_id] = i.item_id
+            page_info[str(pg_count)][i.item_id] = {i.item_id : {},}
+            page_info[str(pg_count)][i.item_id]["count"] = chr_count
             element_count += 1
             print("CHAR AMOUNT IS - ", chr_count)
 
