@@ -3,12 +3,13 @@
     // width: 21cm;
     // height:29.7cm;
     margin : 0.2cm;
+    padding-top: 6.4cm;
     // background-color: greenyellow;
     // margin: 0px;
 
     @top-center{
         content: element(real-header);
-        width:20.575cm;
+        width:20.175cm;
     }
 
 }
@@ -23,7 +24,7 @@
 }
 
 .page{
-    padding-top: 6.4cm; // Gonta ganti margin top gada bedannya.
+    // padding-top: 6.4cm; // Gonta ganti margin top gada bedannya.
     display: block;
 }
 
