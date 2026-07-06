@@ -1,7 +1,7 @@
 @page{
-    // size: A4 portrait;
-    width: 21cm;
-    height:29.7cm;
+    size: A4 portrait;
+    // width: 21cm;
+    // height:29.7cm;
     margin : 0.2cm;
     // background-color: greenyellow;
     // margin: 0px;
@@ -23,7 +23,7 @@
 }
 
 .page{
-    margin-top: 6.4cm;
+    padding-top: 6.4cm; // Gonta ganti margin top gada bedannya.
     display: block;
 }
 
@@ -81,12 +81,16 @@ div{
     
     padding : 0px;
     margin : 0px;
-    height: 26cm;
+
+    
     // height: 800px;
     // display: flex;
     // flex-direction: column;
-    display:grid;
-    grid-template-rows: 13% 3% min-content 10% auto 12%;
+    
+    // DISABLING THIS SOMEHOW MAKES THE PAGE BREAK WORK.
+    // height: 26cm;
+    // display:grid;
+    // grid-template-rows: 13% 3% min-content 10% auto 12%;
 }
 
 .testpage-gap{
@@ -172,12 +176,13 @@ div{
     border-collapse: collapse;
 }
 
-.table-page-break{
-    break-after: always;
+.table-page-break-after{
+    // break-after: always;
+    break-inside: avoid;
 }
 
 .table-page-break-inside{
-    break-inside: avoid;
+    // break-inside: avoid;
 }
 
 .table-header{

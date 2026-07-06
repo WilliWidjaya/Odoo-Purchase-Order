@@ -128,6 +128,7 @@ class PurchaseOrder(models.Model):
             # ========== Main Information, Table Information
             page_amount = 2,
             name = self.name,
+            page_info = self.get_page_count(),
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
