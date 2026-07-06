@@ -4,6 +4,7 @@
     // height:29.7cm;
     margin : 0.2cm;
     padding-top: 6.4cm;
+    padding-bottom: 3.5cm;
     // background-color: greenyellow;
     // margin: 0px;
 
@@ -12,6 +13,19 @@
         width:20.175cm;
     }
 
+    @bottom-center{
+        content: element(real-footer);
+        width:20.175cm;
+    }
+    counter-increment: pagecount 1 finalpg 1;
+}
+
+.page-counter{
+    counter-increment: pagecount 1 finalpg 1;
+}
+
+.show-counter::before{
+    content: counter(pagecount);
 }
 
 .real-header{
@@ -21,6 +35,15 @@
     display: grid;
     grid-template-rows: auto auto auto;
 
+}
+
+.real-footer{
+    position: running(real-footer);
+    width: 100%;
+    margin-bottom: 4.0cm;
+
+    border: solid;
+    border-width: 2px;
 }
 
 .page{
@@ -317,6 +340,8 @@ div{
     // align-items: right;
     // justify-content: right;
     width: stretch;
+
+    break-inside: avoid;
 }
 
 .summary-container{

@@ -1,5 +1,4 @@
 <div class = "page">
-    
     <div class = "real-header">
         <div class = "top-header">
             <div class = "top-header-box">
@@ -49,12 +48,68 @@
                     <div style = "font-weight: bold;">Date.</div>
                     <div class = "sideright-alignright">:</div>
                     <div>{{ date }}</div>
+                    <div style = "font-weight: bold;">Page</div>
+                    <div class = "sideright-alignright">:</div>
+                    <div> 
+                        <span class = "show-counter"></span> of <span class = "show-counter"></span>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="mid-title">
             PURCHASE ORDER
+        </div>
+    </div>
+
+    <div class = "real-footer">
+        <div class="additional">
+            <div class = "additional-rows">
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">PI No</div>
+                    <div>:</div>
+                    <div>{{ pi_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">INVOICE No.</div>
+                    <div>:</div>
+                    <div>{{ invoice_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Cont. / Awb No</div>
+                    <div>:</div>
+                    <div>{{ cont_awb_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">VESSEL</div>
+                    <div>:</div>
+                    <div>{{ vessel }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">ETA JKT</div>
+                    <div>:</div>
+                    <div>{{ eta_jkt }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Dated</div>
+                    <div>:</div>
+                    <div>{{ dated }}</div>
+                </div>
+            </div>
+           <div class = "handsign-arrangement">
+                <!-- <div style="font-size: 10px; font-weight: bold;">Warehouse Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div> -->
+            </div>
+            <div class = "handsign-arrangement">
+                <div style="font-size: 10px; font-weight: bold;">Procurement Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -107,53 +162,102 @@
         <div class="testpage-gap">
         </div>
 
-        <div class="additional">
-            <div class = "additional-rows">
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">PI No</div>
-                    <div>:</div>
-                    <div>{{ pi_no }}</div>
-                </div>
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">INVOICE No.</div>
-                    <div>:</div>
-                    <div>{{ invoice_no }}</div>
-                </div>
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">Cont. / Awb No</div>
-                    <div>:</div>
-                    <div>{{ cont_awb_no }}</div>
-                </div>
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">VESSEL</div>
-                    <div>:</div>
-                    <div>{{ vessel }}</div>
-                </div>
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">ETA JKT</div>
-                    <div>:</div>
-                    <div>{{ eta_jkt }}</div>
-                </div>
-                <div class = "additional-info">
-                    <div style="font-weight: bold;">Dated</div>
-                    <div>:</div>
-                    <div>{{ dated }}</div>
+        <div class = "summary">
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Sub Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ sub_total }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Discount</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ discount }}</div>
+                    </div>
                 </div>
             </div>
-           <div class = "handsign-arrangement">
-                <!-- <div style="font-size: 10px; font-weight: bold;">Warehouse Manager</div>
-                <div class = "handsign-space">
-                    <div style="text-align: left;">(</div>
-                    <div style="text-align: right;">)</div>
-                </div> -->
-            </div>
-            <div class = "handsign-arrangement">
-                <div style="font-size: 10px; font-weight: bold;">Procurement Manager</div>
-                <div class = "handsign-space">
-                    <div style="text-align: left;">(</div>
-                    <div style="text-align: right;">)</div>
+            
+            <hr class ="hr-padding-margin"/>
+            
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total }}</div>
+                    </div>
                 </div>
             </div>
+
+            <hr class ="hr-padding-margin"/>
+
+            <div class = "summary-container">
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Tax</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ tax }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">By Shipment</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Inland Fuel</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Sticker Free</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Ocean Fuel</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+    
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">GST</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ total_before_disc }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class ="hr-padding-margin"/>
+
+            <div class = "summary-container-end">
+                <div style="font-weight: bold;">GRAND TOTAL</div>
+                <div style="font-weight: bold;">400.00 CTN</div>
+                <div class = "summary-presentation">
+                    <div class = "the-summary">
+                        <div style="font-weight: bold;">Grand Total</div>
+                        <div>:</div>
+                        <div>IDR</div>
+                        <div>{{ grand_total }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class ="hr-padding-margin"/>
         </div>
             
     </div>
