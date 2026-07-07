@@ -4,9 +4,7 @@
     // height:29.7cm;
     margin : 0.2cm;
     padding-top: 6.4cm;
-    padding-bottom: 3.5cm;
-    // background-color: greenyellow;
-    // margin: 0px;
+    padding-bottom: 3.0cm;
 
     @top-center{
         content: element(real-header);
@@ -15,17 +13,16 @@
 
     @bottom-center{
         content: element(real-footer);
-        width:20.175cm;
+        // width:20.175cm;
+        // width: 20.175cm;
+        width: 20.069cm;
+        margin-left: auto;
+        margin-right: 0.106cm;
     }
-    counter-increment: pagecount 1 finalpg 1;
 }
 
-.page-counter{
-    counter-increment: pagecount 1 finalpg 1;
-}
-
-.show-counter::before{
-    content: counter(pagecount);
+.show-counter{
+    content: counter(page) " of " counter(pages);
 }
 
 .real-header{
@@ -34,16 +31,28 @@
     margin-top: 6.86cm;
     display: grid;
     grid-template-rows: auto auto auto;
+    // background-color: grey;
+}
 
+.header-gap{
+    border: solid;
+    border-top-width: 0px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+
+
+    padding-bottom: 20cm;
 }
 
 .real-footer{
+    // background-color: green;
     position: running(real-footer);
     width: 100%;
-    margin-bottom: 4.0cm;
-
-    border: solid;
-    border-width: 2px;
+    // margin-bottom: 4.0cm;
+    margin-bottom: 24cm;
+//     border: solid;
+//     border-width: 2px;
 }
 
 .page{
@@ -106,13 +115,13 @@ div{
     padding : 0px;
     margin : 0px;
 
-    
+    background-color: chocolate;
+
     // height: 800px;
-    // display: flex;
-    // flex-direction: column;
     
     // DISABLING THIS SOMEHOW MAKES THE PAGE BREAK WORK.
     // height: 26cm;
+    // height: 100%;
     // display:grid;
     // grid-template-rows: 13% 3% min-content 10% auto 12%;
 }
@@ -128,9 +137,9 @@ div{
 .gap{
     // background-color: aquamarine;
     border: solid;
-    border-left: 0px;
-    border-right: 0px;
-    border-top: 0px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
 }
 
 .gap-borderless{
@@ -403,6 +412,10 @@ div{
     // background-color: bisque;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
+    // grid-template-columns: auto auto auto;
+
+    border: solid;
+    border-width: 2px;
 }
 
 .additional-rows{
