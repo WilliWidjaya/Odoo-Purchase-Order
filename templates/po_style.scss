@@ -4,7 +4,7 @@
     // height:29.7cm;
     margin : 0.2cm;
     padding-top: 6.4cm;
-    padding-bottom: 3.0cm;
+    padding-bottom: 3.5cm;
 
     @top-center{
         content: element(real-header);
@@ -15,9 +15,9 @@
         content: element(real-footer);
         // width:20.175cm;
         // width: 20.175cm;
-        width: 20.069cm;
-        margin-left: auto;
-        margin-right: 0.106cm;
+        width: 20.175cm;
+        // margin-left: auto;
+        // margin-right: 0.106cm;
     }
 }
 
@@ -39,10 +39,9 @@
     border-top-width: 0px;
     border-left-width: 2px;
     border-right-width: 2px;
-    border-bottom-width: 2px;
+    border-bottom-width: 0px;
 
-
-    padding-bottom: 20cm;
+    padding-bottom: 22cm;
 }
 
 .real-footer{
@@ -50,7 +49,7 @@
     position: running(real-footer);
     width: 100%;
     // margin-bottom: 4.0cm;
-    margin-bottom: 24cm;
+    margin-bottom: 26cm;
 //     border: solid;
 //     border-width: 2px;
 }
@@ -110,12 +109,13 @@ div{
 .main-body{
     border-style: solid;
     border-width: 2px;
+    border-bottom-width: 0px;
     border-top-width: 0px;
     
     padding : 0px;
     margin : 0px;
 
-    background-color: chocolate;
+    // background-color: chocolate;
 
     // height: 800px;
     
@@ -343,11 +343,8 @@ div{
 }
 
 .summary{
-    // background-color: green;
     display: grid;
     grid-template-rows: 1fr;
-    // align-items: right;
-    // justify-content: right;
     width: stretch;
 
     break-inside: avoid;
@@ -368,9 +365,7 @@ div{
 .summary-container-end{
     margin:0px;
     padding: 0px;
-    // background-color: purple;
-    // display: flex;
-    // flex-direction: row;
+    
     padding-left: 20px;
     padding-right: 3px;
     display: grid;
@@ -412,7 +407,6 @@ div{
     // background-color: bisque;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
-    // grid-template-columns: auto auto auto;
 
     border: solid;
     border-width: 2px;
@@ -422,6 +416,7 @@ div{
     display : grid;
     width: 200px;
     grid-template-rows: 1fr;
+    margin-left: 10px;
 }
 
 .additional-info{

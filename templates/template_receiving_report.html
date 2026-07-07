@@ -1,0 +1,159 @@
+<div class = "page">
+
+    <div class = "real-header">
+        <div class = "top-header">
+            <div class = "top-header-box">
+                <div class = "top-header-arrange">
+                    <div style = "font-weight: bold; text-align: center;">No Dokumen</div>
+                    <div>:</div>
+                </div>
+                <div class = "top-header-arrange">
+                    <div style = "font-weight: bold; text-align: center;">No Revisi</div>
+                    <div>:</div>
+                </div>
+                <div class = "top-header-arrange">
+                    <div style = "font-weight: bold; text-align: center;">Tgl Berlaku</div>
+                    <div>:</div>
+                </div>
+                <div class = "top-header-arrange">
+                    <div style = "font-weight: bold; text-align: center;">Hal</div>
+                    <div>:</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class = "header"> 
+            <div class = "header-side-left">
+                <div>
+                    <div class = "our-company-name">
+                        PT. INDOGUNA UTAMA
+                    </div>
+                    <div>
+                        Jl. Taruna No. 8 Pondok Bambu Jakarta Timur - Indonesia
+                    </div>
+                </div>
+                <div>
+                    <div class = "their-company-name">
+                        {{ vendor_name }}
+                    </div>
+                    <div>
+                        {{ vendor_location }}
+                    </div>
+                </div>
+            </div>
+            <div class = "header-side-right">
+                <div class = "header-side-right-info">
+                    <div style="font-weight: bold;">No.</div>
+                    <div class = "sideright-alignright">:</div>
+                    <div>{{ po_number }}</div>
+                    <div style = "font-weight: bold;">Date.</div>
+                    <div class = "sideright-alignright">:</div>
+                    <div>{{ date }}</div>
+                    <div style = "font-weight: bold;">Page</div>
+                    <div class = "sideright-alignright">:</div>
+                    <div> 
+                        <span class = "show-counter"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mid-title">
+            RECEIVING REPORT
+        </div>
+    </div>
+
+    <div class = "real-footer">
+        <div class = "header-gap"></div>
+        <div class="additional">
+            <div class = "additional-rows">
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">PI No</div>
+                    <div>:</div>
+                    <div>{{ pi_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">INVOICE No.</div>
+                    <div>:</div>
+                    <div>{{ invoice_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Cont. / Awb No</div>
+                    <div>:</div>
+                    <div>{{ cont_awb_no }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">VESSEL</div>
+                    <div>:</div>
+                    <div>{{ vessel }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">ETA JKT</div>
+                    <div>:</div>
+                    <div>{{ eta_jkt }}</div>
+                </div>
+                <div class = "additional-info">
+                    <div style="font-weight: bold;">Dated</div>
+                    <div>:</div>
+                    <div>{{ dated }}</div>
+                </div>
+            </div>
+            <div class = "handsign-arrangement">
+                <div style="font-size: 10px; font-weight: bold;">Procurement Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div>
+            </div>
+            <div class = "handsign-arrangement">
+                <div style="font-size: 10px; font-weight: bold;">Warehouse Manager</div>
+                <div class = "handsign-space">
+                    <div style="text-align: left;">(</div>
+                    <div style="text-align: right;">)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = "main-body">
+
+        <table class = "table-style">
+            <thead>
+                <tr>
+                    <th class = "table-header-left" rowspan="2" style = "width: 35%"><strong>DESCRIPTION</strong></th>
+                    <th class = "table-header-reg" colspan="2" style = "width: 25%">ORDER QUANTITY</th>
+                    <th class = "table-header-reg" colspan="2" style = "width: 25%">RECEIVED</th>
+                    <th class = "table-header-right" rowspan="2" style = "width: 15%"><strong>Remarks</strong></th>
+                </tr>
+                <tr>
+                    <th style = "width: 12.5%;"class = "table-header-reg"><strong>Supplier UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Our UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Supplier UOM</strong></th>
+                    <th style = "width: 12.5%;" class = "table-header-reg"><strong>Our UOM</strong></th> 
+                </tr>
+            </thead>
+            <tbody class  = "table-page-break-inside">
+                {% for item in purchase_data %}
+                <tr class = "table-page-break-after">
+                        <td class = "table-style-leftmost">{{ purchase_data[item]["description"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
+                        <td class = "table-regular">NIL</td>
+                        <td class = "table-regular">IDR {{ purchase_data[item]["price"] }}</td>
+                        <td class = "table-style-rightmost">
+                            <div style = "display: grid; grid-template-columns: 1fr 1fr;">
+                                <div>
+                                    IDR
+                                </div>
+                                <div style="border: none; text-align: end;">
+                                    {{ purchase_data[item]["total"] }}
+                                </div>
+                            </div>
+                        </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>

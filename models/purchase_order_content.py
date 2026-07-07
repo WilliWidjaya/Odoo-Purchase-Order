@@ -4,19 +4,23 @@ class PurchaseOrderContent(models.Model):
     _name = "purchase_order_content"
     _description = "Purchase Order Content"
 
+    # ============ Main Information
     purchase_order_id = fields.Many2one('purchase_order')
     item_id = fields.Char(string = "Item Code")
     item_name = fields.Char(string = "Item Name")
     free_text = fields.Text(string = "Free Text")
 
+    # ============ Quantity
     quantity_consider = fields.Integer(string = "Consider Qty")
     quantity = fields.Integer(string = "Qty")
     quantity_packaging = fields.Integer(string = "Packaging QTY")
     quantity_real = fields.Integer(string = "Qty PO Asli")
 
+    # ============ Unit of Measurement
     packaging_uom = fields.Char(string = "Packaging")
     uom = fields.Char(string = "uom")
 
+    # ============ Price, Discount, Taxes.
     price = fields.Float(string = "Price")
     discount_percentage = fields.Float(string = "Discount (%)")
     total = fields.Float(string = "Total", compute = "_calculate_total")
@@ -53,7 +57,7 @@ class PurchaseOrderContent(models.Model):
     ]
 
     # linestat = fields.Text(string = "Linestat")
-    # DocEntry Something yang gua belom terlalu tau apaan, maybe when I get a clear view of it.
+    # DocEntry ( Fill In Later )
 
     @api.depends('price', 'discount_percentage')
     def _calculate_total(self):

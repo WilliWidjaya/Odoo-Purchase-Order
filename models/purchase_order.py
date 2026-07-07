@@ -112,23 +112,21 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
-    def create_header_test(self):
+    def template_create_receiving_report(self): 
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
-        print("I AM FILEPATH : ", def_filepath) 
+        
+        print("FILEPATH : ", def_filepath) 
 
         env = Environment(
         loader=FileSystemLoader(def_filepath + '/templates'),
         autoescape=select_autoescape()
         )
-        template = env.get_template("no_table.html")
+        template = env.get_template("template_receiving_report.html")
 
-        # The part when It renders the things
         template_render = template.render(
             # ========== Main Information, Table Information
-            page_amount = 2,
             name = self.name,
-            page_info = self.get_page_count(),
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
@@ -149,9 +147,49 @@ class PurchaseOrder(models.Model):
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+        template_html.write_pdf('/home/laptop-it/Downloads/example_receiving.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/example_receiving.pdf')
 
+    def template_create_purchase_report(self):
+        early_path = __file__ # __file__ points to this current .py file.
+        def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
+        
+        print("FILEPATH : ", def_filepath) 
+
+        env = Environment(
+        loader=FileSystemLoader(def_filepath + '/templates'),
+        autoescape=select_autoescape()
+        )
+        template = env.get_template("template_purchase_order.html")
+
+        template_render = template.render(
+            # ========== Main Information, Table Information
+            name = self.name,
+            po_number = self.po_number,
+            date = self.grab_current_date(),
+            purchase_data = self.grab_purchase_content(),
+            sub_total = f"{round(self.total_before_disc,2):,.2f}",
+            discount = f"{round(self.discounted_value,2):,.2f}",
+            total = f"{round(self.discount_amount,2):,.2f}",
+            tax = f"{round(self.taxed_amount,2):,.2f}",
+            grand_total = f"{round(self.total_amount,2):,.2f}",
+            remarks = self.remarks,
+            # =========== Additional Information
+            pi_no = "",
+            cont_awb_no = self.ad_awb,
+            eta_jkt = self.sta_date,
+            dated = self.due_date,
+            vendor_name = self.grab_vendor_name(),
+            vendor_location = self.grab_vendor_location()
+        )
+
+        template_html = HTML(string = template_render)
+        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        template_html.write_pdf('/home/laptop-it/Downloads/example_purchasing.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/example_purchasing.pdf')
+
+
+    # DEPRECATED.
     def create_receiving_report(self):
         if self.posting_date == False: # SQL Constraint already checks if the posting date is null. Kinda redundant.
             raise ValidationError("Please fill in the posting date before moving on.")
@@ -194,6 +232,7 @@ class PurchaseOrder(models.Model):
         template_html.write_pdf('/home/laptop-it/Downloads/da_example_receiving.pdf', stylesheets = [po_css, w3css_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
 
+    # DEPRECATED
     def create_purchase_order_report(self):
         if self.posting_date == False: # SQL Constraint checks already checks for this one also.
             raise ValidationError("Please fill in the posting date before moving on.")
@@ -237,6 +276,7 @@ class PurchaseOrder(models.Model):
         template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
 
+    # DEPRECATED!!!
     def get_page_count(self): # This could be used by either the Purchase Report or the Receiving Report.
 
         # dict structure :
@@ -336,41 +376,35 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ END OF REPORT CREATION
 
+
     # ------------------------------ DATA GETTER START
-    # Find a way to grab out own corporation so we don't have to change it.
-    def grab_current_date(self):
+    
+    def grab_current_date(self): # Get current date in dd-mm-yyyy format.
         date_str = str(self.posting_date)
 
         formatted_time = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d-%m-%Y")
         print("FORMATTED TIME IS : "), formatted_time
         return formatted_time
 
-    def grab_our_location(self):
+    def grab_our_location(self): # Fill in later when needed.
         return 
 
-    def grab_vendor_name(self):
+    def grab_vendor_name(self): # Grab name of vendor from the vendor Many2One
         return self.vendor.name.upper()
 
-    def grab_vendor_location(self):
-        return self.vendor.street # Grab Street1 only, and not street 2.
+    def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
+        return self.vendor.street
 
-    def grab_purchase_content(self):
+    def grab_purchase_content(self): # Grabbing purchase_content One2Many
         return_dict = {}
         for i in self.purchase_contents:
             return_dict[i.item_id] = {}
             return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
-            return_dict[i.item_id]["price"] = f"{i.price:,.2f}"
+            return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
             return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
         return return_dict
     # ------------------------------ DATA GETTER END
-
-
-    def test_weasyprint(self):
-        HTML('/home/laptop-it/odoo_src/src/tutorials/purchase_order/templates/purchase_order.html').write_pdf('/home/laptop-it/Downloads/da_example.pdf')
-
-    def create_report(self):
-        return self.env.ref('purchase_order.report_purchase_order').report_action(self)
 
     def count_total(self):
         # self.total_amount must be the grand total of everything
@@ -397,20 +431,22 @@ class PurchaseOrder(models.Model):
         # Calculate this from the discounted price + percentage of that discounted amount
         self.total_amount = discounted_tottal + self.taxed_amount
 
-    @api.depends('att_attachment')
+    # ====================== @api functions
+    # ============
+    @api.depends('att_attachment') # Updates attachment count, currently unused
     def _compute_attachment_amount(self):
         for i in self:
             self.attachment_count = len(self.att_attachment)
 
-    @api.onchange('tax')
+    @api.onchange('tax') # Changes total on tax change.
     def _calculate_on_tax_change(self):
         self.count_total()
 
-    @api.onchange('discount_percentage')
+    @api.onchange('discount_percentage') # Recalculates total on discount change.
     def _calculate_on_discount_change(self):
         self.count_total()
 
-    @api.depends('purchase_contents.total')
+    @api.depends('purchase_contents.total') # 
     def _calculate_total_before_discount(self):
         final_total_price = 0
         for i in self.purchase_contents:
@@ -421,32 +457,9 @@ class PurchaseOrder(models.Model):
         if self.discount_percentage > 0.00:
             final_discounted_price = final_total_price - ((self.discount_percentage/100.0) * final_total_price)
 
-        # NOTE : GUA GATAU INI HARUS KEK GINI ATO NGGA, PAKE FOR LOOOP ATO ENGGA
-        #       Mungkin dia guasa di loop, tapi terakhir kali gua kena error karena gapake loop
-        #       for some reason
+        # Running this on for loops somehow fixes a problem when saving.
         for i in self:
             i.total_before_disc = final_total_price
             # i.discount_amount = final_discounted_price
             self.count_total()
 
-# class PurchaseOrderReport(models.AbstractModel):
-#     _name = "report.purchase_order.report_purchase_order_template"
-#     _description = "null"
-
-#     @api.model
-#     def _get_report_values(self, docids, data=None):
-#         docs = self.env['purchase_order'].browse(docids)
-
-#         summaries = {}
-#         for i in docs:
-#             summaries["po_id"] = i.po_number
-#             summaries["name"] = i.name
-#             summaries["total"] = i.total_amount
-
-#         return {
-#             'doc_ids' : docids,
-#             'doc_model' : 'purchase_order',
-#             'docs' : docs,
-#             'summaries' : summaries,
-#             'report_title' : 'Purchase Order'
-#         }

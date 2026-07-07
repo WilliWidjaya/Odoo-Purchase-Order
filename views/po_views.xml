@@ -105,7 +105,8 @@
                         <button type = "object" string = "Update" name ="count_total"/>
                         <button type = "object" string = "Create Purchase Order" name ="create_purchase_order_report"/>
                         <button type = "object" string = "Create Receiving Report" name ="create_receiving_report"/>
-                        <button type = "object" string = "Header Test" name ="create_header_test"/>
+                        <button type = "object" string = "Create Purchase Order Report (NEW)" name ="template_create_purchase_report"/>
+                        <button type = "object" string = "Create Receiving Report (NEW)" name ="template_create_receiving_report"/>
                     </header>
                     <sheet>
                         <group class ="format-grid">

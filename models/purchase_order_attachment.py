@@ -10,8 +10,3 @@ class PurchaseOrderAttachment(models.Model):
     file_name = fields.Char(string="File Name")
     file_Size = fields.Char(string="File Size")
     file_type = fields.Char(string="File Size")
-
-
-    # @api.onchange('t_attachment')
-    # def on_attachment_changed(self):
-    #     self.file_name = self.t_attachment
