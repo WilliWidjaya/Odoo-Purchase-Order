@@ -14,7 +14,7 @@ class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
 
-    po_number = fields.Text(string = "Purchase Order No") # No Char
+    po_number = fields.Text(string = "Purchase Order No", copy = False) # No Char
 
     # Vendor Information
     name = fields.Char(string = "Name")
@@ -188,8 +188,100 @@ class PurchaseOrder(models.Model):
         template_html.write_pdf('/home/laptop-it/Downloads/example_purchasing.pdf', stylesheets = [po_css])
         webbrowser.open('/home/laptop-it/Downloads/example_purchasing.pdf')
 
+    # ------------------------------ END OF REPORT CREATION
 
-    # DEPRECATED.
+
+    # ------------------------------ DATA GETTER START
+    
+    def grab_current_date(self): # Get current date in dd-mm-yyyy format.
+        date_str = str(self.posting_date)
+
+        formatted_time = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d-%m-%Y")
+        print("FORMATTED TIME IS : "), formatted_time
+        return formatted_time
+
+    def grab_our_location(self): # Fill in later when needed.
+        return 
+
+    def grab_vendor_name(self): # Grab name of vendor from the vendor Many2One
+        return self.vendor.name.upper()
+
+    def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
+        return self.vendor.street
+
+    def grab_purchase_content(self): # Grabbing purchase_content One2Many
+        return_dict = {}
+        for i in self.purchase_contents:
+            return_dict[i.item_id] = {}
+            return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
+            return_dict[i.item_id]["quantity"] = i.quantity
+            return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
+            return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
+            return_dict[i.item_id]["supplier_uom"] = str(i.quantity) + " " + str(i.packaging_uom)
+        return return_dict
+    # ------------------------------ DATA GETTER END
+
+    def count_total(self):
+        # self.total_amount must be the grand total of everything
+        # this includes discount + tax + everything else that might be added in the future.
+        count_total_amount = 0
+        for i in self.purchase_contents:
+            count_total_amount += i.price
+        if count_total_amount == 0:
+            self.total_amount = 0
+            return
+        if self.discount_percentage <= 0.00: # Put the Discounted Price here.
+            self.discount_amount = count_total_amount
+            self.discounted_value = 0
+
+        self.discounted_value = (self.discount_percentage/100.0) * count_total_amount
+
+        # Calculate the Discounter Price
+        discounted_tottal = count_total_amount - self.discounted_value
+        self.discount_amount = discounted_tottal
+
+        self.taxed_amount = (self.tax / 100) * discounted_tottal
+
+        # Calculate the grand total.
+        # Calculate this from the discounted price + percentage of that discounted amount
+        self.total_amount = discounted_tottal + self.taxed_amount
+
+    # ====================== @api functions
+    # ============
+    @api.depends('att_attachment') # Updates attachment count, currently unused
+    def _compute_attachment_amount(self):
+        for i in self:
+            self.attachment_count = len(self.att_attachment)
+
+    @api.onchange('tax') # Changes total on tax change.
+    def _calculate_on_tax_change(self):
+        self.count_total()
+
+    @api.onchange('discount_percentage') # Recalculates total on discount change.
+    def _calculate_on_discount_change(self):
+        self.count_total()
+
+    @api.depends('purchase_contents.total') # 
+    def _calculate_total_before_discount(self):
+        final_total_price = 0
+        for i in self.purchase_contents:
+            final_total_price += i.total
+        
+        # Calculate discount (different way from the function)
+        final_discounted_price = 0
+        if self.discount_percentage > 0.00:
+            final_discounted_price = final_total_price - ((self.discount_percentage/100.0) * final_total_price)
+
+        # Running this on for loops somehow fixes a problem when saving.
+        for i in self:
+            i.total_before_disc = final_total_price
+            # i.discount_amount = final_discounted_price
+            self.count_total()
+
+
+
+# UNUSED, MARKED FOR DELETION.
+# DEPRECATED.
     def create_receiving_report(self):
         if self.posting_date == False: # SQL Constraint already checks if the posting date is null. Kinda redundant.
             raise ValidationError("Please fill in the posting date before moving on.")
@@ -201,7 +293,7 @@ class PurchaseOrder(models.Model):
         loader=FileSystemLoader(def_filepath + '/templates'),
         autoescape=select_autoescape()
         )
-        template = env.get_template("receiving_report.html")
+        template = env.get_template("old_receiving_report.html")
    
         # The part when It renders the things
         template_render = template.render(
@@ -227,10 +319,10 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style_original.scss')
+        po_css = CSS(def_filepath + '/templates/old_po_style.scss')
         w3css_css = CSS(def_filepath + '/static/src/css/w3css.css')
-        template_html.write_pdf('/home/laptop-it/Downloads/da_example_receiving.pdf', stylesheets = [po_css, w3css_css])
-        webbrowser.open('/home/laptop-it/Downloads/da_example_receiving.pdf')
+        template_html.write_pdf('/home/laptop-it/Downloads/old_example_receiving.pdf', stylesheets = [po_css, w3css_css])
+        webbrowser.open('/home/laptop-it/Downloads/old_example_receiving.pdf')
 
     # DEPRECATED
     def create_purchase_order_report(self):
@@ -245,7 +337,7 @@ class PurchaseOrder(models.Model):
         loader=FileSystemLoader(def_filepath + '/templates'),
         autoescape=select_autoescape()
         )
-        template = env.get_template("purchase_order.html")
+        template = env.get_template("old_purchase_order.html")
 
         # The part when It renders the things
         template_render = template.render(
@@ -272,9 +364,9 @@ class PurchaseOrder(models.Model):
         )
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style_original.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/da_example.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/da_example.pdf')
+        po_css = CSS(def_filepath + '/templates/old_po_style.scss')
+        template_html.write_pdf('/home/laptop-it/Downloads/old_po_example.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/old_po_example.pdf')
 
     # DEPRECATED!!!
     def get_page_count(self): # This could be used by either the Purchase Report or the Receiving Report.
@@ -373,93 +465,3 @@ class PurchaseOrder(models.Model):
         page_info[str(pg_count)]["last_page"] = True
         print("PAGE INFO : ", page_info)
         return page_info
-
-    # ------------------------------ END OF REPORT CREATION
-
-
-    # ------------------------------ DATA GETTER START
-    
-    def grab_current_date(self): # Get current date in dd-mm-yyyy format.
-        date_str = str(self.posting_date)
-
-        formatted_time = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d-%m-%Y")
-        print("FORMATTED TIME IS : "), formatted_time
-        return formatted_time
-
-    def grab_our_location(self): # Fill in later when needed.
-        return 
-
-    def grab_vendor_name(self): # Grab name of vendor from the vendor Many2One
-        return self.vendor.name.upper()
-
-    def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
-        return self.vendor.street
-
-    def grab_purchase_content(self): # Grabbing purchase_content One2Many
-        return_dict = {}
-        for i in self.purchase_contents:
-            return_dict[i.item_id] = {}
-            return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
-            return_dict[i.item_id]["quantity"] = i.quantity
-            return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
-            return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
-        return return_dict
-    # ------------------------------ DATA GETTER END
-
-    def count_total(self):
-        # self.total_amount must be the grand total of everything
-        # this includes discount + tax + everything else that might be added in the future.
-        count_total_amount = 0
-        for i in self.purchase_contents:
-            count_total_amount += i.price
-        if count_total_amount == 0:
-            self.total_amount = 0
-            return
-        if self.discount_percentage <= 0.00: # Put the Discounted Price here.
-            self.discount_amount = count_total_amount
-            self.discounted_value = 0
-
-        self.discounted_value = (self.discount_percentage/100.0) * count_total_amount
-
-        # Calculate the Discounter Price
-        discounted_tottal = count_total_amount - self.discounted_value
-        self.discount_amount = discounted_tottal
-
-        self.taxed_amount = (self.tax / 100) * discounted_tottal
-
-        # Calculate the grand total.
-        # Calculate this from the discounted price + percentage of that discounted amount
-        self.total_amount = discounted_tottal + self.taxed_amount
-
-    # ====================== @api functions
-    # ============
-    @api.depends('att_attachment') # Updates attachment count, currently unused
-    def _compute_attachment_amount(self):
-        for i in self:
-            self.attachment_count = len(self.att_attachment)
-
-    @api.onchange('tax') # Changes total on tax change.
-    def _calculate_on_tax_change(self):
-        self.count_total()
-
-    @api.onchange('discount_percentage') # Recalculates total on discount change.
-    def _calculate_on_discount_change(self):
-        self.count_total()
-
-    @api.depends('purchase_contents.total') # 
-    def _calculate_total_before_discount(self):
-        final_total_price = 0
-        for i in self.purchase_contents:
-            final_total_price += i.total
-        
-        # Calculate discount (different way from the function)
-        final_discounted_price = 0
-        if self.discount_percentage > 0.00:
-            final_discounted_price = final_total_price - ((self.discount_percentage/100.0) * final_total_price)
-
-        # Running this on for loops somehow fixes a problem when saving.
-        for i in self:
-            i.total_before_disc = final_total_price
-            # i.discount_amount = final_discounted_price
-            self.count_total()
-

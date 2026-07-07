@@ -17,8 +17,8 @@ class PurchaseOrderContent(models.Model):
     quantity_real = fields.Integer(string = "Qty PO Asli")
 
     # ============ Unit of Measurement
-    packaging_uom = fields.Char(string = "Packaging")
-    uom = fields.Char(string = "uom")
+    packaging_uom = fields.Char(string = "Packaging UOM")
+    uom = fields.Char(string = "UOM")
 
     # ============ Price, Discount, Taxes.
     price = fields.Float(string = "Price")
@@ -41,7 +41,7 @@ class PurchaseOrderContent(models.Model):
         # Check Item ID Length
         ('poc_check_item_id_len', 'CHECK(LENGTH(item_id) >= 3 AND LENGTH(item_id) <= 20)', 'Item ID length must be at least 3 characters and at most 20 characters.'),
         # Check item ID Unique
-        ('poc_check_item_id_unique', 'UNIQUE(item_id)', 'Item ID must be unique, or distinct.'),
+        # ('poc_check_item_id_unique', 'UNIQUE(item_id)', 'Item ID must be unique, or distinct.'),
         # Check if item name is filled or not.
         ('poc_check_item_name_filled', 'CHECK(item_name IS NOT NULL)', 'Please fill the item name.'),
         # Check item name length

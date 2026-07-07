@@ -4,10 +4,6 @@
             <menuitem id = "po_first_level" name = "Pages">
                 <menuitem id="menu1" action = "po_list_action"/>
             </menuitem>
-            <!-- <menuitem id = "headermenu_property_types" name = "Settings">
-                <menuitem id="menu2" action = "estate_property_types_view"/>
-                <menuitem id="menu3" action = "estate_property_tag_view"/>
-            </menuitem> -->
         </menuitem>
     </data>
 </odoo>

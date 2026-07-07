@@ -28,7 +28,7 @@
                     <div class = "our-company-name">
                         PT. INDOGUNA UTAMA
                     </div>
-                    <div>
+                    <div class = "our-company-address">
                         Jl. Taruna No. 8 Pondok Bambu Jakarta Timur - Indonesia
                     </div>
                 </div>
@@ -36,23 +36,23 @@
                     <div class = "their-company-name">
                         {{ vendor_name }}
                     </div>
-                    <div>
+                    <div class = "their-company-address">
                         {{ vendor_location }}
                     </div>
                 </div>
             </div>
             <div class = "header-side-right">
                 <div class = "header-side-right-info">
-                    <div style="font-weight: bold;">No.</div>
-                    <div class = "sideright-alignright">:</div>
-                    <div>{{ po_number }}</div>
-                    <div style = "font-weight: bold;">Date.</div>
-                    <div class = "sideright-alignright">:</div>
-                    <div>{{ date }}</div>
-                    <div style = "font-weight: bold;">Page</div>
-                    <div class = "sideright-alignright">:</div>
+                    <div style="font-weight: bold;" class = "header-right-text">No.</div>
+                    <div class = "sideright-alignright header-right-text">:</div>
+                    <div class = "header-right-text" >{{ po_number }}</div>
+                    <div style = "font-weight: bold;" class = "header-right-text">Date.</div>
+                    <div class = "sideright-alignright header-right-text">:</div>
+                    <div class = "header-right-text">{{ date }}</div>
+                    <div style = "font-weight: bold;" class = "header-right-text">Page</div>
+                    <div class = "sideright-alignright header-right-text">:</div>
                     <div> 
-                        <span class = "show-counter"></span>
+                        <span class = "show-counter header-right-text"></span>
                     </div>
                 </div>
             </div>
@@ -136,10 +136,10 @@
                 {% for item in purchase_data %}
                 <tr class = "table-page-break-after">
                         <td class = "table-style-leftmost">{{ purchase_data[item]["description"] }}</td>
-                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
-                        <td class = "table-regular">{{ purchase_data[item]["quantity"] }}</td>
-                        <td class = "table-regular">NIL</td>
-                        <td class = "table-regular">IDR {{ purchase_data[item]["price"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["supplier_uom"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["supplier_uom"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["supplier_uom"] }}</td>
+                        <td class = "table-regular">{{ purchase_data[item]["supplier_uom"] }}</td>
                         <td class = "table-style-rightmost">
                             <div style = "display: grid; grid-template-columns: 1fr 1fr;">
                                 <div>

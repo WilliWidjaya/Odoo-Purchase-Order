@@ -44,6 +44,10 @@
     padding-bottom: 22cm;
 }
 
+.header-right-text{
+    font-size: 10px;
+}
+
 .real-footer{
     // background-color: green;
     position: running(real-footer);
@@ -114,14 +118,9 @@ div{
     
     padding : 0px;
     margin : 0px;
-
-    // background-color: chocolate;
-
-    // height: 800px;
-    
+  
     // DISABLING THIS SOMEHOW MAKES THE PAGE BREAK WORK.
     // height: 26cm;
-    // height: 100%;
     // display:grid;
     // grid-template-rows: 13% 3% min-content 10% auto 12%;
 }
@@ -135,7 +134,6 @@ div{
 }
 
 .gap{
-    // background-color: aquamarine;
     border: solid;
     border-left-width: 2px;
     border-right-width: 2px;
@@ -159,20 +157,17 @@ div{
 
     height: 3.38cm;
 
-    // background-color: greenyellow;
     display:grid;
     grid-template-columns: 1fr 1fr;
 }
 
 .header-side-left{
-    // background-color: rgb(189, 153, 151);;
     display: grid;
     grid-template-rows: 60% 40%;
-    padding: 10px;
+    padding: 4px;
 }
 
 .header-side-right{
-    // background-color : rgb(184, 184, 184);
     display: grid;
     grid-template-rows: 1fr 1fr;
     padding: 10px;
@@ -180,8 +175,12 @@ div{
 }
 
 .our-company-name{
-    font-size : 18px;
+    font-size : 17px;
     font-weight : bold;
+}
+
+.our-company-address{
+    font-size: 10px;
 }
 
 .their-company-name{
@@ -189,9 +188,13 @@ div{
     font-size: 12px;
 }
 
+.their-company-address{
+    font-size: 10px;
+}
+
 .header-side-right-info{
     display: grid;
-    grid-template-columns: 30px 40px 100px;
+    grid-template-columns: 50px 50px 100px;
     width: fit-content;
 }
 
@@ -210,12 +213,7 @@ div{
 }
 
 .table-page-break-after{
-    // break-after: always;
     break-inside: avoid;
-}
-
-.table-page-break-inside{
-    // break-inside: avoid;
 }
 
 .table-header{
@@ -228,11 +226,8 @@ div{
 
 .table-style{
     border-style : solid;
-    // border-color: black;
     border-width: 0px;
     border-color: black;
-    // border-left-width: 0px;
-    // border-right-width: 0px;
     border-bottom-width: 4px;
     border-collapse : collapse;
     max-width: 100%;
@@ -308,21 +303,7 @@ div{
     margin: 0px;
 }
 
-.table-style thead tr th{
-    // border-style: solid;
-    // border-width: 2px;
-    // border-color: black;
-    // text-align: center;
-    // border-collapse: collapse;
-
-    // margin: 0px;
-}
-
 .table-style tbody tr td{
-    // border-style: solid;
-    // border-width: 2px;;
-    // border-color: black;
-    // border-collapse: collapse;
 
     margin: 0px;
 }
@@ -333,7 +314,6 @@ div{
     color: black;
     background-color: black;
 }
-
 
 .summary-receiving{
     margin-top: 2cm;
@@ -351,15 +331,12 @@ div{
 }
 
 .summary-container{
-    // background-color: bisque;
     display:flex;
     flex-direction: row-reverse;
     height: fit-content;
     margin: 0px;
     padding: 0px;
     padding-right: 4px;
-
-    
 }
 
 .summary-container-end{
@@ -385,10 +362,10 @@ div{
 .summary-presentation{
     margin: 0px;
     padding: 0px;
-    // background-color: grey;
+
     width: max-content;
     display: grid;
-    // grid-template-columns: 30% 32% 5% 33%;
+
     grid-template-columns: 300px;
     width: 300px;
     height:fit-content;
@@ -404,7 +381,6 @@ div{
 
 
 .additional{
-    // background-color: bisque;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
 

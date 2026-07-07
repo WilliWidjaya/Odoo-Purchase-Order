@@ -72,11 +72,7 @@
             <field name="name">po.attachment.list</field>
             <field name="model">ir.attachment</field>
             <field name="inherit_id" ref="base.view_attachment_tree"/>
-            <field name="arch" type="xml">               
-                <!-- Make an existing field invisible (optional) -->
-                <!-- <xpath expr="//list" position="attributes">
-                    <attribute name="editable">bottom</attribute>
-                </xpath> -->            
+            <field name="arch" type="xml">                         
                 <xpath expr="//list" position="inside">
                     <control>
                         <create name="custom_line" string="Add an attachment"/>
@@ -103,8 +99,8 @@
                     <header>
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
-                        <button type = "object" string = "Create Purchase Order" name ="create_purchase_order_report"/>
-                        <button type = "object" string = "Create Receiving Report" name ="create_receiving_report"/>
+                        <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
+                        <button type = "object" string = "OLD RECEIVING" name ="create_receiving_report"/>
                         <button type = "object" string = "Create Purchase Order Report (NEW)" name ="template_create_purchase_report"/>
                         <button type = "object" string = "Create Receiving Report (NEW)" name ="template_create_receiving_report"/>
                     </header>
