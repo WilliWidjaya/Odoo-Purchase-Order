@@ -272,11 +272,8 @@ class PurchaseOrder(models.Model):
         if self.discount_percentage > 0.00:
             final_discounted_price = final_total_price - ((self.discount_percentage/100.0) * final_total_price)
 
-        # Running this on for loops somehow fixes a problem when saving.
-        for i in self:
-            i.total_before_disc = final_total_price
-            # i.discount_amount = final_discounted_price
-            self.count_total()
+        self.total_before_disc = final_total_price
+        self.count_total()
 
 
 
