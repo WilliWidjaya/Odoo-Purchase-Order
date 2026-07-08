@@ -4,7 +4,7 @@
             <field name="name">po.content.view.list</field>
             <field name="model">purchase_order_content</field>
             <field name="arch" type="xml">
-                <list string = "Channel" editable="bottom">
+                <list string = "Channel" editable="bottom" limit="10">
                     <control>
                         <create name="custom_line" string="Create new entry.."/>
                     </control>

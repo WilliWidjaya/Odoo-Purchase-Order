@@ -61,13 +61,6 @@ class PurchaseOrderContent(models.Model):
 
     @api.depends('price', 'discount_percentage')
     def _calculate_total(self):
-        # Kurang paham kenapa ini ga bisa dijalanin.
-        # if self.discount_percentage > 0.0:
-        #     self.total = (self.price - ((self.discount_percentage/100.0) * self.price))
-        # else:
-        #     self.total = self.price
-
-        # Tapi Giliran ini bisa. 
         for i in self:
             if i.discount_percentage > 0.0:
                 i.total = (i.price - ((i.discount_percentage/100.0) * i.price))

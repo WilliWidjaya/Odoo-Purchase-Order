@@ -145,10 +145,12 @@ class PurchaseOrder(models.Model):
             vendor_location = self.grab_vendor_location()
         )
 
+        output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
+
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/example_receiving.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/example_receiving.pdf')
+        template_html.write_pdf('/home/laptop-it/Downloads/' + output_file_name + '.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/' + output_file_name + '.pdf')
 
     def template_create_purchase_report(self):
         early_path = __file__ # __file__ points to this current .py file.
@@ -183,10 +185,12 @@ class PurchaseOrder(models.Model):
             vendor_location = self.grab_vendor_location()
         )
 
+        output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
+
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/example_purchasing.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/example_purchasing.pdf')
+        template_html.write_pdf('/home/laptop-it/Downloads/' + output_file_name +'.pdf', stylesheets = [po_css])
+        webbrowser.open('/home/laptop-it/Downloads/' + output_file_name + '.pdf')
 
     # ------------------------------ END OF REPORT CREATION
 
@@ -204,7 +208,8 @@ class PurchaseOrder(models.Model):
         return 
 
     def grab_vendor_name(self): # Grab name of vendor from the vendor Many2One
-        return self.vendor.name.upper()
+        t_vendor = self.with_prefetch().vendor
+        return t_vendor.name.upper()
 
     def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
         return self.vendor.street
