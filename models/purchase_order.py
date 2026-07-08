@@ -234,7 +234,6 @@ class PurchaseOrder(models.Model):
         for i in self.purchase_freights:
             count_total_amount += i.gross_amount
         
-
         if count_total_amount == 0:
             self.total_amount = 0
             self.total_before_disc = 0
@@ -278,8 +277,6 @@ class PurchaseOrder(models.Model):
     @api.depends('purchase_contents.total', 'purchase_freights.gross_amount') # 
     def _calculate_total_before_discount(self):
         self.count_total()
-
-
 
 # UNUSED, MARKED FOR DELETION.
 # DEPRECATED.
