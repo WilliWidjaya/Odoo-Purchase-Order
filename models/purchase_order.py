@@ -194,6 +194,11 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ END OF REPORT CREATION
 
+    def debug_view_dependency(self):
+        t_view = self.env['ir.ui.view'].search([('model', '=', 'purchase_order')])
+        for v in t_view:
+            _logger_msg = f"view: {v.name} | inherit_id: {v.inherit_id.name if v.inherit_id else None} | module: {v.inherit_id.module if v.inherit_id else None}"
+            print(_logger_msg)
 
     # ------------------------------ DATA GETTER START
     

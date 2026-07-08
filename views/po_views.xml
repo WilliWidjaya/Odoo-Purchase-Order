@@ -96,6 +96,7 @@
             <field name="arch" type="xml">
                 <form string="Halaman Estate">
                     <header>
+                        <button type = "object" string = "Debug View" name ="debug_view_dependency"/>
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
                         <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
