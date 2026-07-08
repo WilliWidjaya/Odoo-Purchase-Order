@@ -43,7 +43,6 @@
                     <control>
                         <create name="custom_line" string="Create new entry.."/>
                     </control>
-                    <field name="purchase_order_id"/>
                     <field name="express_id"/>
                     <field name="expense_name"/>
                     <field name="remarks"/>

@@ -225,11 +225,25 @@ class PurchaseOrder(models.Model):
         # self.total_amount must be the grand total of everything
         # this includes discount + tax + everything else that might be added in the future.
         count_total_amount = 0
+
+        # Count the total from purchase contents
         for i in self.purchase_contents:
             count_total_amount += i.price
+
+        # Count the total from freight
+        for i in self.purchase_freights:
+            count_total_amount += i.gross_amount
+        
+
         if count_total_amount == 0:
             self.total_amount = 0
+            self.total_before_disc = 0
+            self.discounted_value = 0
+            self.discount_amount = 0
             return
+
+        self.total_before_disc = count_total_amount
+        
         if self.discount_percentage <= 0.00: # Put the Discounted Price here.
             self.discount_amount = count_total_amount
             self.discounted_value = 0
@@ -261,18 +275,8 @@ class PurchaseOrder(models.Model):
     def _calculate_on_discount_change(self):
         self.count_total()
 
-    @api.depends('purchase_contents.total') # 
+    @api.depends('purchase_contents.total', 'purchase_freights.gross_amount') # 
     def _calculate_total_before_discount(self):
-        final_total_price = 0
-        for i in self.purchase_contents:
-            final_total_price += i.total
-        
-        # Calculate discount (different way from the function)
-        final_discounted_price = 0
-        if self.discount_percentage > 0.00:
-            final_discounted_price = final_total_price - ((self.discount_percentage/100.0) * final_total_price)
-
-        self.total_before_disc = final_total_price
         self.count_total()
 
 

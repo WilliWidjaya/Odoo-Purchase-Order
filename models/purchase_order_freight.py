@@ -11,4 +11,3 @@ class PurchaseOrderFreight(models.Model):
     tax_code = fields.Char(string = "Tax Code")
     gross_amount = fields.Float(string = "Gross Amount")
     
-
