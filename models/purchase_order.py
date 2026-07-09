@@ -14,12 +14,12 @@ class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
 
-    po_number = fields.Text(string = "Purchase Order No", copy = False) # No Char
+    po_number = fields.Char(string = "Purchase Order No", copy = False) # No Char
 
     # Vendor Information
     name = fields.Char(string = "Name")
     vendor = fields.Many2one('res.partner') # Nanti Isi
-    vendor_ref_no = fields.Text(string = "Vendor Ref. No") # No Char
+    vendor_ref_no = fields.Char(string = "Vendor Ref. No") # No Char
     contact_person = fields.Many2one('res.partner') # Nanti isi
 
     # Dates
@@ -76,19 +76,19 @@ class PurchaseOrder(models.Model):
     attachment_count = fields.Integer(string = "attachment_count", compute = "_compute_attachment_amount")
 
     #Additional Informatio
-    ad_vessel_flight = fields.Text(string = "Vessel/Flight")
-    ad_container = fields.Text(string = "Container")
-    ad_awb = fields.Text(string = "AWB No/ BI NO")
-    ad_pesawat = fields.Text(string = "Pesawat")
+    ad_vessel_flight = fields.Char(string = "Vessel/Flight")
+    ad_container = fields.Char(string = "Container")
+    ad_awb = fields.Char(string = "AWB No/ BI NO")
+    ad_pesawat = fields.Char(string = "Pesawat")
     # Tulisan yang mirip dengan 'Karantina" & 'Karawitan'
-    ad_vendor_DO_no = fields.Text(string = "Vendor DO No")
-    ad_no_tanggal_PIB = fields.Text(string = "No dan tanggal PIB")
-    ad_PIB_pesan = fields.Text(string = "PIB nomor pesan")
-    ad_bank_name = fields.Text(string = "Bank Name")
-    ad_pph = fields.Text(string = "PPH")
+    ad_vendor_DO_no = fields.Char(string = "Vendor DO No")
+    ad_no_tanggal_PIB = fields.Char(string = "No dan tanggal PIB")
+    ad_PIB_pesan = fields.Char(string = "PIB nomor pesan")
+    ad_bank_name = fields.Char(string = "Bank Name")
+    ad_pph = fields.Char(string = "PPH")
     ad_tgl_bbpcp = fields.Date()
     ad_total_cf = fields.Float(string = "Total CF") 
-    ad_NDPBM = fields.Text(string = "NDPBM")
+    ad_NDPBM = fields.Char(string = "NDPBM")
     ad_pi_date = fields.Date(string = "PI Date")
     ad_tgl_invoice = fields.Date(string = "Tanggal Invoice")
 

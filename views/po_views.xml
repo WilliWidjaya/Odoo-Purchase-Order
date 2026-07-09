@@ -275,7 +275,7 @@
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Pesawat</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_pesawat" placeholder="---"/>
                                         </div>
                                         <div>Kurang Disini</div>
@@ -285,35 +285,35 @@
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Vendor DO No</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_vendor_DO_no" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">No dan tanggal PIB</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_no_tanggal_PIB" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">PIB Nomor Pesan</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_PIB_pesan" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Bank Name</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_bank_name" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">PPH</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_pph" placeholder="---"/>
                                         </div>
                                         
@@ -323,28 +323,28 @@
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Tgl BBCP</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_tgl_bbpcp" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Total CF</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_total_cf" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">NDPBM</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_NDPBM" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">PI Date</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_pi_date" placeholder="---"/>
                                         </div>
 
@@ -353,7 +353,7 @@
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Tgl Invoice</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_tgl_invoice" placeholder="---"/>
                                         </div>
 

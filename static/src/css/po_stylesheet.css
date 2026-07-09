@@ -5,7 +5,7 @@
 
 .format-grid-additional{
     display: grid !important;
-    grid-template-columns: 3fr 3fr 3fr 1fr;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
 }
 
 .format-bg {
@@ -13,10 +13,7 @@
     grid-template-rows: 24px 24px 24px 24px 24px 24px;
     width: 200px;
     
-    /* height: fit-content; */
     height: max-content;
-
-    /* background-color: purple; */
 }
 
 .format-bg-with-remarks{
@@ -34,7 +31,7 @@
 }
 
 .format-box-parent-div{
-    width: 150px;
+    width: max-content;
     height:24px;
 }
 
