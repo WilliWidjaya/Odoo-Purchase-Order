@@ -4,31 +4,31 @@
             <field name="name">po.content.view.list</field>
             <field name="model">purchase_order_content</field>
             <field name="arch" type="xml">
-                <list string = "Channel" editable="bottom" limit="10">
+                <list class = "poc_list" string = "Channel" editable="bottom" limit="10">
                     <control>
                         <create name="custom_line" string="Create new entry.."/>
                     </control>
                     
-                    <field name="item_id" width = "75px"/>
-                    <field name="item_name" width = "125px"/>
-                    <field name="free_text" width = "75px"/>
-                    <field name="quantity_consider" width = "75px"/>
-                    <field name="quantity_packaging" width = "75px"/>
-                    <field name="packaging_uom" width = "75px"/>
-                    <field name="quantity" width = "75px"/>
-                    <field name="uom" width = "75px"/>
-                    <field name="price" width = "75px"/>
-                    <field name="discount_percentage" width = "75px"/>
-                    <field name="total" width = "75px"/>
-                    <field name="tax_code" width = "75px"/>
-                    <field name="rate" width = "75px"/>
-                    <field name="total_after_discount" width = "75px"/>
-                    <field name="gross_after_discount" width = "75px"/>
-                    <field name="taxline" width = "75px"/>
+                    <field name="item_id" width = "7%"/> <!--5% -->
+                    <field name="item_name" width = "10%"/> <!--15%-->
+                    <field name="free_text" width = "10%"/> <!-- 25%-->
+                    <field name="quantity_consider" width = "5%"/> <!-- 27.5-->  
+                    <field name="quantity_packaging" width = "7%"/> <!-- 32.5-->
+                    <field name="packaging_uom" width = "3.5%"/> <!-- 36 -->
+                    <field name="quantity" width = "2.5%"/> <!--38.5-->
+                    <field name="uom" width = "2.5%"/> <!-- 41.5 -->
+                    <field name="price" width = "5.5%"/> <!-- 47.5-->
+                    <field name="discount_percentage" width = "2.5%"/> <!-- 50%-->
+                    <field name="total" width = "5.5%"/> <!--55.5%-->
+                    <field name="tax_code" width = "2.5%"/> <!-- 58% -->
+                    <field name="rate" width = "2.5%"/>  <!-- 61% -->
+                    <field name="total_after_discount" width = "5.5%"/> <!--66.5-->
+                    <field name="gross_after_discount" width = "5.5%"/> <!--72%-->
+                    <field name="taxline" width = "5.5%"/> <!-- 77.5%-->
                     <!-- <field name="warehouse"/> -->
-                    <field name="pi_number" width = "75px"/>
-                    <field name="slaughterhouse" width = "75px"/>
-                    <field name="quantity_real" width = "75px"/>
+                    <field name="pi_number" width = "5.5%"/> <!--83%-->
+                    <field name="slaughterhouse" width = "5.5%"/> <!-- 88.5-->
+                    <field name="quantity_real" width = "5.5%"/> <!-- 94%-->
                     <!-- <field name="linestat"/> -->
                     <!-- <field name="DocEntrySomething"/> -->
                 </list>
@@ -98,8 +98,8 @@
                     <header>
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
-                        <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
-                        <button type = "object" string = "OLD RECEIVING" name ="create_receiving_report"/>
+                        <!-- <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
+                        <button type = "object" string = "OLD RECEIVING" name ="create_receiving_report"/> -->
                         <button type = "object" string = "Create Purchase Order Report (NEW)" name ="template_create_purchase_report"/>
                         <button type = "object" string = "Create Receiving Report (NEW)" name ="template_create_receiving_report"/>
                     </header>

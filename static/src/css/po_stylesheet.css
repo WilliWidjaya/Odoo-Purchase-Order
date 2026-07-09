@@ -123,3 +123,16 @@
 .report-below-header{
     font-size: 24px;
 }
+
+.poc_list .o_list_table{
+    width: 500px;
+}
+
+.poc_list .o_list_table thead th{
+    font-size: 12px !important;
+    width: fit-content;
+}
+
+.poc_list .o_list_table tbody td{
+    font-size: 12px !important;
+}

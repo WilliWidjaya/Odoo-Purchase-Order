@@ -222,12 +222,40 @@ class PurchaseOrder(models.Model):
     def grab_purchase_content(self): # Grabbing purchase_content One2Many
         return_dict = {}
         for i in self.purchase_contents:
+            # Check if our real qty has been filled, if not, skip this part.
+            supplier_real_qty_uom = 0.0
+            our_qty_per_supply = 0.0
+            if i.quantity_real != False:
+                # Begin the logic here....
+                # Mencari berapa uom kita equal to berapa uom mereka. # LOGICNYA MASIH SALAH BTW
+                if i.quantity != False and i.quantity_packaging != False:
+                    if i.quantity == i.quantity_packaging:
+                        our_qty_per_supply = 1.0
+                        supplier_real_qty_uom = i.quantity_real
+                    elif i.quantity > i.quantity_packaging:
+                        our_qty_per_supply = i.quantity_packaging / i.quantity
+                        supplier_real_qty_uom = i.quantity_real * our_qty_per_supply
+                    elif i.quantity < i.quantity_packaging:
+                        our_qty_per_supply = i.quantity_packaging / i.quantity 
+                        supplier_real_qty_uom = i.quantity_real * our_qty_per_supply # THIS CALCULATION IS STILL WRONG
+                    else:
+                        our_qty_per_supply = 0.0 # Default to this....
+                        supplier_real_qty_uom = i.quantity_real
+
+            supplier_real_qty_uom = f"{supplier_real_qty_uom:,.2f}"
+
             return_dict[i.item_id] = {}
             return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
             return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
             return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
-            return_dict[i.item_id]["supplier_uom"] = str(i.quantity) + " " + str(i.packaging_uom)
+            # Supplier QTY and UOM
+            return_dict[i.item_id]["supplier_qty_uom"] = str(i.quantity_packaging) + " " + str(i.packaging_uom)
+            return_dict[i.item_id]["supplier_real_qty_uom"] = str(supplier_real_qty_uom) + " " + str(i.packaging_uom)
+            # Out QTY and UOM
+            return_dict[i.item_id]["our_qty_uom"] = str(i.quantity) + " " + str(i.uom)
+            return_dict[i.item_id]["our_real_qty_uom"] = str(i.quantity_real) + " " + str(i.uom)
+
         return return_dict
     # ------------------------------ DATA GETTER END
 
