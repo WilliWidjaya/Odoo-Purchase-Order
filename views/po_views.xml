@@ -96,7 +96,6 @@
             <field name="arch" type="xml">
                 <form string="Halaman Estate">
                     <header>
-                        <button type = "object" string = "Debug View" name ="debug_view_dependency"/>
                         <button type = "object" string = "Send" name ="count_total"/>
                         <button type = "object" string = "Update" name ="count_total"/>
                         <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
@@ -222,12 +221,14 @@
                                 <div class = "input-box-parent-div">
                                     <field class = "input-box" name="status"/>
                                 </div>
+
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Remarks</div>
                                 </span>
                                 <div class = "input-box-parent-div">
                                     <field class = "remarks-input-box" name="remarks" placeholder = "Write relevant remarks"/>
                                 </div>
+                                
                             </group>
                         </group>
                         <notebook>
@@ -253,21 +254,21 @@
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Vessel / Flight</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_vessel_flight" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">Container</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_container" placeholder="---"/>
                                         </div>
                                         
                                         <span class = "o_form_label o_td_label">
                                             <div class = "o_form_label_override">AWB No/ BI No</div>
                                         </span>
-                                        <div>
+                                        <div class = "format-box-parent-div">
                                             <field class = "input-box" name="ad_awb" placeholder="---"/>
                                         </div>
                                         

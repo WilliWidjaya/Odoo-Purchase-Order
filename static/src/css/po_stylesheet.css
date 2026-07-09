@@ -12,7 +12,9 @@
     display:grid !important;
     grid-template-rows: 24px 24px 24px 24px 24px 24px;
     width: 200px;
-    height: fit-content;
+    
+    /* height: fit-content; */
+    height: max-content;
 
     /* background-color: purple; */
 }
@@ -31,8 +33,14 @@
     height: fit-content;
 }
 
+.format-box-parent-div{
+    width: 150px;
+    height:24px;
+}
+
 .input-box-parent-div{
     width: 180px;
+    height: 24px;
 }
 
 .input-box {
@@ -44,6 +52,7 @@
     /* width: 250px; */
     white-space: nowrap;
     overflow-x: auto;
+    overflow-y: scroll;
     border-color: black;
     color: rgb(28, 28, 28);
     border: 1px 1px 1px 1px;
@@ -51,11 +60,15 @@
 }
 
 .remarks-input-box{
+    /* None of these height adjustments work for the actual field. */
     color: rgb(28, 28, 28);
     font-size: 12px;
     width: max-content;
-    overflow-x: auto;
-    height: 75px;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    resize: none;
+    height: 75px !important;
+    max-height: 75px !important;
     border-radius: 8px 8px 8px 8px;
 }
 
