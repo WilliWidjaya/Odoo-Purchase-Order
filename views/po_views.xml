@@ -110,31 +110,31 @@
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">PO Number</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="po_number" placeholder = "e.g. PO2244001"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Vendor</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="vendor"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Name</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="name" placeholder = "e.g. John Doe Johnson"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Contact Person</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="contact_person"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Vendor Ref. No.</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="vendor_ref_no" placeholder = "e.g. 112200334"/>
                                 </div>
                             </group>
@@ -142,31 +142,31 @@
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">STA Date</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="sta_date"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Posting Date</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="posting_date"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Payment Date</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="payment_date"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Due Date</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="due_date"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Rate</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="rate"/>
                                 </div>
                             </group>
@@ -174,51 +174,58 @@
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Discount (%)</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="discount_percentage"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Tax</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="tax"/>
                                 </div>
+
+                                <!-- TOTAL BEFORE DISCOUNT CALCULATIONS -->
+                                
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override readonly">Total Before Disc.</div>
                                 </span>
-                                <div>
-                                    <field class = "input-box readonly-bg" name="total_before_disc"/>
+                                <div class = "input-box-parent-div">
+                                    <field class = "input-box readonly-bg input-box-end" name="total_before_disc"/>
                                 </div>
+
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override readonly">Discount Amnt.</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box readonly-bg" name="discount_amount"/>
                                 </div>
+
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override readonly">Total</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box readonly-bg" name="total_amount"/>
                                 </div>
+
+                                <!-- END TOTAL BEFORE DISCOUNT CALCULATION -->
                             </group>
                             <group class = "format-bg-with-remarks">
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Payment Term</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="payment_terms"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Status</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "input-box" name="status"/>
                                 </div>
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override">Remarks</div>
                                 </span>
-                                <div>
+                                <div class = "input-box-parent-div">
                                     <field class = "remarks-input-box" name="remarks" placeholder = "Write relevant remarks"/>
                                 </div>
                             </group>
