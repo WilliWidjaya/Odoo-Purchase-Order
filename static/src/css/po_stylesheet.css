@@ -35,10 +35,6 @@
     width: 180px;
 }
 
-.input-box-end{
-    white-space: normal;
-}
-
 .input-box {
     /* background-color: green; */
     font-size: 12px;
@@ -84,6 +80,9 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    vertical-align: middle;
+    padding-top: 2px;
+    padding-bottom: 4px;
 }
 
 .readonly-black{
@@ -95,10 +94,6 @@
     display:flex;
     justify-content: start;
     align-items: center;
-}
-
-.Susanto {
-    color:aqua
 }
 
 .header-display{

@@ -190,21 +190,21 @@
                                     <div class = "o_form_label_override readonly">Total Before Disc.</div>
                                 </span>
                                 <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg input-box-end" name="total_before_disc"/>
+                                    <field class = "input-box readonly-bg text-center input-text-center" name="total_before_disc"/>
                                 </div>
 
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override readonly">Discount Amnt.</div>
                                 </span>
                                 <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg" name="discount_amount"/>
+                                    <field class = "input-box readonly-bg text-center" name="discount_amount"/>
                                 </div>
 
                                 <span class = "o_form_label o_td_label">
                                     <div class = "o_form_label_override readonly">Total</div>
                                 </span>
                                 <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg" name="total_amount"/>
+                                    <field class = "input-box readonly-bg text-center" name="total_amount"/>
                                 </div>
 
                                 <!-- END TOTAL BEFORE DISCOUNT CALCULATION -->
