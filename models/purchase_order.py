@@ -10,6 +10,9 @@ import os
 from pathlib import Path
 import webbrowser
 
+#Logging for the file
+import logging
+
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
@@ -164,11 +167,14 @@ class PurchaseOrder(models.Model):
         webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
 
     def template_create_purchase_report(self):
-        print("purchase_order.py STARTING RECEIVING REPORT")
+        _logger = logging.getLogger(__name__)
+        _logger.debug("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
         print("EARLY PATH : ", early_path)
+        _logger.debug("EARLY PATH : " + early_path)
         def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
         
+        _logger.debug("FILEPATH : " + def_filepath)
         print("FILEPATH : ", def_filepath) 
 
         env = Environment(
