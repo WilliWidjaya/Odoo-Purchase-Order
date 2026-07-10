@@ -112,6 +112,14 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
+    def grab_download_folder(self):
+        home_path = Path.home()
+        downloads_path = home_path / "OdooDownloads"
+        downloads_path.mkdir(parents = True, exist_ok=True)
+        print("GRABBED DOWNLOAD PATH : ", downloads_path)
+        return downloads_path
+
+
     def template_create_receiving_report(self): 
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
@@ -149,8 +157,9 @@ class PurchaseOrder(models.Model):
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/' + output_file_name + '.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/' + output_file_name + '.pdf')
+        output_folder_path = str(self.grab_download_folder())
+        template_html.write_pdf(output_folder_path + "/" + output_file_name + '.pdf', stylesheets = [po_css])
+        webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
 
     def template_create_purchase_report(self):
         early_path = __file__ # __file__ points to this current .py file.
@@ -189,8 +198,9 @@ class PurchaseOrder(models.Model):
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        template_html.write_pdf('/home/laptop-it/Downloads/' + output_file_name +'.pdf', stylesheets = [po_css])
-        webbrowser.open('/home/laptop-it/Downloads/' + output_file_name + '.pdf')
+        output_folder_path = str(self.grab_download_folder())
+        template_html.write_pdf(output_folder_path + "/" + output_file_name + '.pdf', stylesheets = [po_css])
+        webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
 
     # ------------------------------ END OF REPORT CREATION
 
@@ -227,7 +237,7 @@ class PurchaseOrder(models.Model):
             our_qty_per_supply = 0.0
             if i.quantity_real != False:
                 # Begin the logic here....
-                # Mencari berapa uom kita equal to berapa uom mereka. # LOGICNYA MASIH SALAH BTW
+                # Mencari berapa uom kita equal to berapa uom mereka.
                 if i.quantity != False and i.quantity_packaging != False:
                     if i.quantity == i.quantity_packaging:
                         our_qty_per_supply = 1.0
@@ -237,7 +247,7 @@ class PurchaseOrder(models.Model):
                         supplier_real_qty_uom = i.quantity_real * our_qty_per_supply
                     elif i.quantity < i.quantity_packaging:
                         our_qty_per_supply = i.quantity_packaging / i.quantity 
-                        supplier_real_qty_uom = i.quantity_real * our_qty_per_supply # THIS CALCULATION IS STILL WRONG
+                        supplier_real_qty_uom = i.quantity_real * our_qty_per_supply
                     else:
                         our_qty_per_supply = 0.0 # Default to this....
                         supplier_real_qty_uom = i.quantity_real
