@@ -120,8 +120,10 @@ class PurchaseOrder(models.Model):
         return downloads_path
 
 
-    def template_create_receiving_report(self): 
+    def template_create_receiving_report(self):
+        print("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
+        print("EARLY PATH : ", early_path)
         def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
         
         print("FILEPATH : ", def_filepath) 
@@ -162,7 +164,9 @@ class PurchaseOrder(models.Model):
         webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
 
     def template_create_purchase_report(self):
+        print("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
+        print("EARLY PATH : ", early_path)
         def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
         
         print("FILEPATH : ", def_filepath) 
