@@ -96,12 +96,12 @@
             <field name="arch" type="xml">
                 <form string="Halaman Estate">
                     <header>
-                        <button type = "object" string = "Send" name ="count_total"/>
-                        <button type = "object" string = "Update" name ="count_total"/>
+                        <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
+                        <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
                         <!-- <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
                         <button type = "object" string = "OLD RECEIVING" name ="create_receiving_report"/> -->
-                        <button type = "object" string = "Create Purchase Order Report (NEW)" name ="template_create_purchase_report"/>
-                        <button type = "object" string = "Create Receiving Report (NEW)" name ="template_create_receiving_report"/>
+                        <button  class = "po-header-button btn-primary fa fa-print" type = "object" string = "Create PO Report" name ="template_create_purchase_report"/>
+                        <button class = "po-header-button btn-primary fa fa-print" type = "object" string = "Create Receiving Report" name ="template_create_receiving_report"/>
                     </header>
                     <sheet>
                         <group class ="format-grid">

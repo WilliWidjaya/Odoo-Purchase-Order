@@ -125,7 +125,8 @@
 }
 
 .poc_list .o_list_table{
-    width: 500px;
+    /* width: 500px; */
+    width: 100vh;
 }
 
 .poc_list .o_list_table thead th{
@@ -135,4 +136,16 @@
 
 .poc_list .o_list_table tbody td{
     font-size: 12px !important;
+}
+
+/* Header button configurations */
+.po-header-button{
+    color: navy;
+    background-color: navy;
+    min-height: 33px;
+}
+
+.po-header-button span{
+    margin-left: 7px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
