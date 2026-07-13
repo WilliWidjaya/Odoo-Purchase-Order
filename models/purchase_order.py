@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 
 # For Opening the file after making the pdf
-import os, os.path
+import os, os.path, platform
 from pathlib import Path
 import webbrowser
 
@@ -116,11 +116,23 @@ class PurchaseOrder(models.Model):
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
     def grab_download_folder(self):
-        home_path = Path(os.path.expanduser("~"))
-        downloads_path = home_path / "OdooDownloads"
-        downloads_path.mkdir(parents = True, exist_ok=True)
-        print("GRABBED DOWNLOAD PATH : ", downloads_path)
-        return downloads_path
+        # Depending on the operating system, we would store things in different places.
+        # Windows will be in the partition where the Odoo is installed,api
+        # Linux will have it on /opt
+        # Mac... idk.
+        curr_platform = platform.system()
+        report_path_temp = "" # Start with an empty path?
+
+        match curr_platform:
+            case "Windows":
+                report_path = Path(__file__).resolve().drive # For Windows.
+            case "Linux":
+                report_path = Path("/opt")
+
+        report_path = Path(report_path_temp) / "OdooDownloads"
+        report_path.mkdir(parents = True, exist_ok=True)
+        print("GRABBED DOWNLOAD PATH : ", report_path)
+        return report_path
 
 
     def template_create_receiving_report(self):
