@@ -162,9 +162,15 @@ class PurchaseOrder(models.Model):
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        output_folder_path = str(self.grab_download_folder())
-        template_html.write_pdf(output_folder_path + "/" + output_file_name + '.pdf', stylesheets = [po_css])
-        webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
+
+        # Grab folder dari downloads
+        output_folder_path = self.grab_download_folder()
+        
+        # Note, output_file_name itu di wrap jadi string lagi, in case dia berubah
+        final_filepath = str(output_folder_path / output_file_name) + ".pdf"
+        template_html.write_pdf(final_filepath, stylesheets = [po_css])
+        
+        webbrowser.open(final_filepath)
 
     def template_create_purchase_report(self):
         _logger = logging.getLogger(__name__)
@@ -208,9 +214,15 @@ class PurchaseOrder(models.Model):
 
         template_html = HTML(string = template_render)
         po_css = CSS(def_filepath + '/templates/po_style.scss')
-        output_folder_path = str(self.grab_download_folder())
-        template_html.write_pdf(output_folder_path + "/" + output_file_name + '.pdf', stylesheets = [po_css])
-        webbrowser.open(output_folder_path + "/" + output_file_name + '.pdf')
+
+        # Grab folder dari downloads.
+        output_folder_path = self.grab_download_folder()
+        
+        # Note, output_file_name itu di wrap jadi string lagi, in case dia berubah
+        final_filepath = str(output_folder_path / output_file_name) + ".pdf"
+        template_html.write_pdf(final_filepath, stylesheets = [po_css])
+        
+        webbrowser.open(final_filepath)
 
     # ------------------------------ END OF REPORT CREATION
 
