@@ -127,12 +127,12 @@ class PurchaseOrder(models.Model):
         print("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
         print("EARLY PATH : ", early_path)
-        def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
+        def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
         
         print("FILEPATH : ", def_filepath) 
 
         env = Environment(
-        loader=FileSystemLoader(def_filepath + '/templates'),
+        loader=FileSystemLoader(str(def_filepath / "templates")),
         autoescape=select_autoescape()
         )
         template = env.get_template("template_receiving_report.html")
@@ -161,7 +161,7 @@ class PurchaseOrder(models.Model):
         output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        po_css = CSS(str(def_filepath / "templates" / "po_style.scss"))
 
         # Grab folder dari downloads
         output_folder_path = self.grab_download_folder()
@@ -173,18 +173,11 @@ class PurchaseOrder(models.Model):
         webbrowser.open(final_filepath)
 
     def template_create_purchase_report(self):
-        _logger = logging.getLogger(__name__)
-        _logger.debug("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
-        print("EARLY PATH : ", early_path)
-        _logger.debug("EARLY PATH : " + early_path)
-        def_filepath = str(Path(early_path).resolve().parent.parent) # grab parent folder of our parent folder.
+        def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
         
-        _logger.debug("FILEPATH : " + def_filepath)
-        print("FILEPATH : ", def_filepath) 
-
         env = Environment(
-        loader=FileSystemLoader(def_filepath + '/templates'),
+        loader=FileSystemLoader(str(def_filepath / "templates")),
         autoescape=select_autoescape()
         )
         template = env.get_template("template_purchase_order.html")
@@ -213,7 +206,7 @@ class PurchaseOrder(models.Model):
         output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
         template_html = HTML(string = template_render)
-        po_css = CSS(def_filepath + '/templates/po_style.scss')
+        po_css = CSS(str(def_filepath / "templates" / "po_style.scss"))
 
         # Grab folder dari downloads.
         output_folder_path = self.grab_download_folder()
