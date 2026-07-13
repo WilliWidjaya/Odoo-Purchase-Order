@@ -125,7 +125,7 @@ class PurchaseOrder(models.Model):
 
         match curr_platform:
             case "Windows":
-                report_path = Path(__file__).resolve().drive.anchor # For Windows.
+                report_path = Path(__file__).resolve().anchor # For Windows.
             case "Linux":
                 report_path = Path("/opt")
 
