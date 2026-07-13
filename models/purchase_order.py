@@ -173,6 +173,9 @@ class PurchaseOrder(models.Model):
         webbrowser.open(final_filepath)
 
     def template_create_purchase_report(self):
+        # Debugger
+        _logger = logging.getLogger(__name__)
+
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
         
@@ -181,6 +184,8 @@ class PurchaseOrder(models.Model):
         autoescape=select_autoescape()
         )
         template = env.get_template("template_purchase_order.html")
+
+        _logger.debug("Template location " + str(def_filepath))
 
         template_render = template.render(
             # ========== Main Information, Table Information
@@ -215,7 +220,10 @@ class PurchaseOrder(models.Model):
         final_filepath = str(output_folder_path / output_file_name) + ".pdf"
         template_html.write_pdf(final_filepath, stylesheets = [po_css])
         
+        _logger.debug("Final filepath " + str(final_filepath))
+
         webbrowser.open(final_filepath)
+
 
     # ------------------------------ END OF REPORT CREATION
 
