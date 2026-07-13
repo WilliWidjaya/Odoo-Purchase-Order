@@ -120,15 +120,15 @@ class PurchaseOrder(models.Model):
         # Windows will be in the partition where the Odoo is installed,api
         # Linux will have it on /opt
         # Mac... idk.
-        _logger = logging.getLogger("GRAB_DOWNLOAD_FOLDER")
+        _logger = logging.getLogger(__file__)
         curr_platform = platform.system()
         report_path_temp = "" # Start with an empty path?
 
         match curr_platform:
             case "Windows":
                 _logger.debug("THIS IS WINDOWS")
-                t_file = Path(__file__).resolve()
-                report_path = Path(t_file.anchor) # For Windows.
+                t_file = Path(__file__).resolve().drive
+                report_path = t_file.anchor # For Windows.
                 _logger.debug(" WINDOWS REPORT PATH : ", report_path)
             case "Linux":
                 _logger.debug("THIS IS LINUX")
