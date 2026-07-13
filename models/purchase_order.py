@@ -228,7 +228,7 @@ class PurchaseOrder(models.Model):
             vendor_location = self.grab_vendor_location()
         )
 
-        output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
+        output_file_name = "example_po_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
         template_html = HTML(string = template_render)
         po_css = CSS(str(def_filepath / "templates" / "po_style.scss"))
