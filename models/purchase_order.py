@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 
 # For Opening the file after making the pdf
-import os
+import os, os.path
 from pathlib import Path
 import webbrowser
 
@@ -116,7 +116,7 @@ class PurchaseOrder(models.Model):
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
     def grab_download_folder(self):
-        home_path = Path.home()
+        home_path = Path(os.path.expanduser("~"))
         downloads_path = home_path / "OdooDownloads"
         downloads_path.mkdir(parents = True, exist_ok=True)
         print("GRABBED DOWNLOAD PATH : ", downloads_path)
