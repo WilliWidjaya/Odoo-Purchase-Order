@@ -127,12 +127,12 @@ class PurchaseOrder(models.Model):
         match curr_platform:
             case "Windows":
                 _logger.debug("THIS IS WINDOWS")
-                t_file = Path(__file__).resolve().drive
-                report_path = t_file.anchor # For Windows.
-                _logger.debug(" WINDOWS REPORT PATH : ", report_path)
+                t_file = Path(__file__).resolve()
+                report_path_temp = t_file.anchor # For Windows.
+                _logger.debug(" WINDOWS REPORT PATH : ", report_path_temp)
             case "Linux":
                 _logger.debug("THIS IS LINUX")
-                report_path = Path("/opt")
+                report_path_temp = Path("/opt")
             case _:
                 _logger.debug("invalid OS")
 
