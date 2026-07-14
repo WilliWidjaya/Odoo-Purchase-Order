@@ -1,9 +1,8 @@
 <odoo>
     <data>
         <menuitem id = "po_menu_root" name ="Purchase Order PT.">
-            <menuitem id = "po_first_level" name = "Pages">
-                <menuitem id="menu1" action = "po_list_action"/>
-            </menuitem>
+            <menuitem id="go_to_po" action = "po_list_action"/>
+            <menuitem id="go_to_requests" action = "po_requests_list"/>
         </menuitem>
     </data>
 </odoo>

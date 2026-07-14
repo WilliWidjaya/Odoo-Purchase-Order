@@ -1,5 +1,88 @@
 <odoo>
     <data>
+        <!-- REQUEST SECTION -->
+        <record id="po_request_view_list" model="ir.ui.view">
+            <field name="name">po.request.view.list</field>
+            <field name="model">po_request</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Create new request.."/>
+                    </control>
+                    <field name="name" width = "25%"/>
+                    <field name="document_no" width = "25%"/>
+                    <field name="revision_no" width = "25%"/>
+                    <field name="valid_date" width = "25%"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_request_item_view_list" model="ir.ui.view">
+            <field name="name">po.request.item.view.list</field>
+            <field name="model">po_request_item</field>
+            <field name="arch" type="xml">
+                <list string = "Channel" editable = "bottom">
+                    <control>
+                        <create name="custom_line" string="Add item to requests list.."/>
+                    </control>
+                    <field name="name" width = "20%"/>
+                    <field name="description" width = "20%"/>
+                    <field name="department" width = "20%"/>
+                    <field name="quantity" width = "20%"/>
+                    <field name="estimated_price" width = "20%"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="po_request_form" model="ir.ui.view">
+            <field name="name">po.request.form</field>
+            <field name="model">po_request</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Create Request" name ="do_nothing"/>
+                    </header>
+                    <group class = "req-format-grid">
+
+                        <sheet class = "req-format-grid-child">
+                            <group class = "req-grid-row req-format-grid-child-group">
+                                <div class = "expand"><h3>Document Info</h3></div>
+                                <group class = "req-aff-display">
+                                    <field name="name"/>
+                                    <field name="document_no"/>
+                                    <field name="revision_no"/>
+                                    <field name="valid_date"/>
+                                </group>
+                            </group>
+                        </sheet>
+
+                        <sheet class = "req-format-grid-child">
+                            <group class = "req-grid-row req-format-grid-child-group">
+                                <div class = "expand"><h3>Affiliated Groups</h3></div>
+                                <group class = "req-aff-display">
+                                    <field name="affiliated_one"/>
+                                    <field name="affiliated_two"/>
+                                </group>
+                            </group>
+                        </sheet>
+                        
+                        <sheet>
+                            <notebook>
+                                <page string="Item Requests">
+                                    <field name="request_items"/>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- END OF REQUEST -->
+        
+        <!-- PURCHASE ORDER CONTENT VIEW LIST, EDITABLE BOTTOM -->
         <record id="po_content_view_list" model="ir.ui.view">
             <field name="name">po.content.view.list</field>
             <field name="model">purchase_order_content</field>
@@ -35,6 +118,7 @@
             </field>
         </record>
         
+        <!-- PO FREIGHT LIST VIEW, EDITABLE BOTTOM -->
         <record id="po_freight_view_list" model="ir.ui.view">
             <field name="name">po.freight.view.list</field>
             <field name="model">purchase_order_freight</field>
@@ -52,6 +136,7 @@
             </field>
         </record>
         
+        <!-- PO VIEWLIST, yang muncul di halaman utama -->
         <record id="po_attachment_list" model="ir.ui.view">
             <field name="name">po.view.list</field>
             <field name="model">purchase_order</field>
@@ -67,6 +152,7 @@
             </field>
         </record>
         
+        <!-- Attachments List table view. -->
         <record id="po_view_list" model="ir.ui.view">
             <field name="name">po.attachment.list</field>
             <field name="model">ir.attachment</field>
@@ -90,6 +176,7 @@
             </field>
         </record>
         
+        <!-- Purchase Order Form -->
         <record id="po_form" model="ir.ui.view">
             <field name="name">po.form</field>
             <field name="model">purchase_order</field>
@@ -364,6 +451,15 @@
                     </sheet>
                 </form>
             </field>
+        </record>
+        
+
+        <!-- MAIN VIEWS -->
+
+        <record id="po_requests_list" model ="ir.actions.act_window">
+            <field name = "name">Form Permintaan List</field>
+            <field name = "res_model">po_request</field>
+            <field name="view_mode">list,form</field>
         </record>
         
         <!-- Tampilan Form Secara Individu -->
