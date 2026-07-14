@@ -190,7 +190,7 @@ class PurchaseOrder(models.Model):
         final_filepath = str(output_folder_path / output_file_name) + ".pdf"
         template_html.write_pdf(final_filepath, stylesheets = [po_css])
         
-        webbrowser.open(final_filepath)
+        webbrowser.open(Path(final_filepath).as_uri())
 
     def template_create_purchase_report(self):
         # Debugger
@@ -242,7 +242,7 @@ class PurchaseOrder(models.Model):
         
         _logger.debug("Final filepath " + str(final_filepath))
 
-        webbrowser.open(final_filepath)
+        webbrowser.open(Path(final_filepath).as_uri())
 
 
     # ------------------------------ END OF REPORT CREATION
