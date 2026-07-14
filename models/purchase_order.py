@@ -132,7 +132,7 @@ class PurchaseOrder(models.Model):
                 _logger.debug(" WINDOWS REPORT PATH : ", report_path_temp)
             case "Linux":
                 _logger.debug("THIS IS LINUX")
-                report_path_temp = Path("/opt")
+                report_path_temp = Path(os.path.expanduser("~"))
             case _:
                 _logger.debug("invalid OS")
 
