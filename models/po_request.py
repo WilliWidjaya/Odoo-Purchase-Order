@@ -87,5 +87,11 @@ class PurchaseOrderRequest(models.Model):
 
         return
 
+    # def grab_request_data(self):
+    #     return_dict = {}
+    #     for i in self.request_items:
+    #         return_dict[i.name]
+    #     return
+
     def do_nothing(self):
         return
