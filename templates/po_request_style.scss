@@ -1,0 +1,207 @@
+@page{
+    size : A5 landscape;
+    margin : 0.2cm;
+
+    border-width: 0.06cm;
+
+
+    padding-top: 5.2cm;
+    padding-bottom: 5cm;
+
+    @top-center{
+        content: element(real-header);
+        width: 20.2cm;
+    }
+
+    @bottom-center{
+        content: element(real-footer);
+        width: 20.2cm;
+    }
+
+}
+
+div{
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.real-header{
+    position:running(real-header);
+    width: 100%;
+    height: 3cm;
+    
+    // border: solid;
+    // border-width: 0.08cm;
+
+    margin: 0px !important;
+    padding: 0cm !important;
+    margin-top: 4.0cm !important;
+    
+}
+
+.real-footer{
+    position:running(real-footer);
+    width: 100%;
+    height: 3cm;
+
+    border: solid;
+    border-width: 0.06cm;
+
+    display: grid;
+    grid-template-columns: 60% 40%;
+
+    margin: 0px !important;
+    padding: 0px !important;
+    margin-bottom: 4.0cm !important;
+
+    // Bagian dimana gua atur gridnya
+}
+
+.topheader{
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+.bottomheader{
+    display: grid;
+    grid-template-columns: auto;
+    border:solid; border-width: 0.06cm;
+
+    margin-top: 0.2cm;
+}
+
+.topheader-left{
+}  
+
+.topheader-right{
+    padding: 0px; margin: 0px;
+
+    border-style: solid;
+    border-width: 0.06cm;
+
+    height: fit-content;
+}
+
+.topheader-info-date{
+    display:grid;
+    grid-template-columns: auto auto;
+    padding: 0.1cm;
+}
+
+.topheader-arrange{
+    display:grid;
+    grid-template-columns: 20% 20% 60%;
+}
+
+.topheader-arrange div{
+    white-space: nowrap;
+}
+
+.topheader-affiliated{
+
+    display: grid;
+    grid-template-columns: 60% 40%;
+    // height: 1cm;
+    height: fit-content;
+    margin-top: 0.5cm;
+}
+
+.topheader-aff-grid{
+    display:grid;
+    grid-template-columns: 50% 50%;
+}
+
+.topheader-aff-grid-part{
+    display:grid;
+    grid-template-columns: 20% 60% 20%;
+
+    margin: 0px; padding: 0px;
+    height: 1.0cm;
+}
+
+.topheader-title{
+    display:grid;
+    grid-template-columns: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    margin-top: 0.4cm;
+    padding-bottom: 0.1cm;
+
+    font-weight: bold;
+}
+
+.box{
+    border-style: solid;
+    border-width: 0.04cm;
+}
+
+.th-colon{
+    text-align: right;
+    margin-right: 0.06cm;
+}
+
+.ft-right{
+    padding-left: 0.2cm;
+    padding-top: 0.2cm;
+    padding-bottom: 0.2cm;
+    padding-right: 0cm;
+}
+
+.ft-table{
+    border-style: solid;
+    border-color: black;
+    border-collapse: collapse;
+
+    border-width: 0.06cm;
+    border-right-width: 0cm;
+
+    width: 100%;
+}
+
+.ft-table-header{
+    text-align: center;
+    background-color: gray;
+}
+
+.ft-table-content{
+    border-style: solid;
+    border-color: black;
+    
+    border-left-width: 0.06cm;
+    border-top-width: 0.06cm;
+    border-bottom-width: 0.06cm;
+}
+
+.ft-table-rightmost{
+    border-right-width: 0cm;
+}
+
+
+.main-body{
+    width: 100%;
+    height: 100%;
+}
+
+.mb-table{
+    width: 100%;
+    border-collapse: collapse;
+    border-style: solid;
+    border-width: 0.06cm;
+
+    height: 100%;
+}
+
+.mb-table tr td{
+    border-color: black;
+    border-style: solid;
+    border-width: 0.06cm;
+    height: auto;
+}
+
+.mb-table tr th{
+    border-color: black;
+    border-style: solid;
+    border-width: 0.06cm;
+}

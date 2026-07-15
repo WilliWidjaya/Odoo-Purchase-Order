@@ -40,7 +40,7 @@
             <field name="arch" type="xml">
                 <form string="Request Form">
                     <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Create Request" name ="do_nothing"/>
+                        <button class = "po-header-button btn-primary fa fa-print " type = "object" string = "Print Form" name ="create_request_form"/>
                     </header>
                     <group class = "req-format-grid">
 
