@@ -64,11 +64,13 @@ class PurchaseOrderRequest(models.Model):
 
         template_render = template.render(
             name = self.name,
+            date = self.grab_date(),
             document_no = self.document_no,
             revision_no = self.revision_no,
             valid_date = self.valid_date,
             affiliated_one = self.affiliated_one.name,
-            affiliated_two = self.affiliated_two.name
+            affiliated_two = self.affiliated_two.name,
+            request_data = self.grab_request_data()
         )
 
         # output_file_name = "example_request_form_" + datetime.now().strftime("%d%m%Y_%H%M%S")
@@ -87,11 +89,67 @@ class PurchaseOrderRequest(models.Model):
 
         return
 
-    # def grab_request_data(self):
-    #     return_dict = {}
-    #     for i in self.request_items:
-    #         return_dict[i.name]
-    #     return
+    def grab_request_data(self):
+        return_dict = {}
+        item_index = 0
+
+        # Logic yang sama ada di beberapa line dibawah, cuma memastikan disini.
+        if self.request_items == False:
+            return False
+
+        for i in self.request_items:
+            curr_idx = str(item_index)
+            return_dict[curr_idx] = {}
+            return_dict[curr_idx]["no"] = str(item_index + 1)
+            return_dict[curr_idx]["unit"] = i.name + " - " + i.description
+            return_dict[curr_idx]["dept"] = i.department
+            return_dict[curr_idx]["qty"] = i.quantity
+            return_dict[curr_idx]["est_price"] = "IDR " + f"{i.estimated_price:,.2f}"
+            item_index += 1
+
+        # Logic yang sama yang dimaksud. tapi dia ngecek return_dict
+        if return_dict == False or return_dict == {}:
+            return False
+        else:
+            return return_dict
+
+
+    def grab_date(self):
+        curr_date = datetime.now()
+        
+        date_num = curr_date.strftime("%d")
+        month_name = self.grab_month_name_indonesian(curr_date.strftime("%m"))
+        year = curr_date.strftime("%Y")
+
+        date_str = date_num + " " + month_name + " " + year
+        return date_str
+
+    def grab_month_name_indonesian(self, month_name):
+        match month_name:
+            case "01":
+                return "Januari"
+            case "02":
+                return "Februari"
+            case "03":
+                return "Maret"
+            case "04":
+                return "April"
+            case "05":
+                return "Mei"
+            case "06":
+                return "Juni"
+            case "07":
+                return "Juli"
+            case "08":
+                return "Agustus"
+            case "09":
+                return "September"
+            case "10":
+                return "Oktober"
+            case "11":
+                return "November"
+            case "12":
+                return "Desember"
 
     def do_nothing(self):
         return

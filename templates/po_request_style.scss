@@ -5,19 +5,27 @@
     border-width: 0.06cm;
 
 
-    padding-top: 5.2cm;
-    padding-bottom: 5cm;
+    padding-top: 5.3cm;
+    padding-bottom: 3cm;
 
     @top-center{
         content: element(real-header);
-        width: 20.2cm;
+        width: 20.2cm !important;
     }
 
     @bottom-center{
         content: element(real-footer);
-        width: 20.2cm;
+        width: 20.2cm !important;
     }
 
+}
+
+.show-counter{
+    content: counter(page) " Dari " counter(pages)
+}
+
+.req-page{
+    display: block;
 }
 
 div{
@@ -27,7 +35,7 @@ div{
 
 .real-header{
     position:running(real-header);
-    width: 100%;
+    width: auto;
     height: 3cm;
     
     // border: solid;
@@ -36,23 +44,23 @@ div{
     margin: 0px !important;
     padding: 0cm !important;
     margin-top: 4.0cm !important;
-    
 }
 
 .real-footer{
     position:running(real-footer);
-    width: 100%;
+    width: auto;
     height: 3cm;
 
     border: solid;
     border-width: 0.06cm;
+    border-top-width: 0cm;
 
     display: grid;
     grid-template-columns: 60% 40%;
 
     margin: 0px !important;
-    padding: 0px !important;
-    margin-bottom: 4.0cm !important;
+    padding-top: 4cm !important;
+    margin-bottom: 8.0cm !important;
 
     // Bagian dimana gua atur gridnya
 }
@@ -65,13 +73,15 @@ div{
 .bottomheader{
     display: grid;
     grid-template-columns: auto;
-    border:solid; border-width: 0.06cm;
-
     margin-top: 0.2cm;
-}
 
-.topheader-left{
-}  
+    border-style: solid;
+    border-left-width: 0.06cm;
+    border-right-width: 0.06cm;
+    border-bottom-width: 0cm;
+    border-top-width: 0.06cm;
+    padding-bottom: 4cm;
+}
 
 .topheader-right{
     padding: 0px; margin: 0px;
@@ -84,7 +94,7 @@ div{
 
 .topheader-info-date{
     display:grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 65% 35%;
     padding: 0.1cm;
 }
 
@@ -181,14 +191,14 @@ div{
 
 .main-body{
     width: 100%;
-    height: 5.6cm;
+    // height: 5.6cm;
     // background-color: green;
 }
 
 .mb-table-parent{
-    height: 100%;
+    // height: 100%;
     width: 100%;
-    background-color: navy;
+    // background-color: navy;
 }
 
 .mb-table{
@@ -196,9 +206,10 @@ div{
     border-style: solid;
     border-width: 0.06cm;
     
-    table-layout: fixed;
     width: 100%;
-    height: 100%;
+    // table-layout: fixed;
+    // height: 100%;
+    // backgr
 }
 
 .mb-table tr td{
@@ -212,4 +223,28 @@ div{
     border-color: black;
     border-style: solid;
     border-width: 0.06cm;
+}
+
+.empty-placeholder{
+    height: 5cm;
+}
+
+.mb-table-body{
+    max-height: 5cm;
+}
+
+.table-row{
+    height:1cm;
+}
+
+.tb-break-after{
+    break-inside: avoid;
+}
+
+.tb-break-after td{
+    padding-left: 0.1cm;
+}
+
+.mb-table thead tr th {
+    text-align: center;
 }

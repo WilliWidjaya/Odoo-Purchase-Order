@@ -26,7 +26,7 @@
                 <div class = "topheader-arrange">
                     <div>Halaman</div>
                     <div class = "th-colon">:</div>
-                    <div>{{ document_no }}</div>
+                    <div class = "show-counter"></div>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <div>Jakarta Timur</div>
                 </div>
                 <div>
-                    <div>Jakarta, </div>
+                    <div>Jakarta, {{ date }}</div>
                 </div>
             </div>
             <div class = "topheader-affiliated">
@@ -104,14 +104,26 @@
                         <th>NO</th><th>UNIT</th><th>DEPT.</th><th>QTY</th><th>ESTIMATE PRICE</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tbody class = "mb-table-body">
+                    {% if request_data == false %}
+                        <tr class = "empty-placeholder">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% else %}
+                        {% for i in request_data %}
+                        <tr class = "table-row tb-break-after">
+                            <td style = "font-weight: bold; text-align: center; width:4%">{{ request_data[i]["no"] }}</td>
+                            <td>{{ request_data[i]["unit"] }}</td>
+                            <td style = "width: 10%">{{ request_data[i]["dept"] }}</td>
+                            <td style = "width: 7%">{{ request_data[i]["qty"] }}</td>
+                            <td>{{ request_data[i]["est_price"] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>
