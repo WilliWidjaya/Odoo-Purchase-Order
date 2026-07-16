@@ -70,7 +70,8 @@ class PurchaseOrderRequest(models.Model):
             valid_date = self.valid_date,
             affiliated_one = self.affiliated_one.name,
             affiliated_two = self.affiliated_two.name,
-            request_data = self.grab_request_data()
+            request_data = self.grab_request_data(),
+            logo_path = (template_filepath / "assets" / "logo_igu.png").as_uri()
         )
 
         # output_file_name = "example_request_form_" + datetime.now().strftime("%d%m%Y_%H%M%S")
