@@ -455,6 +455,29 @@
         
 
         <!-- MAIN VIEWS -->
+        <record id="po_contacts_list" model ="ir.actions.act_window">
+            <field name = "name">Contacts List</field>
+            <field name = "res_model">po_contact</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="po_vendors_list" model ="ir.actions.act_window">
+            <field name = "name">Vendor List</field>
+            <field name = "res_model">po_vendor</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="po_shipping_location_list" model ="ir.actions.act_window">
+            <field name = "name">Shipping Locations List</field>
+            <field name = "res_model">po_shipping_location</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="po_item_list" model ="ir.actions.act_window">
+            <field name = "name">Item List</field>
+            <field name = "res_model">po_item</field>
+            <field name="view_mode">list,form</field>
+        </record>
 
         <record id="po_requests_list" model ="ir.actions.act_window">
             <field name = "name">Form Permintaan List</field>

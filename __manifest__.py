@@ -1,5 +1,5 @@
 {
-    'name' : 'Purchase Order PT',
+    'name' : 'PO SAP',
     'version' : '1.0',
     'author' : 'William Widjaya',
     'depends' : ['base'],

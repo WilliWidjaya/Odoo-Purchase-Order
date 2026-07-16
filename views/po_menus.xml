@@ -1,8 +1,14 @@
 <odoo>
     <data>
-        <menuitem id = "po_menu_root" name ="Purchase Order PT.">
+        <menuitem id = "po_menu_root" name ="PO SAP">
             <menuitem id="go_to_po" action = "po_list_action"/>
             <menuitem id="go_to_requests" action = "po_requests_list"/>
+            <menuitem id="master" name="Master">
+                <menuitem id="view_items" action = "po_item_list"/>
+                <menuitem id="view_contacts" action = "po_contacts_list"/>
+                <menuitem id="view_vendors" action = "po_vendors_list"/>
+                <menuitem id="view_shipping_locations" action = "po_shipping_location_list"/>
+            </menuitem>
         </menuitem>
     </data>
 </odoo>
