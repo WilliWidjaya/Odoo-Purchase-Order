@@ -402,8 +402,13 @@ div{
 
 .additional-info{
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 40% 15% 45%;
     margin-bottom: 4px;
+    white-space: nowrap;
+}
+
+.additional-info div{
+    text-align: left;
 }
 
 .additional-info div{
