@@ -12,4 +12,6 @@ class PoItem(models.Model):
 
     @api.depends('item_code')
     def change_display_name(self):
-        self.name = self.item_code
+        for i in self:
+            i.name = i.item_code
+

@@ -21,9 +21,14 @@ class PurchaseOrder(models.Model):
 
     # Vendor Information
     name = fields.Char(string = "Name")
-    vendor = fields.Many2one('res.partner') # Nanti Isi
+
+    # vendor = fields.Many2one('res.partner')
+    vendor = fields.Many2one('po_vendor') # INI DIAMBIL DARI PO_VENDOR
+
     vendor_ref_no = fields.Char(string = "Vendor Ref. No") # No Char
-    contact_person = fields.Many2one('res.partner') # Nanti isi
+
+    # contact_person = fields.Many2one('res.partner') # Nanti isi
+    contact_person = fields.Many2one('po_contact') # INI DIAMBIL DARI PO_CONTACTS
 
     # Dates
     posting_date = fields.Date(string = "Posting Date")
@@ -68,8 +73,8 @@ class PurchaseOrder(models.Model):
     purchase_contents = fields.One2many(comodel_name="purchase_order_content", inverse_name="purchase_order_id")
 
     #Logistics
-    ship_to = fields.Many2one('res.country')
-    pay_to = fields.Many2one('res.bank')
+    ship_to = fields.Many2one('po_shipping_location')
+    pay_to = fields.Many2one('po_shipping_location')
 
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")

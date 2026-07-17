@@ -9,4 +9,5 @@ class ShippingLocation(models.Model):
     
     @api.depends('shipping_location')
     def change_display_name(self):
-        self.name = self.shipping_location
+        for i in self:
+            i.name = str(i.shipping_location)
