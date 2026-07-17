@@ -6,7 +6,8 @@ class PurchaseOrderContent(models.Model):
 
     # ============ Main Information
     purchase_order_id = fields.Many2one('purchase_order')
-    item_id = fields.Char(string = "Item Code")
+    # item_id = fields.Char(string = "Item Code")
+    item_id = fields.Many2one('po_item')
     item_name = fields.Char(string = "Item Name")
     free_text = fields.Text(string = "Free Text")
 
@@ -38,10 +39,6 @@ class PurchaseOrderContent(models.Model):
     _sql_constraints = [
         # Check if item ID is not null
         ('poc_check_item_id_filled', 'CHECK(item_id IS NOT NULL)', 'Please fill in the item ID.'),
-        # Check Item ID Length
-        ('poc_check_item_id_len', 'CHECK(LENGTH(item_id) >= 3 AND LENGTH(item_id) <= 20)', 'Item ID length must be at least 3 characters and at most 20 characters.'),
-        # Check item ID Unique
-        # ('poc_check_item_id_unique', 'UNIQUE(item_id)', 'Item ID must be unique, or distinct.'),
         # Check if item name is filled or not.
         ('poc_check_item_name_filled', 'CHECK(item_name IS NOT NULL)', 'Please fill the item name.'),
         # Check item name length
@@ -58,6 +55,12 @@ class PurchaseOrderContent(models.Model):
 
     # linestat = fields.Text(string = "Linestat")
     # DocEntry ( Fill In Later )
+
+    @api.onchange('item_id')
+    def _onchange_item_id(self):
+        for i in self:
+            if i.item_id.item_desc != "" or i.item_id.item_desc != False:
+                i.item_name = i.item_id.item_desc
 
     @api.depends('price', 'discount_percentage')
     def _calculate_total(self):

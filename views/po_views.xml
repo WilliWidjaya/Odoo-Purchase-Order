@@ -25,7 +25,7 @@
                     <control>
                         <create name="custom_line" string="Add item to requests list.."/>
                     </control>
-                    <field name="name" width = "20%"/>
+                    <field name="item_id" width = "20%"/>
                     <field name="description" width = "20%"/>
                     <field name="department" width = "20%"/>
                     <field name="quantity" width = "20%"/>
@@ -102,6 +102,9 @@
             <field name="model">po_item</field>
             <field name="arch" type="xml">
                 <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_item_list)d"/>
+                    </header>
                     <group class = "item-format-grid">
                         <sheet class = "item-format-sheet">
                             <group class = "item-format-sheet-group">
@@ -117,6 +120,84 @@
             </field>
         </record>
         <!-- END OF PO ITEM ID LIST AND FORM -->
+        
+        <!-- Express Code Views and Forms -->
+        <record id="po_express_view_list" model="ir.ui.view">
+            <field name="name">po.express.view.list</field>
+            <field name="model">po_express</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Add a new Item.."/>
+                    </control>
+                    <field name="express_code"/>
+                    <field name="express_name"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_express_form" model="ir.ui.view">
+            <field name="name">po.express.form</field>
+            <field name="model">po_express</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_express_list)d"/>
+                    </header>
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi Express</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="express_name"/>
+                                    <field name ="express_code"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END OF Express Code Views and Forms -->
+        
+        <!-- payment accounts Views and Forms -->
+        <record id="po_pay_accounts_view_list" model="ir.ui.view">
+            <field name="name">po.pay.accounts.view.list</field>
+            <field name="model">po_pay_accounts</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Add a new Item.."/>
+                    </control>
+                    <field name="name"/>
+                    <field name="payment_information"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_pay_accounts_form" model="ir.ui.view">
+            <field name="name">po.pay.accounts.form</field>
+            <field name="model">po_pay_accounts</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_pay_accounts_list)d"/>
+                    </header>
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi Pembayaran</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="name"/>
+                                    <field name ="payment_information"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END OF Express Code Views and Forms -->
         
 
         <!-- Vendor List and Form -->
@@ -139,6 +220,9 @@
             <field name="model">po_vendor</field>
             <field name="arch" type="xml">
                 <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_vendors_list)d"/>
+                    </header>
                     <group class = "item-format-grid">
                         <sheet class = "item-format-sheet">
                             <group class = "item-format-sheet-group">
@@ -176,6 +260,9 @@
             <field name="model">po_contact</field>
             <field name="arch" type="xml">
                 <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_contacts_list)d"/>
+                    </header>
                     <group class = "item-format-grid">
                         <sheet class = "item-format-sheet">
                             <group class = "item-format-sheet-group">
@@ -212,6 +299,9 @@
             <field name="model">po_shipping_location</field>
             <field name="arch" type="xml">
                 <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_shipping_location_list)d"/>
+                    </header>
                     <group class = "item-format-grid">
                         <sheet class = "item-format-sheet">
                             <group class = "item-format-sheet-group">
@@ -274,7 +364,7 @@
                         <create name="custom_line" string="Create new entry.."/>
                     </control>
                     <field name="express_id"/>
-                    <field name="expense_name"/>
+                    <field name="express_name"/>
                     <field name="remarks"/>
                     <field name="tax_code"/>
                     <field name="gross_amount"/>
@@ -601,6 +691,18 @@
         
 
         <!-- MAIN VIEWS -->
+        <record id="po_express_list" model ="ir.actions.act_window">
+            <field name = "name">Express List</field>
+            <field name = "res_model">po_express</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="po_pay_accounts_list" model ="ir.actions.act_window">
+            <field name = "name">Pay Accounts List</field>
+            <field name = "res_model">po_pay_accounts</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
         <record id="po_contacts_list" model ="ir.actions.act_window">
             <field name = "name">Contacts List</field>
             <field name = "res_model">po_contact</field>

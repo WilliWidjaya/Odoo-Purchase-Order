@@ -8,6 +8,8 @@
                 <menuitem id="view_contacts" action = "po_contacts_list"/>
                 <menuitem id="view_vendors" action = "po_vendors_list"/>
                 <menuitem id="view_shipping_locations" action = "po_shipping_location_list"/>
+                <menuitem id="view_pay_accounts" action = "po_pay_accounts_list"/>
+                <menuitem id="view_express" action = "po_express_list"/>
             </menuitem>
         </menuitem>
     </data>

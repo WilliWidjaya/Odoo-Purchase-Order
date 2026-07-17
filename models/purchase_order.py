@@ -74,7 +74,7 @@ class PurchaseOrder(models.Model):
 
     #Logistics
     ship_to = fields.Many2one('po_shipping_location')
-    pay_to = fields.Many2one('po_shipping_location')
+    pay_to = fields.Many2one('po_pay_accounts')
 
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")
@@ -275,7 +275,7 @@ class PurchaseOrder(models.Model):
         return t_vendor.name.upper()
 
     def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
-        return self.vendor.street
+        return self.vendor.location
 
     def grab_purchase_content(self): # Grabbing purchase_content One2Many
         return_dict = {}
@@ -303,7 +303,7 @@ class PurchaseOrder(models.Model):
             supplier_real_qty_uom = f"{supplier_real_qty_uom:,.2f}"
 
             return_dict[i.item_id] = {}
-            return_dict[i.item_id]["description"] = i.item_id + " -- " + i.item_name
+            return_dict[i.item_id]["description"] = i.item_id.item_code + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
             return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
             return_dict[i.item_id]["total"] = f"{i.total:,.2f}"

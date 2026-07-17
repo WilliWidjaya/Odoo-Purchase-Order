@@ -10,3 +10,5 @@ purchase_order.access_po_contact,access_po_contact,purchase_order.model_po_conta
 purchase_order.access_po_vendor,access_po_vendor,purchase_order.model_po_vendor,base.group_user,1,1,1,1
 purchase_order.access_po_shipping_location,access_po_shipping_location,purchase_order.model_po_shipping_location,base.group_user,1,1,1,1
 purchase_order.access_po_item,access_po_item,purchase_order.model_po_item,base.group_user,1,1,1,1
+purchsae_order.access_po_express,access_po_express,purchase_order.model_po_express,base.group_user,1,1,1,1
+purchsae_order.access_po_pay_accounts,access_po_pay_accounts,purchase_order.model_po_pay_accounts,base.group_user,1,1,1,1

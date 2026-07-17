@@ -2,6 +2,8 @@ from . import po_item
 from . import vendor
 from . import contact
 from . import shipping_location
+from . import po_express
+from . import pay_accounts
 
 from . import po_request
 from . import po_request_item

@@ -22,8 +22,8 @@ class PurchaseOrderRequest(models.Model):
     valid_date = fields.Date()
 
     # Company Information, Time and Date.
-    affiliated_one = fields.Many2one('res.partner')
-    affiliated_two = fields.Many2one('res.partner')
+    affiliated_one = fields.Many2one('po_vendor')
+    affiliated_two = fields.Many2one('po_vendor')
     # affiliated_three = fields.Many2one('res.partner') 
     # affiliated_four = fields.Many2one('res.partner')
 
@@ -102,7 +102,7 @@ class PurchaseOrderRequest(models.Model):
             curr_idx = str(item_index)
             return_dict[curr_idx] = {}
             return_dict[curr_idx]["no"] = str(item_index + 1)
-            return_dict[curr_idx]["unit"] = i.name + " - " + i.description
+            return_dict[curr_idx]["unit"] = i.item_id.item_code + " - " + i.description
             return_dict[curr_idx]["dept"] = i.department
             return_dict[curr_idx]["qty"] = i.quantity
             return_dict[curr_idx]["est_price"] = "IDR " + f"{i.estimated_price:,.2f}"
