@@ -1,0 +1,36 @@
+.item-format-grid{
+    display : grid !important;
+    grid-template-columns: auto !important;
+    width: 50%;
+    height: 500px !important;
+}
+
+.item-format-sheet{
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+
+}
+
+.item-format-sheet-group{
+    display: grid !important;
+    grid-template-rows: 20% 80%;
+    height: 100%;
+    width: 100%;
+    /* background-color: purple; */
+    gap: 20px;
+    padding-left: 20px;
+}
+
+.item-format-sheet-group div {
+    margin: 0px; padding: 0px;
+}
+
+.item-group-title{
+    /* margin-top: 10px; */
+}
+
+.item-field-group{
+    width: 500px !important;
+    /* padding-top: 80px; */
+}

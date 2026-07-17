@@ -12,10 +12,12 @@
         'web.assets_frontend': [
             'purchase_order/static/src/css/po_stylesheet.css',
             'purchase_order/static/src/css/request_stylesheet.css',
+            'purchase_order/static/src/css/item_stylesheet.css',
         ],
         'web.assets_backend': [
             'purchase_order/static/src/css/po_stylesheet.css',
             'purchase_order/static/src/css/request_stylesheet.css',
+            'purchase_order/static/src/css/item_stylesheet.css',
         ]
     },
     'application' : True,

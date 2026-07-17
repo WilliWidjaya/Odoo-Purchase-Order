@@ -1,11 +1,15 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 class PoItem(models.Model):
     _name = "po_item"
     _description = "Purchase Order Item"
 
-    item_id = fields.Char()
+    name = fields.Char(compute = "change_display_name") # Ini bakal di hide dari user.
+
+    item_code = fields.Char()
+    item_desc = fields.Char() # Juga disebut sebagai item name.
 
 
-    def _compute_display_name(self):
-        return super()._compute_display_name()
+    @api.depends('item_code')
+    def change_display_name(self):
+        self.name = self.item_code

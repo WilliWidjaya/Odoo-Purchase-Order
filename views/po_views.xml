@@ -82,6 +82,152 @@
 
         <!-- END OF REQUEST -->
         
+        <!-- PO ITEM ID LIST AND FORM -->
+        <record id="po_item_view_list" model="ir.ui.view">
+            <field name="name">po.item.view.list</field>
+            <field name="model">po_item</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Add a new Item.."/>
+                    </control>
+                    <field name="item_code"/>
+                    <field name="item_desc"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_item_form" model="ir.ui.view">
+            <field name="name">po.item.form</field>
+            <field name="model">po_item</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi item</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="item_code"/>
+                                    <field name ="item_desc"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END OF PO ITEM ID LIST AND FORM -->
+        
+
+        <!-- Vendor List and Form -->
+        <record id="po_vendor_view_list" model="ir.ui.view">
+            <field name="name">po.vendor.view.list</field>
+            <field name="model">po_vendor</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Add a new Vendor.."/>
+                    </control>
+                    <field name="name"/>
+                    <field name="location"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_vendor_form" model="ir.ui.view">
+            <field name="name">po.vendor.form</field>
+            <field name="model">po_vendor</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi Vendor</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="name"/>
+                                    <field name ="location"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END FOR Vendor List and Form -->
+        
+        
+        <!-- Contact List and Form -->
+        <record id="po_contact_view_list" model="ir.ui.view">
+            <field name="name">po.contact.view.list</field>
+            <field name="model">po_contact</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Create a new Contact.."/>
+                    </control>
+                    <field name="name"/>
+                    <field name="location"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_contact_form" model="ir.ui.view">
+            <field name="name">po.contact.form</field>
+            <field name="model">po_contact</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi Contact</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="name"/>
+                                    <field name ="location"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END FOR Contact List and Form -->
+        
+        
+        <!-- Shipping Locations List and Form -->
+        <record id="po_shipping_location_view_list" model="ir.ui.view">
+            <field name="name">po.shipping.location.view.list</field>
+            <field name="model">po_shipping_location</field>
+            <field name="arch" type="xml">
+                <list string = "Channel">
+                    <control>
+                        <create name="custom_line" string="Add an new location.."/>
+                    </control>
+                    <field name="shipping_location"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="po_shipping_form" model="ir.ui.view">
+            <field name="name">po.shipping.form</field>
+            <field name="model">po_shipping_location</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <group class = "item-format-grid">
+                        <sheet class = "item-format-sheet">
+                            <group class = "item-format-sheet-group">
+                                <div class = "item-group-title"><h3>Informasi Lokasi Shipping</h3></div>
+                                <group class = "item-field-group">
+                                    <field name ="shipping_location"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- END FOR Shipping Locations List and Form -->
+        
+        
         <!-- PURCHASE ORDER CONTENT VIEW LIST, EDITABLE BOTTOM -->
         <record id="po_content_view_list" model="ir.ui.view">
             <field name="name">po.content.view.list</field>
