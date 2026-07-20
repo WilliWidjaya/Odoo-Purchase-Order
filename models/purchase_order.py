@@ -120,34 +120,6 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
-    def grab_download_folder(self):
-        # Depending on the operating system, we would store things in different places.
-        # Windows will be in the partition where the Odoo is installed,api
-        # Linux will have it on /opt
-        # Mac... idk.
-        _logger = logging.getLogger(__file__)
-        curr_platform = platform.system()
-        report_path_temp = "" # Start with an empty path?
-
-        match curr_platform:
-            case "Windows":
-                _logger.debug("THIS IS WINDOWS")
-                t_file = Path(__file__).resolve()
-                report_path_temp = t_file.anchor # For Windows.
-                _logger.debug(" WINDOWS REPORT PATH : ", report_path_temp)
-            case "Linux":
-                _logger.debug("THIS IS LINUX")
-                report_path_temp = Path(os.path.expanduser("~"))
-            case _:
-                _logger.debug("invalid OS")
-
-        report_path = Path(report_path_temp) / "OdooDownloads"
-        report_path.mkdir(parents = True, exist_ok=True)
-        _logger.debug("Grabbed download path : ", report_path)
-        print("GRABBED DOWNLOAD PATH : ", report_path)
-        return report_path
-
-
     def template_create_receiving_report(self):
         print("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
@@ -183,19 +155,29 @@ class PurchaseOrder(models.Model):
             vendor_location = self.grab_vendor_location()
         )
 
-        output_file_name = "example_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
-
         template_html = HTML(string = template_render)
         po_css = CSS(str(def_filepath / "templates" / "po_style.scss"))
+        generated_file = template_html.write_pdf(stylesheets = [po_css])
+        
+        file_name = self.name + "_receiving_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
-        # Grab folder dari downloads
-        output_folder_path = self.grab_download_folder()
-        
-        # Note, output_file_name itu di wrap jadi string lagi, in case dia berubah
-        final_filepath = str(output_folder_path / output_file_name) + ".pdf"
-        template_html.write_pdf(final_filepath, stylesheets = [po_css])
-        
-        webbrowser.open(Path(final_filepath).as_uri())
+        # Create new ir.attachment (dia persistent dan bisa diakses di Odoo ir.attachments)
+        f_attachment = self.env['ir.attachment'].create({
+            'name' : f'{file_name}.pdf',
+            'type' : 'binary', 
+            'datas' : base64.b64encode(generated_file),
+            'res_model' : self._name,
+            'res_id' : self.id,
+            'mimetype' : 'application/pdf'
+        })
+
+        # Buka file dengan ir.actions.act_url Odoo 
+        return {
+            'type' : 'ir.actions.act_url',
+            'url' : f'/web/content/{f_attachment.id}?download=true',
+            'target' : 'new',
+        }
+
 
     def template_create_purchase_report(self):
         # Debugger
@@ -233,24 +215,13 @@ class PurchaseOrder(models.Model):
             vendor_location = self.grab_vendor_location()
         )
 
-        output_file_name = "example_po_" + datetime.now().strftime("%d%m%Y_%H%M%S")
-
         template_html = HTML(string = template_render)
         po_css = CSS(str(def_filepath / "templates" / "po_style.scss"))
-
-        # Grab folder dari downloads.
-        output_folder_path = self.grab_download_folder()
-        
-        # Note, output_file_name itu di wrap jadi string lagi, in case dia berubah
-        final_filepath = str(output_folder_path / output_file_name) + ".pdf"
         generated_file = template_html.write_pdf(stylesheets = [po_css])
         
-        _logger.debug("Final filepath " + str(final_filepath))
+        file_name = self.name + "_po_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
-        # webbrowser.open(Path(final_filepath).as_uri())
-
-        file_name = self.name + "_" + datetime.now().strftime("%d%m%Y_%H%M%S")
-
+        # Create new ir.attachment (dia persistent dan bisa diakses di Odoo ir.attachments)
         f_attachment = self.env['ir.attachment'].create({
             'name' : f'{file_name}.pdf',
             'type' : 'binary', 
@@ -260,6 +231,7 @@ class PurchaseOrder(models.Model):
             'mimetype' : 'application/pdf'
         })
 
+        # Buka file dengan ir.actions.act_url Odoo 
         return {
             'type' : 'ir.actions.act_url',
             'url' : f'/web/content/{f_attachment.id}?download=true',
@@ -390,3 +362,34 @@ class PurchaseOrder(models.Model):
     @api.depends('purchase_contents.total', 'purchase_freights.gross_amount') # 
     def _calculate_total_before_discount(self):
         self.count_total()
+
+
+    ############## MARKED OBSOLETE
+
+    # Udah ga dipake lagi, karena kita pake Odoo ir.attachments untuk buka dan store file tanpa metode function dibawah ini.
+    def grab_download_folder(self):
+        # Depending on the operating system, we would store things in different places.
+        # Windows will be in the partition where the Odoo is installed,api
+        # Linux will have it on /opt
+        # Mac... idk.
+        _logger = logging.getLogger(__file__)
+        curr_platform = platform.system()
+        report_path_temp = "" # Start with an empty path?
+
+        match curr_platform:
+            case "Windows":
+                _logger.debug("THIS IS WINDOWS")
+                t_file = Path(__file__).resolve()
+                report_path_temp = t_file.anchor # For Windows.
+                _logger.debug(" WINDOWS REPORT PATH : ", report_path_temp)
+            case "Linux":
+                _logger.debug("THIS IS LINUX")
+                report_path_temp = Path(os.path.expanduser("~"))
+            case _:
+                _logger.debug("invalid OS")
+
+        report_path = Path(report_path_temp) / "OdooDownloads"
+        report_path.mkdir(parents = True, exist_ok=True)
+        _logger.debug("Grabbed download path : ", report_path)
+        print("GRABBED DOWNLOAD PATH : ", report_path)
+        return report_path

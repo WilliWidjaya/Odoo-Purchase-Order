@@ -5,6 +5,7 @@ from datetime import datetime
 import os, os.path, platform
 from pathlib import Path
 import webbrowser
+import base64
 
 class PurchaseOrderRequest(models.Model):
     _name = "po_request"
@@ -74,21 +75,28 @@ class PurchaseOrderRequest(models.Model):
             logo_path = (template_filepath / "assets" / "logo_igu.png").as_uri()
         )
 
-        # output_file_name = "example_request_form_" + datetime.now().strftime("%d%m%Y_%H%M%S")
-        output_file_name = "example_request_form_"
-
         template_html = HTML(string = template_render)
-        request_css = CSS(str(template_filepath / "po_request_style.scss"))
+        po_css = CSS(str(template_filepath / "po_request_style.scss"))
+        generated_file = template_html.write_pdf(stylesheets = [po_css])
+        
+        file_name = self.name + "_request_" + datetime.now().strftime("%d%m%Y_%H%M%S")
 
-        # Grab folder lokasi file akan disimpan
-        output_folder_path = self.grab_output_folder()
+        # Create new ir.attachment (dia persistent dan bisa diakses di Odoo ir.attachments)
+        f_attachment = self.env['ir.attachment'].create({
+            'name' : f'{file_name}.pdf',
+            'type' : 'binary', 
+            'datas' : base64.b64encode(generated_file),
+            'res_model' : self._name,
+            'res_id' : self.id,
+            'mimetype' : 'application/pdf'
+        })
 
-        final_filepath = str(output_folder_path / output_file_name) + ".pdf"
-        template_html.write_pdf(final_filepath, stylesheets = [request_css])
-
-        webbrowser.open(Path(final_filepath).as_uri())
-
-        return
+        # Buka file dengan ir.actions.act_url Odoo 
+        return {
+            'type' : 'ir.actions.act_url',
+            'url' : f'/web/content/{f_attachment.id}?download=true',
+            'target' : 'new',
+        }
 
     def grab_request_data(self):
         return_dict = {}
