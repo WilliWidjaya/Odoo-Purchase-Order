@@ -5,10 +5,9 @@ purchase_order.access_purchase_order_freight,access_purchase_order_freight,purch
 purchase_order.access_purchase_order_attachment,access_purchase_order_attachment,purchase_order.model_purchase_order_attachment,base.group_user,1,1,1,1
 purchase_order.access_po_request,access_po_request,purchase_order.model_po_request,base.group_user,1,1,1,1
 purchase_order.access_po_request_item,access_po_request_item,purchase_order.model_po_request_item,base.group_user,1,1,1,1
-purchase_order.access_po_,access_po_request_item,purchase_order.model_po_request_item,base.group_user,1,1,1,1
 purchase_order.access_po_contact,access_po_contact,purchase_order.model_po_contact,base.group_user,1,1,1,1
 purchase_order.access_po_vendor,access_po_vendor,purchase_order.model_po_vendor,base.group_user,1,1,1,1
 purchase_order.access_po_shipping_location,access_po_shipping_location,purchase_order.model_po_shipping_location,base.group_user,1,1,1,1
 purchase_order.access_po_item,access_po_item,purchase_order.model_po_item,base.group_user,1,1,1,1
-purchsae_order.access_po_express,access_po_express,purchase_order.model_po_express,base.group_user,1,1,1,1
-purchsae_order.access_po_pay_accounts,access_po_pay_accounts,purchase_order.model_po_pay_accounts,base.group_user,1,1,1,1
+purchase_order.access_po_express,access_po_express,purchase_order.model_po_express,base.group_user,1,1,1,1
+purchase_order.access_po_pay_accounts,access_po_pay_accounts,purchase_order.model_po_pay_accounts,base.group_user,1,1,1,1

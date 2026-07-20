@@ -4,9 +4,9 @@
     'author' : 'William Widjaya',
     'depends' : ['base'],
     'data' : [
+        'security/ir.model.access.csv',
         'views/po_views.xml',
         'views/po_menus.xml',
-        'security/ir.model.access.csv',
     ],
     'assets': {
         'web.assets_frontend': [
