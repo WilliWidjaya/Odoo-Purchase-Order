@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from weasyprint import HTML, CSS
 from datetime import datetime
-import math
+import base64
 
 # For Opening the file after making the pdf
 import os, os.path, platform
@@ -243,11 +243,28 @@ class PurchaseOrder(models.Model):
         
         # Note, output_file_name itu di wrap jadi string lagi, in case dia berubah
         final_filepath = str(output_folder_path / output_file_name) + ".pdf"
-        template_html.write_pdf(final_filepath, stylesheets = [po_css])
+        generated_file = template_html.write_pdf(stylesheets = [po_css])
         
         _logger.debug("Final filepath " + str(final_filepath))
 
-        webbrowser.open(Path(final_filepath).as_uri())
+        # webbrowser.open(Path(final_filepath).as_uri())
+
+        file_name = self.name + "_" + datetime.now().strftime("%d%m%Y_%H%M%S")
+
+        f_attachment = self.env['ir.attachment'].create({
+            'name' : f'{file_name}.pdf',
+            'type' : 'binary', 
+            'datas' : base64.b64encode(generated_file),
+            'res_model' : self._name,
+            'res_id' : self.id,
+            'mimetype' : 'application/pdf'
+        })
+
+        return {
+            'type' : 'ir.actions.act_url',
+            'url' : f'/web/content/{f_attachment.id}?download=true',
+            'target' : 'new',
+        }
 
 
     # ------------------------------ END OF REPORT CREATION
