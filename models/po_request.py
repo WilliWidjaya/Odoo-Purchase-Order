@@ -28,6 +28,11 @@ class PurchaseOrderRequest(models.Model):
     # affiliated_three = fields.Many2one('res.partner') 
     # affiliated_four = fields.Many2one('res.partner')
 
+    # Custom Title and location
+    custom_title_vendor = fields.Many2one('po_vendor')
+    custom_title_contact = fields.Many2one('po_contact')
+
+
     def grab_output_folder(self):
         curr_platform = platform.system()
         report_path_temp = "" # Start with an empty path?
@@ -47,6 +52,22 @@ class PurchaseOrderRequest(models.Model):
         print("GRABBED DOWNLOAD PATH : ", report_path)
         return report_path
 
+    def grab_custom_name(self):
+        if self.custom_title_vendor:
+            return self.custom_title_vendor.name
+        if self.custom_title_contact:
+            return self.custom_title_contact.name
+
+        return "PT. INDOGUNA UTAMA"
+
+    def grab_custom_location(self):
+        if self.custom_title_vendor:
+            return self.custom_title_vendor.location
+        if self.custom_title_contact:
+            return self.custom_title_contact.location
+
+        return "Jl. Taruna No. 8 Pondok Bambu Jakarta Timur - Indonesia"
+
     def create_request_form(self):
         # Grab filepath for the template and style
         # Mengikuti pola file, dimana dia ambil parent folder dari parent folder.
@@ -65,6 +86,8 @@ class PurchaseOrderRequest(models.Model):
 
         template_render = template.render(
             name = self.name,
+            title_name = self.grab_custom_name(),
+            title_location = self.grab_custom_location(),
             date = self.grab_date(),
             document_no = self.document_no,
             revision_no = self.revision_no,

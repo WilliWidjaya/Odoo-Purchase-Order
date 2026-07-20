@@ -100,6 +100,17 @@ class PurchaseOrder(models.Model):
     ad_pi_date = fields.Date(string = "PI Date")
     ad_tgl_invoice = fields.Date(string = "Tanggal Invoice")
 
+
+    # VARIABLES FOR CUSTOM TITLE AND LOCATION
+    # Logicnya, kalo dua2 keisi, dia bakal fallback ke default. ato bakal ada
+    # yang ngecek.
+    custom_title_from_vendor = fields.Many2one('po_vendor')
+    custom_title_from_contact = fields.Many2one('po_contact')
+
+    # Either bisa pake lu ketik sendiri
+    custom_title = fields.Char(string="Custom Title")
+    custom_location = fields.Char(string="Custom Location")
+
     _sql_constraints = [
         ('check_po_code', 'CHECK(po_number IS NOT NULL)', 'You must fill the PO number.'),
         ('check_po_length', 'CHECK(LENGTH(po_number) >= 5)', 'Ermm PO must be longer than 5 or 6'),
@@ -120,6 +131,25 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
+    def grab_title(self):
+        if self.custom_title_from_contact:
+            return self.custom_title_from_contact.name
+            # return "Return Contact"
+        elif self.custom_title_from_vendor:
+            return self.custom_title_from_vendor.name
+            # return "Return Vendor"
+        else:
+            return "PT. INDOGUNA UTAMA"
+
+    def grab_title_location(self):
+        if self.custom_title_from_contact:
+            return self.custom_title_from_contact.location
+        elif self.custom_title_from_vendor:
+            return self.custom_title_from_vendor.location
+        else:
+            return "Jl. Taruna No.8 Pondok Bambu Jakarta Timur - Indonesia"
+
+
     def template_create_receiving_report(self):
         print("purchase_order.py STARTING RECEIVING REPORT")
         early_path = __file__ # __file__ points to this current .py file.
@@ -137,6 +167,8 @@ class PurchaseOrder(models.Model):
         template_render = template.render(
             # ========== Main Information, Table Information
             name = self.name,
+            title_name = self.grab_title(),
+            title_location = self.grab_title_location(),
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
@@ -197,6 +229,8 @@ class PurchaseOrder(models.Model):
         template_render = template.render(
             # ========== Main Information, Table Information
             name = self.name,
+            title_name = self.grab_title(),
+            title_location = self.grab_title_location(),
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),

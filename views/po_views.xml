@@ -130,6 +130,25 @@
                                 <page string="Item Requests">
                                     <field name="request_items"/>
                                 </page>
+                                <page string="Report Configurations">
+                                    <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
+                                        <div>Input salah ke salah satu kolom untuk mengubah nama perusahaan atau alamat dengan milik vendor/contact.</div>
+                                        <group class = "format-bg-add">
+                                            <span class = "o_form_label o_td_label">
+                                                <div class = "o_form_label_override">Custom Title dari Contact</div>
+                                            </span>
+                                            <div class = "format-box-parent-div">
+                                                <field class = "input-box" name="custom_title_contact"/>
+                                            </div>
+                                            <span class = "o_form_label o_td_label">
+                                                <div class = "o_form_label_override">Custom Title dari Vendor</div>
+                                            </span>
+                                            <div class = "format-box-parent-div">
+                                                <field class = "input-box" name="custom_title_vendor"/>
+                                            </div>
+                                        </group>
+                                    </group>
+                                </page>
                             </notebook>
                         </sheet>
                         
@@ -739,6 +758,42 @@
                                             <field class = "input-box" name="ad_tgl_invoice" placeholder="---"/>
                                         </div>
 
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Report Configurations">
+                                <div>Isi salah satu untuk menggantikan nama perusahaan utama, dan alamatnya. Apabila kedua terisi, judul yang digunakan adalah default perusahaan.</div>
+                                <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
+                                    <group class = "format-bg-add">
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Custom Title dari Contact</div>
+                                        </span>
+                                        <div class = "format-box-parent-div">
+                                            <field class = "input-box" name="custom_title_from_contact" placeholder="---"/>
+                                        </div>
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Custom Title dari Vendor</div>
+                                        </span>
+                                        <div class = "format-box-parent-div">
+                                            <field class = "input-box" name="custom_title_from_vendor" placeholder="---"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                <div>WADIDAW</div>
+                                <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
+                                    <group class = "format-bg-add">
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Custom Title dari Contact</div>
+                                        </span>
+                                        <div class = "format-box-parent-div">
+                                            <field class = "input-box" name="custom_title_from_contact" placeholder="---"/>
+                                        </div>
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override">Custom Title dari Vendor</div>
+                                        </span>
+                                        <div class = "format-box-parent-div">
+                                            <field class = "input-box" name="custom_title_from_vendor" placeholder="---"/>
+                                        </div>
                                     </group>
                                 </group>
                             </page>
