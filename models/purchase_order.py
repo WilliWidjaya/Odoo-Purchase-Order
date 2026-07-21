@@ -13,6 +13,9 @@ import webbrowser
 #Logging for the file
 import logging
 
+# Brevo
+from brevo import Brevo
+
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
@@ -410,6 +413,20 @@ class PurchaseOrder(models.Model):
     @api.depends('purchase_contents.total', 'purchase_freights.gross_amount') # 
     def _calculate_total_before_discount(self):
         self.count_total()
+
+    # ==============================
+    # UJI COBA BREVO
+
+    def brevo_test(self):
+        client = Brevo(
+            api_key=self.env['ir.config_parameter'].sudo().get_param('purchase_order.key_brevo_api'),
+        )
+
+
+        # Ini kalo nunjukin 200 berarti dia berhasil
+        # 400 berarti ada yang engga bener.
+        print(client.account.get_account())
+        
 
 
     ############## MARKED OBSOLETE

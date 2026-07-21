@@ -32,26 +32,6 @@ class PurchaseOrderRequest(models.Model):
     custom_title_vendor = fields.Many2one('po_vendor')
     custom_title_contact = fields.Many2one('po_contact')
 
-
-    def grab_output_folder(self):
-        curr_platform = platform.system()
-        report_path_temp = "" # Start with an empty path?
-
-        match curr_platform:
-            case "Windows":
-                t_file = Path(__file__).resolve()
-                report_path_temp = t_file.anchor # For Windows.
-            case "Linux":
-                report_path_temp = Path(os.path.expanduser("~"))
-            case _:
-                print("Invalid OS.")
-
-        report_path = Path(report_path_temp) / "OdooDownloads"
-        report_path.mkdir(parents = True, exist_ok=True)
-
-        print("GRABBED DOWNLOAD PATH : ", report_path)
-        return report_path
-
     def grab_custom_name(self):
         if self.custom_title_vendor:
             return self.custom_title_vendor.name
@@ -144,7 +124,6 @@ class PurchaseOrderRequest(models.Model):
             return False
         else:
             return return_arr
-
 
     def grab_date(self):
         curr_date = datetime.now()

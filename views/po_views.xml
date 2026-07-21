@@ -500,6 +500,7 @@
             <field name="arch" type="xml">
                 <form string="Halaman Estate">
                     <header>
+                        <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "TEST Brevo" name ="brevo_test"/>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
                         <!-- <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>
