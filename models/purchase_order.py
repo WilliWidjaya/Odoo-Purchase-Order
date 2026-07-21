@@ -173,6 +173,7 @@ class PurchaseOrder(models.Model):
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
             sub_total = f"{round(self.total_before_disc,2):,.2f}",
+            supplier_total_quantity = self.grab_total_supplier_quantity(),
             discount = f"{round(self.discounted_value,2):,.2f}",
             total = f"{round(self.discount_amount,2):,.2f}",
             tax = f"{round(self.taxed_amount,2):,.2f}",
@@ -234,6 +235,7 @@ class PurchaseOrder(models.Model):
             po_number = self.po_number,
             date = self.grab_current_date(),
             purchase_data = self.grab_purchase_content(),
+            supplier_total_quantity = self.grab_total_supplier_quantity(),
             sub_total = f"{round(self.total_before_disc,2):,.2f}",
             discount = f"{round(self.discounted_value,2):,.2f}",
             total = f"{round(self.discount_amount,2):,.2f}",
@@ -300,6 +302,13 @@ class PurchaseOrder(models.Model):
     def grab_vendor_location(self): # Grabs vendor street1 address from vendor Many2One
         return self.vendor.location
 
+    def grab_total_supplier_quantity(self): # Ini ngambil total kuantitas dari semua entry dari supplier, tanpa diskriminasi UOM
+        grabbed_total_supplier_quantity = 0 # Panjang namanya, tapi biar dia jelas ngitung apa :)
+        for i in self.purchase_contents:
+            grabbed_total_supplier_quantity += i.quantity_packaging
+        return grabbed_total_supplier_quantity
+
+
     def grab_purchase_content(self): # Grabbing purchase_content One2Many
         return_dict = {}
         for i in self.purchase_contents:
@@ -325,11 +334,20 @@ class PurchaseOrder(models.Model):
 
             supplier_real_qty_uom = f"{supplier_real_qty_uom:,.2f}"
 
-            return_dict[i.item_id] = {}
+            if i.item_id not in return_dict: # Dia bakal buat key baru kao gaada di dictionarynya...
+                return_dict[i.item_id] = {}
+                # return_dict[i.item_id]["price"] = 0.0 # 
+                # return_dict[i.item_id]["total"] = 0 # Set value biar dia ga error kalo tiba2 initialize value
+
             return_dict[i.item_id]["description"] = i.item_id.item_code + " -- " + i.item_name
             return_dict[i.item_id]["quantity"] = i.quantity
+
+            # return_dict[i.item_id]["price"] += i.price
+            # return_dict[i.item_id]["total"] += i.total
+
             return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
             return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
+
             # Supplier QTY and UOM
             return_dict[i.item_id]["supplier_qty_uom"] = str(i.quantity_packaging) + " " + str(i.packaging_uom)
             return_dict[i.item_id]["supplier_real_qty_uom"] = str(supplier_real_qty_uom) + " " + str(i.packaging_uom)

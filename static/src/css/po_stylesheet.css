@@ -8,6 +8,11 @@
     grid-template-columns: 3fr 3fr 3fr 3fr;
 }
 
+.format-grid-configurations{
+    display: flex !important;
+    flex-direction: column !important;
+}
+
 .format-bg {
     display:grid !important;
     grid-template-rows: 24px 24px 24px 24px 24px 24px;

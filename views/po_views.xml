@@ -131,9 +131,12 @@
                                     <field name="request_items"/>
                                 </page>
                                 <page string="Report Configurations">
-                                    <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
-                                        <div>Input salah ke salah satu kolom untuk mengubah nama perusahaan atau alamat dengan milik vendor/contact.</div>
+                                    <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-configurations">
                                         <group class = "format-bg-add">
+                                            <div>Input salah ke salah satu kolom untuk mengubah nama perusahaan atau alamat dengan milik vendor/contact.</div>
+                                        </group>
+                                        <group class = "format-bg-add">
+                                            <!-- <div>Input salah ke salah satu kolom untuk mengubah nama perusahaan atau alamat dengan milik vendor/contact.</div> -->
                                             <span class = "o_form_label o_td_label">
                                                 <div class = "o_form_label_override">Custom Title dari Contact</div>
                                             </span>
