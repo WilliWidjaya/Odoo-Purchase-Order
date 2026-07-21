@@ -782,23 +782,6 @@
                                         </div>
                                     </group>
                                 </group>
-                                <div>WADIDAW</div>
-                                <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
-                                    <group class = "format-bg-add">
-                                        <span class = "o_form_label o_td_label">
-                                            <div class = "o_form_label_override">Custom Title dari Contact</div>
-                                        </span>
-                                        <div class = "format-box-parent-div">
-                                            <field class = "input-box" name="custom_title_from_contact" placeholder="---"/>
-                                        </div>
-                                        <span class = "o_form_label o_td_label">
-                                            <div class = "o_form_label_override">Custom Title dari Vendor</div>
-                                        </span>
-                                        <div class = "format-box-parent-div">
-                                            <field class = "input-box" name="custom_title_from_vendor" placeholder="---"/>
-                                        </div>
-                                    </group>
-                                </group>
                             </page>
                         </notebook>
                     </sheet>
