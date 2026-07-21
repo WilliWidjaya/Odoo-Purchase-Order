@@ -115,11 +115,11 @@
                     {% else %}
                         {% for i in request_data %}
                         <tr class = "table-row tb-break-after">
-                            <td style = "font-weight: bold; text-align: center; width:4%">{{ request_data[i]["no"] }}</td>
-                            <td>{{ request_data[i]["unit"] }}</td>
-                            <td style = "width: 10%">{{ request_data[i]["dept"] }}</td>
-                            <td style = "width: 7%">{{ request_data[i]["qty"] }}</td>
-                            <td>{{ request_data[i]["est_price"] }}</td>
+                            <td style = "font-weight: bold; text-align: center; width:4%">{{ i["no"] }}</td>
+                            <td>{{ i["unit"] }}</td>
+                            <td style = "width: 10%">{{ i["dept"] }}</td>
+                            <td style = "width: 7%">{{ i["qty"] }}</td>
+                            <td>{{ i["est_price"] }}</td>
                         </tr>
                         {% endfor %}
                     {% endif %}

@@ -310,8 +310,11 @@ class PurchaseOrder(models.Model):
 
 
     def grab_purchase_content(self): # Grabbing purchase_content One2Many
-        return_dict = {}
+
+        return_arr = []
+
         for i in self.purchase_contents:
+            content_dict = {}
             # Check if our real qty has been filled, if not, skip this part.
             supplier_real_qty_uom = 0.0
             our_qty_per_supply = 0.0
@@ -334,28 +337,22 @@ class PurchaseOrder(models.Model):
 
             supplier_real_qty_uom = f"{supplier_real_qty_uom:,.2f}"
 
-            if i.item_id not in return_dict: # Dia bakal buat key baru kao gaada di dictionarynya...
-                return_dict[i.item_id] = {}
-                # return_dict[i.item_id]["price"] = 0.0 # 
-                # return_dict[i.item_id]["total"] = 0 # Set value biar dia ga error kalo tiba2 initialize value
+            content_dict["description"] = i.item_id.item_code + " -- " + i.item_name
+            content_dict["quantity"] = i.quantity
 
-            return_dict[i.item_id]["description"] = i.item_id.item_code + " -- " + i.item_name
-            return_dict[i.item_id]["quantity"] = i.quantity
-
-            # return_dict[i.item_id]["price"] += i.price
-            # return_dict[i.item_id]["total"] += i.total
-
-            return_dict[i.item_id]["price"] = f"{i.price:,.2f}" 
-            return_dict[i.item_id]["total"] = f"{i.total:,.2f}"
+            content_dict["price"] = f"{i.price:,.2f}" 
+            content_dict["total"] = f"{i.total:,.2f}"
 
             # Supplier QTY and UOM
-            return_dict[i.item_id]["supplier_qty_uom"] = str(i.quantity_packaging) + " " + str(i.packaging_uom)
-            return_dict[i.item_id]["supplier_real_qty_uom"] = str(supplier_real_qty_uom) + " " + str(i.packaging_uom)
+            content_dict["supplier_qty_uom"] = str(i.quantity_packaging) + " " + str(i.packaging_uom)
+            content_dict["supplier_real_qty_uom"] = str(supplier_real_qty_uom) + " " + str(i.packaging_uom)
             # Out QTY and UOM
-            return_dict[i.item_id]["our_qty_uom"] = str(i.quantity) + " " + str(i.uom)
-            return_dict[i.item_id]["our_real_qty_uom"] = str(i.quantity_real) + " " + str(i.uom)
+            content_dict["our_qty_uom"] = str(i.quantity) + " " + str(i.uom)
+            content_dict["our_real_qty_uom"] = str(i.quantity_real) + " " + str(i.uom)
 
-        return return_dict
+            return_arr.append(content_dict)
+
+        return return_arr
     # ------------------------------ DATA GETTER END
 
     def count_total(self):

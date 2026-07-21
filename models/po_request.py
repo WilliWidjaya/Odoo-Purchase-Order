@@ -122,7 +122,7 @@ class PurchaseOrderRequest(models.Model):
         }
 
     def grab_request_data(self):
-        return_dict = {}
+        return_arr = []
         item_index = 0
 
         # Logic yang sama ada di beberapa line dibawah, cuma memastikan disini.
@@ -130,20 +130,20 @@ class PurchaseOrderRequest(models.Model):
             return False
 
         for i in self.request_items:
-            curr_idx = str(item_index)
-            return_dict[curr_idx] = {}
-            return_dict[curr_idx]["no"] = str(item_index + 1)
-            return_dict[curr_idx]["unit"] = i.item_id.item_code + " - " + i.description
-            return_dict[curr_idx]["dept"] = i.department
-            return_dict[curr_idx]["qty"] = i.quantity
-            return_dict[curr_idx]["est_price"] = "IDR " + f"{i.estimated_price:,.2f}"
+            current_dict = {}
+            current_dict["no"] = str(item_index + 1)
+            current_dict["unit"] = i.item_id.item_code + " - " + i.description
+            current_dict["dept"] = i.department
+            current_dict["qty"] = i.quantity
+            current_dict["est_price"] = "IDR " + f"{i.estimated_price:,.2f}"
             item_index += 1
+            return_arr.append(current_dict)
 
         # Logic yang sama yang dimaksud. tapi dia ngecek return_dict
-        if return_dict == False or return_dict == {}:
+        if not return_arr:
             return False
         else:
-            return return_dict
+            return return_arr
 
 
     def grab_date(self):
