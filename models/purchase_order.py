@@ -313,7 +313,9 @@ class PurchaseOrder(models.Model):
 
         return_arr = []
 
+        value_jonathan = 0
         for i in self.purchase_contents:
+            value_jonathan += 1
             content_dict = {}
             # Check if our real qty has been filled, if not, skip this part.
             supplier_real_qty_uom = 0.0
@@ -349,6 +351,7 @@ class PurchaseOrder(models.Model):
             # Out QTY and UOM
             content_dict["our_qty_uom"] = str(i.quantity) + " " + str(i.uom)
             content_dict["our_real_qty_uom"] = str(i.quantity_real) + " " + str(i.uom)
+            content_dict["value_jonathan"] = value_jonathan
 
             return_arr.append(content_dict)
 
