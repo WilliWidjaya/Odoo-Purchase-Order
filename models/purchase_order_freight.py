@@ -1,4 +1,4 @@
-from odoo import api, fields, models, exceptions
+from odoo import api, fields, models
 
 class PurchaseOrderFreight(models.Model):
     _name = "purchase_order_freight"

@@ -1,4 +1,4 @@
-from odoo import api, fields, models, exceptions
+from odoo import api, fields, models
 
 class PurchaseOrderContent(models.Model):
     _name = "purchase_order_content"
@@ -52,9 +52,6 @@ class PurchaseOrderContent(models.Model):
         # Check if price is in the negatives
         ('poc_check_price_positive', 'CHECK(price >= 0)', 'Prices must be positive. (>= 0)'),
     ]
-
-    # linestat = fields.Text(string = "Linestat")
-    # DocEntry ( Fill In Later )
 
     @api.onchange('item_id')
     def _onchange_item_id(self):

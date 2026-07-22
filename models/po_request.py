@@ -1,10 +1,8 @@
-from odoo import api, fields, models
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
+from odoo import fields, models
+from jinja2 import Environment, select_autoescape, FileSystemLoader
 from weasyprint import HTML, CSS
 from datetime import datetime
-import os, os.path, platform
 from pathlib import Path
-import webbrowser
 import base64
 
 class PurchaseOrderRequest(models.Model):

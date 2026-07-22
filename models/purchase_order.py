@@ -1,20 +1,11 @@
-from odoo import api, fields, models, exceptions
-from odoo.exceptions import ValidationError
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
+from odoo import api, fields, models
+from jinja2 import Environment, select_autoescape, FileSystemLoader
 from weasyprint import HTML, CSS
 from datetime import datetime
 import base64
 
 # For Opening the file after making the pdf
-import os, os.path, platform
 from pathlib import Path
-import webbrowser
-
-#Logging for the file
-import logging
-
-# Brevo
-# from brevo import Brevo
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
@@ -121,26 +112,20 @@ class PurchaseOrder(models.Model):
         ('check_rate', 'CHECK(rate >= 0)', 'YOU GOTTA SET THIS RATE RIGHT BRO'),
         ('check_tax', 'CHECK(tax >= 0 AND tax <= 100)', 'The Tax Percentage must be reasonable.'),
         ('check_discount_percentage', 'CHECK(discount_percentage >= 0 AND discount_percentage <= 100)', 'Discount percentage must be between 0 and 100'),
-        # Check Posting date
         ('check_posting_date','CHECK(posting_date IS NOT NULL)', 'Please fill in the posting date.'),
-        # ---- CHECK NAME ----
-        # Check if name is filled
         ('check_name_filled', 'CHECK(name IS NOT NULL)', 'Please fill in [name] for this entry.'),
-        # Check is name is too short or too long
         ('check_name_length', 'CHECK(LENGTH(name) >= 5 AND LENGTH(name) <= 45)', 'Name must be between 3 and 45 characters.'), 
-        # Check if vendor is filled or nah
         ('check_vendor_filled', 'CHECK(vendor IS NOT NULL)', 'Please fill in a vendor.')
     ]
+
 
     # ------------------------------ REPORT CREATION & RELATED CALCULATIONS
 
     def grab_title(self):
         if self.custom_title_from_contact:
             return self.custom_title_from_contact.name
-            # return "Return Contact"
         elif self.custom_title_from_vendor:
             return self.custom_title_from_vendor.name
-            # return "Return Vendor"
         else:
             return "PT. INDOGUNA UTAMA"
 
@@ -216,9 +201,6 @@ class PurchaseOrder(models.Model):
 
 
     def template_create_purchase_report(self):
-        # Debugger
-        _logger = logging.getLogger(__name__)
-
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
         
@@ -227,8 +209,6 @@ class PurchaseOrder(models.Model):
         autoescape=select_autoescape()
         )
         template = env.get_template("template_purchase_order.html")
-
-        _logger.debug("Template location " + str(def_filepath))
 
         template_render = template.render(
             # ========== Main Information, Table Information
@@ -280,11 +260,6 @@ class PurchaseOrder(models.Model):
 
     # ------------------------------ END OF REPORT CREATION
 
-    def debug_view_dependency(self):
-        t_view = self.env['ir.ui.view'].search([('model', '=', 'purchase_order')])
-        for v in t_view:
-            _logger_msg = f"view: {v.name} | inherit_id: {v.inherit_id.name if v.inherit_id else None} | module: {v.inherit_id.module if v.inherit_id else None}"
-            print(_logger_msg)
 
     # ------------------------------ DATA GETTER START
     
@@ -292,7 +267,6 @@ class PurchaseOrder(models.Model):
         date_str = str(self.posting_date)
 
         formatted_time = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d-%m-%Y")
-        print("FORMATTED TIME IS : "), formatted_time
         return formatted_time
 
     def grab_our_location(self): # Fill in later when needed.
@@ -414,47 +388,7 @@ class PurchaseOrder(models.Model):
     def _calculate_total_before_discount(self):
         self.count_total()
 
-    # ==============================
-    # UJI COBA BREVO
-
-    # def brevo_test(self):
-    #     client = Brevo(
-    #         api_key=self.env['ir.config_parameter'].sudo().get_param('purchase_order.key_brevo_api'),
-    #     )
+    
 
 
-        # Ini kalo nunjukin 200 berarti dia berhasil
-        # 400 berarti ada yang engga bener.
-        # print(client.account.get_account())
-        
-
-
-    ############## MARKED OBSOLETE
-
-    # Udah ga dipake lagi, karena kita pake Odoo ir.attachments untuk buka dan store file tanpa metode function dibawah ini.
-    def grab_download_folder(self):
-        # Depending on the operating system, we would store things in different places.
-        # Windows will be in the partition where the Odoo is installed,api
-        # Linux will have it on /opt
-        # Mac... idk.
-        _logger = logging.getLogger(__file__)
-        curr_platform = platform.system()
-        report_path_temp = "" # Start with an empty path?
-
-        match curr_platform:
-            case "Windows":
-                _logger.debug("THIS IS WINDOWS")
-                t_file = Path(__file__).resolve()
-                report_path_temp = t_file.anchor # For Windows.
-                _logger.debug(" WINDOWS REPORT PATH : ", report_path_temp)
-            case "Linux":
-                _logger.debug("THIS IS LINUX")
-                report_path_temp = Path(os.path.expanduser("~"))
-            case _:
-                _logger.debug("invalid OS")
-
-        report_path = Path(report_path_temp) / "OdooDownloads"
-        report_path.mkdir(parents = True, exist_ok=True)
-        _logger.debug("Grabbed download path : ", report_path)
-        print("GRABBED DOWNLOAD PATH : ", report_path)
-        return report_path
+    

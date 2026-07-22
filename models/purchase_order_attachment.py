@@ -1,4 +1,4 @@
-from odoo import api, fields, models, exceptions
+from odoo import fields, models
 
 class PurchaseOrderAttachment(models.Model):
     _name = "purchase_order_attachment"

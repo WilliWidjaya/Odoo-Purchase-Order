@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models
 
 class PoPayAccounts(models.Model):
     _name = "po_pay_accounts"
