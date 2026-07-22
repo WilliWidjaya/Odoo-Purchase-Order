@@ -425,7 +425,7 @@ class PurchaseOrder(models.Model):
 
         # Ini kalo nunjukin 200 berarti dia berhasil
         # 400 berarti ada yang engga bener.
-        print(client.account.get_account())
+        # print(client.account.get_account())
         
 
 
