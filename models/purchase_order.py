@@ -14,7 +14,7 @@ import webbrowser
 import logging
 
 # Brevo
-from brevo import Brevo
+# from brevo import Brevo
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
@@ -417,10 +417,10 @@ class PurchaseOrder(models.Model):
     # ==============================
     # UJI COBA BREVO
 
-    def brevo_test(self):
-        client = Brevo(
-            api_key=self.env['ir.config_parameter'].sudo().get_param('purchase_order.key_brevo_api'),
-        )
+    # def brevo_test(self):
+    #     client = Brevo(
+    #         api_key=self.env['ir.config_parameter'].sudo().get_param('purchase_order.key_brevo_api'),
+    #     )
 
 
         # Ini kalo nunjukin 200 berarti dia berhasil

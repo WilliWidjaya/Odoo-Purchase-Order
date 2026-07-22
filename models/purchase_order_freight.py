@@ -15,4 +15,7 @@ class PurchaseOrderFreight(models.Model):
     @api.onchange('express_id')
     def on_express_change(self):
         for i in self:
-            i.express_name = i.express_id.express_name
+            if i.express_id.express_name != "" or i.express_id.express_name != False:
+                i.express_name = i.express_id.express_name
+            if i.express_id.tax_code != "" or i.express_id.tax_code != False:
+                i.tax_code = i.express_id.tax_code

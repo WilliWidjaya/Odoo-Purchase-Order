@@ -25,8 +25,6 @@ class PurchaseOrderRequest(models.Model):
     # Company Information, Time and Date.
     affiliated_one = fields.Many2one('po_vendor')
     affiliated_two = fields.Many2one('po_vendor')
-    # affiliated_three = fields.Many2one('res.partner') 
-    # affiliated_four = fields.Many2one('res.partner')
 
     # Custom Title and location
     custom_title_vendor = fields.Many2one('po_vendor')

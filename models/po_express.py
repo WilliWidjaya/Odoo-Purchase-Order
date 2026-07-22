@@ -8,6 +8,7 @@ class PoExpress(models.Model):
 
     express_code = fields.Char()
     express_name = fields.Char() # Juga disebut sebagai item name.
+    tax_code = fields.Char()
 
 
     @api.depends('express_code')

@@ -193,6 +193,8 @@
                                 <group class = "item-field-group">
                                     <field name ="item_code"/>
                                     <field name ="item_desc"/>
+                                    <field name ="supplier_uom"/>
+                                    <field name ="tax_code"/>
                                 </group>
                             </group>
                         </sheet>
@@ -232,6 +234,7 @@
                                 <group class = "item-field-group">
                                     <field name ="express_name"/>
                                     <field name ="express_code"/>
+                                    <field name ="tax_code"/>
                                 </group>
                             </group>
                         </sheet>
@@ -500,7 +503,7 @@
             <field name="arch" type="xml">
                 <form string="Halaman Estate">
                     <header>
-                        <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "TEST Brevo" name ="brevo_test"/>
+                        <!-- <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "TEST Brevo" name ="brevo_test"/> -->
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
                         <!-- <button type = "object" string = "OLD PO" name ="create_purchase_order_report"/>

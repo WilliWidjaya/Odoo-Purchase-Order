@@ -9,6 +9,9 @@ class PoItem(models.Model):
     item_code = fields.Char()
     item_desc = fields.Char() # Juga disebut sebagai item name.
 
+    # Value-value opsional yang dapat di set, yang akan dimasukkan ke dalam table
+    supplier_uom = fields.Char()
+    tax_code = fields.Char()
 
     @api.depends('item_code')
     def change_display_name(self):

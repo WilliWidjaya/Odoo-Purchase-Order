@@ -61,6 +61,10 @@ class PurchaseOrderContent(models.Model):
         for i in self:
             if i.item_id.item_desc != "" or i.item_id.item_desc != False:
                 i.item_name = i.item_id.item_desc
+            if i.item_id.supplier_uom != "" or i.item_id.supplier_uom != False:
+                i.packaging_uom = i.item_id.supplier_uom
+            if i.item_id.tax_code != "" or i.item_id.supplier_uom != False:
+                i.tax_code = i.item_id.tax_code
 
     @api.depends('price', 'discount_percentage')
     def _calculate_total(self):
