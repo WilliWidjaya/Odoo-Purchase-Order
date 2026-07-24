@@ -16,12 +16,10 @@ class PurchaseOrder(models.Model):
     # Vendor Information
     name = fields.Char(string = "Name")
 
-    # vendor = fields.Many2one('res.partner')
     vendor = fields.Many2one('po_vendor') # INI DIAMBIL DARI PO_VENDOR
 
     vendor_ref_no = fields.Char(string = "Vendor Ref. No") # No Char
 
-    # contact_person = fields.Many2one('res.partner') # Nanti isi
     contact_person = fields.Many2one('po_contact') # INI DIAMBIL DARI PO_CONTACTS
 
     # Dates
@@ -82,7 +80,6 @@ class PurchaseOrder(models.Model):
     ad_container = fields.Char(string = "Container")
     ad_awb = fields.Char(string = "AWB No/ BI NO")
     ad_pesawat = fields.Char(string = "Pesawat")
-    # Tulisan yang mirip dengan 'Karantina" & 'Karawitan'
     ad_vendor_DO_no = fields.Char(string = "Vendor DO No")
     ad_no_tanggal_PIB = fields.Char(string = "No dan tanggal PIB")
     ad_PIB_pesan = fields.Char(string = "PIB nomor pesan")

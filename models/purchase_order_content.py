@@ -6,7 +6,6 @@ class PurchaseOrderContent(models.Model):
 
     # ============ Main Information
     purchase_order_id = fields.Many2one('purchase_order')
-    # item_id = fields.Char(string = "Item Code")
     item_id = fields.Many2one('po_item')
     item_name = fields.Char(string = "Item Name")
     free_text = fields.Text(string = "Free Text")
@@ -28,7 +27,6 @@ class PurchaseOrderContent(models.Model):
 
     tax_code = fields.Char(string = "Tax Code")
     taxline = fields.Char(string = "Taxline")
-    # warehouse??? = fields.Text(string = "Warehouse")
     pi_number = fields.Char(string = "PI Number")
     slaughterhouse = fields.Char(string = "Slaughterhouse")
     
@@ -58,10 +56,16 @@ class PurchaseOrderContent(models.Model):
         for i in self:
             if i.item_id.item_desc != "" or i.item_id.item_desc != False:
                 i.item_name = i.item_id.item_desc
+            else: 
+                i.item_name = ""
             if i.item_id.supplier_uom != "" or i.item_id.supplier_uom != False:
                 i.packaging_uom = i.item_id.supplier_uom
+            else:
+                i.packaging_uom = ""
             if i.item_id.tax_code != "" or i.item_id.supplier_uom != False:
                 i.tax_code = i.item_id.tax_code
+            else:
+                i.tax_code = ""
 
     @api.depends('price', 'discount_percentage')
     def _calculate_total(self):
