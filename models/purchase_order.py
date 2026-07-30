@@ -67,6 +67,8 @@ class PurchaseOrder(models.Model):
     #Logistics
     ship_to = fields.Many2one('po_shipping_location')
     pay_to = fields.Many2one('po_pay_accounts')
+    ship_tb = fields.Text()
+    pay_tb = fields.Text()
 
     #Freight
     purchase_freights = fields.One2many(comodel_name="purchase_order_freight", inverse_name="purchase_order_id")

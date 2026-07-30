@@ -168,38 +168,15 @@
             <field name="name">po.item.view.list</field>
             <field name="model">po_item</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Add a new Item.."/>
                     </control>
-                    <field name="item_code"/>
-                    <field name="item_desc"/>
+                    <field name ="item_code"/>
+                    <field name ="item_desc"/>
+                    <field name ="supplier_uom"/>
+                    <field name ="tax_code"/>
                 </list>
-            </field>
-        </record>
-        
-        <record id="po_item_form" model="ir.ui.view">
-            <field name="name">po.item.form</field>
-            <field name="model">po_item</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_item_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi item</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="item_code"/>
-                                    <field name ="item_desc"/>
-                                    <field name ="supplier_uom"/>
-                                    <field name ="tax_code"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
             </field>
         </record>
         <!-- END OF PO ITEM ID LIST AND FORM -->
@@ -209,37 +186,14 @@
             <field name="name">po.express.view.list</field>
             <field name="model">po_express</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Add a new Item.."/>
                     </control>
                     <field name="express_code"/>
                     <field name="express_name"/>
+                    <field name ="tax_code"/>
                 </list>
-            </field>
-        </record>
-        
-        <record id="po_express_form" model="ir.ui.view">
-            <field name="name">po.express.form</field>
-            <field name="model">po_express</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_express_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi Express</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="express_name"/>
-                                    <field name ="express_code"/>
-                                    <field name ="tax_code"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
             </field>
         </record>
         <!-- END OF Express Code Views and Forms -->
@@ -249,36 +203,13 @@
             <field name="name">po.pay.accounts.view.list</field>
             <field name="model">po_pay_accounts</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Add a new Item.."/>
                     </control>
                     <field name="name"/>
                     <field name="payment_information"/>
                 </list>
-            </field>
-        </record>
-        
-        <record id="po_pay_accounts_form" model="ir.ui.view">
-            <field name="name">po.pay.accounts.form</field>
-            <field name="model">po_pay_accounts</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_pay_accounts_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi Pembayaran</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="name"/>
-                                    <field name ="payment_information"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
             </field>
         </record>
         <!-- END OF Express Code Views and Forms -->
@@ -289,36 +220,13 @@
             <field name="name">po.vendor.view.list</field>
             <field name="model">po_vendor</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Add a new Vendor.."/>
                     </control>
                     <field name="name"/>
                     <field name="location"/>
                 </list>
-            </field>
-        </record>
-        
-        <record id="po_vendor_form" model="ir.ui.view">
-            <field name="name">po.vendor.form</field>
-            <field name="model">po_vendor</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_vendors_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi Vendor</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="name"/>
-                                    <field name ="location"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
             </field>
         </record>
         <!-- END FOR Vendor List and Form -->
@@ -329,7 +237,7 @@
             <field name="name">po.contact.view.list</field>
             <field name="model">po_contact</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Create a new Contact.."/>
                     </control>
@@ -339,28 +247,6 @@
             </field>
         </record>
         
-        <record id="po_contact_form" model="ir.ui.view">
-            <field name="name">po.contact.form</field>
-            <field name="model">po_contact</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_contacts_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi Contact</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="name"/>
-                                    <field name ="location"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
-            </field>
-        </record>
         <!-- END FOR Contact List and Form -->
         
         
@@ -369,7 +255,7 @@
             <field name="name">po.shipping.location.view.list</field>
             <field name="model">po_shipping_location</field>
             <field name="arch" type="xml">
-                <list string = "Channel">
+                <list string = "Channel" editable="bottom">
                     <control>
                         <create name="custom_line" string="Add an new location.."/>
                     </control>
@@ -377,28 +263,7 @@
                 </list>
             </field>
         </record>
-        
-        <record id="po_shipping_form" model="ir.ui.view">
-            <field name="name">po.shipping.form</field>
-            <field name="model">po_shipping_location</field>
-            <field name="arch" type="xml">
-                <form string="Request Form">
-                    <header class = "req-header-pad">
-                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_shipping_location_list)d"/>
-                    </header>
-                    <group class = "item-format-grid">
-                        <sheet class = "item-format-sheet">
-                            <group class = "item-format-sheet-group">
-                                <div class = "item-group-title"><h3>Informasi Lokasi Shipping</h3></div>
-                                <group class = "item-field-group">
-                                    <field name ="shipping_location"/>
-                                </group>
-                            </group>
-                        </sheet>
-                    </group>
-                </form>
-            </field>
-        </record>
+
         <!-- END FOR Shipping Locations List and Form -->
         
         
@@ -464,10 +329,12 @@
                 <list string = "Channel">
                     <field name="po_number" width = "50px"/>
                     <field name="name" width = "50px"/>
+                    <field name="vendor" width = "50px"/>
+                    <field name="posting_date" width = "50px"/>
                     <field name="due_date" width = "50px"/>
                     <field name="total_amount" width = "50px"/>
-                    <field name="payment_terms" width = "50px"/>
-                    <field name="status" width = "50px"/>
+                    <field name="payment_terms" width = "50px" widget="badge" decoration-success="payment_terms == 'pay_cash'" decoration-info="payment_terms == 'pay_bank'"/>
+                    <field name="status" width = "50px" widget="badge" decoration-success="status == 'finalized'"/>
                 </list>
             </field>
         </record>
@@ -501,7 +368,7 @@
             <field name="name">po.form</field>
             <field name="model">purchase_order</field>
             <field name="arch" type="xml">
-                <form string="Halaman Estate">
+                <form string="Halaman PO">
                     <header>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
@@ -642,8 +509,24 @@
                             </page>
                             <page string="Logistics">
                                 <group>
-                                    <field name="ship_to" placeholder = "Select location to ship to.."/>
-                                    <field name="pay_to" placeholder = "Select payment recipient.."/>
+                                    <group>
+                                        <field name="ship_to" placeholder = "Select location to ship to.."/>
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override"></div>
+                                        </span>
+                                        <div>
+                                            <field class = "" name="ship_tb" string = "" />
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <field name="pay_to" placeholder = "Select payment recipient.."/>
+                                        <span class = "o_form_label o_td_label">
+                                            <div class = "o_form_label_override"></div>
+                                        </span>
+                                        <div>
+                                            <field class = "" name="pay_tb" string = "" />
+                                        </div>
+                                    </group>
                                 </group>
                             </page>
                             <page string="Freight">

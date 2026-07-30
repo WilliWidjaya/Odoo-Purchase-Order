@@ -1,3 +1,5 @@
+
+
 .format-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -8,11 +10,6 @@
     grid-template-columns: 3fr 3fr 3fr 3fr;
 }
 
-.format-grid-configurations{
-    display: flex !important;
-    flex-direction: column !important;
-}
-
 .format-bg {
     display:grid !important;
     grid-template-rows: 24px 24px 24px 24px 24px 24px;
@@ -20,6 +17,11 @@
     
     height: max-content;
 }
+.format-grid-configurations{
+    display: flex !important;
+    flex-direction: column !important;
+}
+
 
 .format-bg-with-remarks{
     display:grid !important;
@@ -154,3 +156,5 @@
     margin-left: 7px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+
