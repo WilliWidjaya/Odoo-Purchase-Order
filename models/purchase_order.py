@@ -7,6 +7,10 @@ import base64
 # For Opening the file after making the pdf
 from pathlib import Path
 
+# bagian open AI
+from openai import OpenAI
+import json
+
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
@@ -258,6 +262,142 @@ class PurchaseOrder(models.Model):
 
 
     # ------------------------------ END OF REPORT CREATION
+
+    # -------------------- OPEN AI START
+
+    chatgpt_prompt = fields.Char()
+
+    # OPENAI Helper Tools
+    def get_datas(self):
+        self.ensure_one()
+        data = self.read()[0]
+        data['purchase_contents'] = self.purchase_contents.read()
+        return json.dumps(data, default=str)
+
+    def get_horoscope(self, sign):
+        return f"{sign}: Next Tuesday you will befriend a baby otter."
+
+    def get_secret_message(self, name):
+        conclusion = "There is nothing"
+        match name:
+            case "Adias":
+                conclusion = "Jadi lu kayak adias?"
+            case "Radit":
+                conclusion = "MAKANLAH NASI AGAR JADI SEHAT"
+            case _:
+                conclusion = "Jangan lupa mandi, agar tidak bau, dan diterima PTN"
+                
+
+        return f"{name} The Secret Message is : {conclusion}"
+
+    def do_chatgpt(self):
+        tools = [
+                {
+                    "type": "function",
+                    "name": "get_horoscope",
+                    "description": "Get today's horoscope for an astrological sign.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "sign": {
+                                "type": "string",
+                                "description": "An astrological sign like Taurus or Aquarius",
+                            },
+                        },
+                        "required": ["sign"],
+                    },
+                },
+                {
+                    "type": "function",
+                    "name": "get_secret_message",
+                    "description": "Get the secret message based on the users name.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the user.",
+                            },
+                        },
+                        "required": ["name"],
+                    },
+                },
+                {
+                    "type": "function",
+                    "name": "get_datas",
+                    "description": "Grab the information regarding the purchase order data when needed for summarizing, or grabbing a specific information",
+                },
+                ] 
+            
+        # input_list = [{"role": "user", "content": "What is my horoscope? I am an Aquarius."}]
+        input_list = [{"role": "user", "content": self.chatgpt_prompt}]
+
+        client = OpenAI()
+
+        response = client.responses.create(
+            model="gpt-5.6",
+            instructions = "You are currently in a purchase order details page. Help the user fetch data, summarize data, or help in general.",
+            input= input_list,
+            tools= tools,
+        )
+
+        input_list += response.output
+
+        for item in response.output:
+            if item.type == "function_call":
+                if item.name == "get_horoscope":
+                    # 3. Execute the function logic for get_horoscope
+                    sign = json.loads(item.arguments)["sign"]
+                    horoscope = self.get_horoscope(sign)
+
+                    # 4. Provide function call results to the model
+                    input_list.append(
+                        {
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": horoscope,
+                        }
+                    )
+                elif item.name == "get_secret_message":
+                    name = json.loads(item.arguments)["name"]
+                    secret_message = self.get_secret_message(name)
+
+                    # 4. Provide function call results to the model
+                    input_list.append(
+                        {
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": secret_message,
+                        }
+                    )
+                elif item.name == "get_datas":
+                    all_datas = self.get_datas()
+
+                    # 4. Provide function call results to the model
+                    input_list.append(
+                        {
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": all_datas,
+                        }
+                    )
+
+        # print("Final input:")
+        # print(input_list)
+
+        response = client.responses.create(
+            model="gpt-5.6",
+            instructions="Respond appropraitely.",
+            tools=tools,
+            input=input_list,
+        )
+
+        # 5. The model should be able to give a response!
+        print("Final output:")
+        print(response.model_dump_json(indent=2))
+        print("\n" + response.output_text)
+
+    # ------------------------------ OPEN AI END
 
 
     # ------------------------------ DATA GETTER START
