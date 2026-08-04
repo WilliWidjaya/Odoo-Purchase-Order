@@ -14,6 +14,7 @@ import json
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
+    _inherit = ['mail.thread']
 
     po_number = fields.Char(string = "Purchase Order No", copy = False) # No Char
 
@@ -290,7 +291,22 @@ class PurchaseOrder(models.Model):
 
         return f"{name} The Secret Message is : {conclusion}"
 
-    def do_chatgpt(self):
+    def do_chat(self):
+        self.message_post(body=self.chatgpt_prompt, message_type='comment')
+
+    def message_post(self, **kwargs):
+        msg = super().message_post(**kwargs)
+
+        if kwargs.get('message_type') == 'comment' and kwargs.get('author_id') != self.env.ref('base.partner_root').id:
+            reply = self.do_chatgpt(kwargs.get('body', ''))
+            super().message_post(
+                body=reply,
+                message_type='comment',
+                author_id=self.env.ref('base.partner_root').id,
+            )
+        return msg
+
+    def do_chatgpt(self, prompt):
         tools = [
                 {
                     "type": "function",
@@ -330,7 +346,7 @@ class PurchaseOrder(models.Model):
                 ] 
             
         # input_list = [{"role": "user", "content": "What is my horoscope? I am an Aquarius."}]
-        input_list = [{"role": "user", "content": self.chatgpt_prompt}]
+        input_list = [{"role": "user", "content": prompt}]
 
         client = OpenAI()
 
@@ -396,6 +412,7 @@ class PurchaseOrder(models.Model):
         print("Final output:")
         print(response.model_dump_json(indent=2))
         print("\n" + response.output_text)
+        return response.output_text
 
     # ------------------------------ OPEN AI END
 

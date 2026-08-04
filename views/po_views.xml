@@ -370,7 +370,7 @@
             <field name="arch" type="xml">
                 <form string="Halaman PO">
                     <header>
-                        <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Do ChatGPT" name ="do_chatgpt"/>
+                        <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Do ChatGPT" name ="do_chat"/>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
                         <button  class = "po-header-button btn-primary fa fa-print" type = "object" string = "Create PO Report" name ="template_create_purchase_report"/>
@@ -656,6 +656,12 @@
                                     </group>
                                 </group>
                             </page>
+                            <page string="ChatBot (ChatGPT)">
+                                <group class = "chatbot-container">
+                                    <!-- <chatter/>-->
+                                    <h1>Kalo Iri Bilang Boss!</h1>
+                                </group>
+                            </page>
                             <page string="Report Configurations">
                                 <div>Isi salah satu untuk menggantikan nama perusahaan utama, dan alamatnya. Apabila kedua terisi, judul yang digunakan adalah default perusahaan.</div>
                                 <group style="padding-top: 25px; padding-bottom: 25px;" class = "format-grid-additional">
@@ -677,6 +683,7 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <chatter/>
                 </form>
             </field>
         </record>

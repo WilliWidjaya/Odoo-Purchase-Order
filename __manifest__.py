@@ -2,7 +2,7 @@
     'name' : 'PO SAP',
     'version' : '1.0',
     'author' : 'William Widjaya',
-    'depends' : ['base'],
+    'depends' : ['base', 'mail'],
     'data' : [
         'security/ir.model.access.csv',
         'views/po_views.xml',
