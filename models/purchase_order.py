@@ -269,6 +269,21 @@ class PurchaseOrder(models.Model):
     chatgpt_prompt = fields.Char()
 
     # OPENAI Helper Tools
+    def get_all_purchase_orders(self):
+        print("RUNNING GET ALL PURCHASE ORDERS")
+        datas = self.env['purchase_order'].search([])
+
+        data_list = []
+
+        for order in datas:
+            data_list.append(order.read()[0])
+
+
+        # grabbed_purchase_orders = datas.read()[0]
+        # print("GRABBED PO : ", grabbed_purchase_orders)
+        return json.dumps(data_list, default=str)
+        # return "There are no datas for now, say BANANA"
+
     def get_datas(self):
         self.ensure_one()
         data = self.read()[0]
@@ -288,7 +303,6 @@ class PurchaseOrder(models.Model):
             case _:
                 conclusion = "Jangan lupa mandi, agar tidak bau, dan diterima PTN"
                 
-
         return f"{name} The Secret Message is : {conclusion}"
 
     def do_chat(self):
@@ -343,9 +357,13 @@ class PurchaseOrder(models.Model):
                     "name": "get_datas",
                     "description": "Grab the information regarding the purchase order data when needed for summarizing, or grabbing a specific information",
                 },
+                {
+                    "type": "function",
+                    "name": "get_all_purchase_orders",
+                    "description": "Whenever a question or something that requires access to the entirety of purchase order datas, do use this function. For example, when the user asks for which purchase order entries are drafts.",
+                },
                 ] 
-            
-        # input_list = [{"role": "user", "content": "What is my horoscope? I am an Aquarius."}]
+
         input_list = [{"role": "user", "content": prompt}]
 
         client = OpenAI()
@@ -390,6 +408,15 @@ class PurchaseOrder(models.Model):
                     all_datas = self.get_datas()
 
                     # 4. Provide function call results to the model
+                    input_list.append(
+                        {
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": all_datas,
+                        }
+                    )
+                elif item.name == "get_all_purchase_orders":
+                    all_datas = self.get_all_purchase_orders()
                     input_list.append(
                         {
                             "type": "function_call_output",
@@ -488,6 +515,7 @@ class PurchaseOrder(models.Model):
     # ------------------------------ DATA GETTER END
 
     def count_total(self):
+        self.ensure_one()
         # self.total_amount must be the grand total of everything
         # this includes discount + tax + everything else that might be added in the future.
         count_total_amount = 0
@@ -534,15 +562,19 @@ class PurchaseOrder(models.Model):
 
     @api.onchange('tax') # Changes total on tax change.
     def _calculate_on_tax_change(self):
-        self.count_total()
+        if self.purchase_contents != False:
+            self.count_total()
 
     @api.onchange('discount_percentage') # Recalculates total on discount change.
     def _calculate_on_discount_change(self):
-        self.count_total()
+        if self.purchase_contents != False:
+            self.count_total()
 
     @api.depends('purchase_contents.total', 'purchase_freights.gross_amount') # 
     def _calculate_total_before_discount(self):
-        self.count_total()
+        for record in self:
+            # if record.purchase_contents != False:
+            record.count_total()
 
     
 

@@ -57,8 +57,7 @@
             <field name="res_model">purchase_order</field>
             <field name="view_mode">list,form</field>
         </record>
-        
-        
+            
         <!-- REQUEST SECTION -->
         <record id="po_request_view_list" model="ir.ui.view">
             <field name="name">po.request.view.list</field>
@@ -339,6 +338,9 @@
             </field>
         </record>
         
+        
+        
+        
         <!-- Attachments List table view. -->
         <record id="po_view_list" model="ir.ui.view">
             <field name="name">po.attachment.list</field>
@@ -363,6 +365,9 @@
             </field>
         </record>
         
+        <!-- Empty Page with PO as the model -->
+        
+
         <!-- Purchase Order Form -->
         <record id="po_form" model="ir.ui.view">
             <field name="name">po.form</field>
@@ -370,7 +375,7 @@
             <field name="arch" type="xml">
                 <form string="Halaman PO">
                     <header>
-                        <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Do ChatGPT" name ="do_chat"/>
+                        <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Do ChatGPT" name ="get_all_purchase_orders"/>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
                         <button  class = "po-header-button btn-primary fa fa-print" type = "object" string = "Create PO Report" name ="template_create_purchase_report"/>
@@ -687,6 +692,5 @@
                 </form>
             </field>
         </record>
-
     </data>
 </odoo>

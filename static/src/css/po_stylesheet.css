@@ -147,9 +147,10 @@
 
 /* Header button configurations */
 .po-header-button{
-    color: navy;
+    color: white;
     background-color: navy;
     min-height: 33px;
+    
 }
 
 .po-header-button span{
