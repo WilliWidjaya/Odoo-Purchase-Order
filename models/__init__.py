@@ -1,3 +1,4 @@
+from . import empty_model
 from . import po_item
 from . import vendor
 from . import contact

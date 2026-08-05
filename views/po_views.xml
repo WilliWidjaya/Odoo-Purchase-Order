@@ -57,6 +57,29 @@
             <field name="res_model">purchase_order</field>
             <field name="view_mode">list,form</field>
         </record>
+        
+        <!-- Tampilih empty -->
+        <record id = "po_empty_action" model = "ir.actions.act_window">
+            <field name="name">Purchase Order Empty</field>
+            <field name="res_model">po_empty_model</field>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="po_express_form" model="ir.ui.view">
+            <field name="name">po.express.form</field>
+            <field name="model">po_express</field>
+            <field name="arch" type="xml">
+                <form string="Request Form">
+                    <header class = "req-header-pad">
+                        <button class = "po-header-button btn-primary oi oi-chevron-left" type = "action" string = "Back" name ="%(purchase_order.po_express_list)d"/>
+                    </header>
+                    <group class = "item-format-grid">
+                    </group>                    
+                </form>             
+            </field>
+            
+            
+        </record>
             
         <!-- REQUEST SECTION -->
         <record id="po_request_view_list" model="ir.ui.view">

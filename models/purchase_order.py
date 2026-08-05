@@ -362,7 +362,7 @@ class PurchaseOrder(models.Model):
                     "name": "get_all_purchase_orders",
                     "description": "Whenever a question or something that requires access to the entirety of purchase order datas, do use this function. For example, when the user asks for which purchase order entries are drafts.",
                 },
-                ] 
+                ] Battle
 
         input_list = [{"role": "user", "content": prompt}]
 
