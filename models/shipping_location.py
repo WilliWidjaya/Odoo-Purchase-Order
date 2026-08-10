@@ -4,7 +4,7 @@ class ShippingLocation(models.Model):
     _name = "po_shipping_location"
     _description = "Purchase Order Shipping Location"
 
-    name = fields.Char(compute = "change_display_name")
+    name = fields.Char(compute = "change_display_name", store = True)
     shipping_location = fields.Text()
     
     @api.depends('shipping_location')

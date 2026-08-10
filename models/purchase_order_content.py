@@ -23,7 +23,7 @@ class PurchaseOrderContent(models.Model):
     # ============ Price, Discount, Taxes.
     price = fields.Float(string = "Price")
     discount_percentage = fields.Float(string = "Discount (%)")
-    total = fields.Float(string = "Total", compute = "_calculate_total")
+    total = fields.Float(string = "Total", compute = "_calculate_total", store = True)
 
     tax_code = fields.Char(string = "Tax Code")
     taxline = fields.Char(string = "Taxline")
