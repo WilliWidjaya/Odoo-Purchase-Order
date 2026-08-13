@@ -15,6 +15,10 @@ import json
 import subprocess
 from odoo.exceptions import UserError
 
+import pandas as pd
+import psycopg2
+import os
+
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
@@ -273,6 +277,22 @@ class PurchaseOrder(models.Model):
     chatgpt_prompt = fields.Char()
 
     # OPENAI Helper Tools
+    def read_purchase_orders(self):
+        os_cwd = os.getcwd()
+        script_folder_path = Path(os_cwd) / "OdooExternalPrograms" / "export_purchase_order_to_spreadsheet"
+
+        output_path = script_folder_path / "input_files" / "purchase_orders.xlsx"
+
+        if not output_path.exists(): 
+            self.bash_export_to_xlsx()
+            return "tell the player that you updated the table, and ask the user to ask again."
+
+        read_output = pd.read_excel(output_path) 
+
+        data = read_output.to_dict(orient='records')
+        dumped_json = json.dumps(data, default=str)
+        return dumped_json
+
     def get_all_purchase_orders(self):
         print("RUNNING GET ALL PURCHASE ORDERS")
         datas = self.env['purchase_order'].search([])
@@ -300,10 +320,6 @@ class PurchaseOrder(models.Model):
     def get_secret_message(self, name):
         conclusion = "There is nothing"
         match name:
-            case "Adias":
-                conclusion = "Jadi lu kayak adias?"
-            case "Radit":
-                conclusion = "MAKANLAH NASI AGAR JADI SEHAT"
             case _:
                 conclusion = "Jangan lupa mandi, agar tidak bau, dan diterima PTN"
                 
@@ -359,13 +375,13 @@ class PurchaseOrder(models.Model):
                 {
                     "type": "function",
                     "name": "get_datas",
-                    "description": "Grab the information regarding the purchase order data when needed for summarizing, or grabbing a specific information",
+                    "description": "Grab the information regarding the current purchase order data when needed for summarizing, or grabbing a specific information",
                 },
                 {
-                    "type": "function",
-                    "name": "get_all_purchase_orders",
-                    "description": "Whenever a question or something that requires access to the entirety of purchase order datas, do use this function. For example, when the user asks for which purchase order entries are drafts.",
-                },
+                    "type" : "function",
+                    "name" : "read_purchase_orders",
+                    "description" : "To gather information regarding all purchase order datas (the whole database), and not the current PO only. (such as for grabbing total amount from all purchases, how many POs are handles by a certain vendor, etc.)."
+                }
                 ] 
 
         input_list = [{"role": "user", "content": prompt}]
@@ -374,7 +390,7 @@ class PurchaseOrder(models.Model):
 
         response = client.responses.create(
             model="gpt-5.6",
-            instructions = "You are currently in a purchase order details page. Help the user fetch data, summarize data, or help in general.",
+            instructions = "You are currently in a page which shows a singular PO data. Users will ask for information regarding purchase order datas. Decide whether the user is asking for data of the current PO, or a question regarding the entirety of the PO database.",
             input= input_list,
             tools= tools,
         )
@@ -419,13 +435,13 @@ class PurchaseOrder(models.Model):
                             "output": all_datas,
                         }
                     )
-                elif item.name == "get_all_purchase_orders":
-                    all_datas = self.get_all_purchase_orders()
+                elif item.name == "read_purchase_orders":
+                    read_files = self.read_purchase_orders()
                     input_list.append(
                         {
                             "type": "function_call_output",
                             "call_id": item.call_id,
-                            "output": all_datas,
+                            "output": read_files,
                         }
                     )
 
@@ -450,62 +466,84 @@ class PurchaseOrder(models.Model):
 
     # --------------------- RUNNING BASH FILE
     
-
     def run_bash_grab_data_psql(self):
+        self.bash_export_to_xlsx()
+        self.upload_to_gdrive()
+
+    def bash_export_to_xlsx(self):
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
-        final_filepath = str(def_filepath / "custom_scripts" / "grab_all_data_psql" / "create_csv.sh")
 
-        print("FINAL FILEPATH FOR BASH : ", final_filepath)
+        sql_query = """
+                    SELECT 
+                        po.po_number,
+                        po.status,
+                        po.name, 
+                        po_vendor.name AS "vendor_name",
+                        po.vendor_ref_no, 
+                        po_contact.name AS "contact_name",
+                        po.posting_date::text,
+                        po.due_date::text,
+                        po.payment_date::text,
+                        po.sta_date::text,
+                        po.total_before_disc,
+                        po.discount_percentage,
+                        po.discounted_value,
+                        po.discount_amount,
+                        po.tax,
+                        po.taxed_amount,
+                        po.total_amount,
+                        po.payment_terms,
+                        po.remarks,
+                        po_shipping_location.shipping_location,
+                        po_pay_accounts.payment_information,
+                        po.ad_vessel_flight,
+                        po.ad_container,
+                        po.ad_awb,
+                        po.ad_pesawat,
+                        "ad_vendor_DO_no",
+                        "ad_no_tanggal_PIB"::text,
+                        "ad_PIB_pesan",
+                        po.ad_bank_name,
+                        po.ad_pph,
+                        po.ad_tgl_bbpcp::text,
+                        po.ad_total_cf,
+                        "ad_NDPBM",
+                        po.ad_pi_date::text, 
+                        po.ad_tgl_invoice 
+                    FROM purchase_order po
+                    LEFT JOIN po_shipping_location ON po.ship_to = po_shipping_location.id
+                    LEFT JOIN po_pay_accounts ON po.pay_to = po_pay_accounts.id
+                    LEFT JOIN po_vendor ON po.vendor = po_vendor.id
+                    LEFT JOIN po_contact ON po.contact_person = po_contact.id
+                    """
 
-        _sql_query = """
-            SELECT 
-                po.po_number,
-                po.status,
-                po.name, 
-                po_vendor.name AS "vendor_name",
-                po.vendor_ref_no, 
-                po_contact.name AS "contact_name",
-                po.posting_date,
-                po.due_date,
-                po.payment_date,
-                po.sta_date,
-                po.total_before_disc,
-                po.discount_percentage,
-                po.discounted_value,
-                po.discount_amount,
-                po.tax,
-                po.taxed_amount,
-                po.total_amount,
-                po.payment_terms,
-                po.remarks,
-                po_shipping_location.shipping_location,
-                po_pay_accounts.payment_information,
-                po.ad_vessel_flight,
-                po.ad_container,
-                po.ad_awb,
-                po.ad_pesawat,
-                "ad_vendor_DO_no",
-                "ad_no_tanggal_PIB",
-                "ad_PIB_pesan",
-                po.ad_bank_name,
-                po.ad_pph,
-                po.ad_tgl_bbpcp,
-                po.ad_total_cf,
-                "ad_NDPBM",
-                po.ad_pi_date, 
-                po.ad_tgl_invoice 
-            FROM purchase_order po
-            LEFT JOIN po_shipping_location ON po.ship_to = po_shipping_location.id
-            LEFT JOIN po_pay_accounts ON po.pay_to = po_pay_accounts.id
-            LEFT JOIN po_vendor ON po.vendor = po_vendor.id
-            LEFT JOIN po_contact ON po.contact_person = po_contact.id
-            """
-        _database_name = self.env.cr.dbname
-        _output_path = "./OdooDownloads/output.csv"
+        self.env.cr.execute(sql_query)
+        rows = self.env.cr.fetchall()
 
+        columns = [desc[0] for desc in self.env.cr.description]
+
+        df = pd.DataFrame(rows, columns=columns)
+
+        os_cwd = os.getcwd()
+        script_folder_path = Path(os_cwd) / "OdooExternalPrograms" / "export_purchase_order_to_spreadsheet"
+        output_path = script_folder_path / "input_files" / "purchase_orders.xlsx"
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(output_path, index=False)
+
+        print("OUTPUT PATH : ", output_path)
+        return
+
+    def upload_to_gdrive(self):
+        # Create another running bash script here again
+
+        os_cwd = os.getcwd()
+        script_folder_path = Path(os_cwd) / "OdooExternalPrograms" / "export_purchase_order_to_spreadsheet"
+        bash_filepath = str(script_folder_path / "run.sh")
+        
         result = subprocess.run( # $1, $2, dan $3
-            ['bash', final_filepath, _sql_query, _database_name, _output_path],
+            ['bash', bash_filepath],
             capture_output=True,
             text=True,
             timeout=30,
@@ -513,8 +551,7 @@ class PurchaseOrder(models.Model):
         if result.returncode != 0:
             raise UserError(f"Script failed: {result.stderr}")
         print("THIS IS THE FINAL BASH RESULT : ", result.stdout)
-        return result.stdout
-
+        return
 
     # ---------------------
 
