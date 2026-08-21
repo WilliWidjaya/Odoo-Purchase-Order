@@ -19,6 +19,9 @@ import pandas as pd
 import psycopg2
 import os
 
+#LLM Tool
+from odoo.addons.llm_tool.decorators import llm_tool
+
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
@@ -116,6 +119,9 @@ class PurchaseOrder(models.Model):
     # Either bisa pake lu ketik sendiri
     custom_title = fields.Char(string="Custom Title")
     custom_location = fields.Char(string="Custom Location")
+
+    # This is the chat history for the chatbot 
+    chat_history = fields.Text()
 
     _sql_constraints = [
         ('check_po_code', 'CHECK(po_number IS NOT NULL)', 'You must fill the PO number.'),
@@ -276,7 +282,6 @@ class PurchaseOrder(models.Model):
 
     chatgpt_prompt = fields.Char()
 
-    # OPENAI Helper Tools
     def read_purchase_orders(self):
         os_cwd = os.getcwd()
         script_folder_path = Path(os_cwd) / "OdooExternalPrograms" / "export_purchase_order_to_spreadsheet"
@@ -314,23 +319,12 @@ class PurchaseOrder(models.Model):
         data['purchase_contents'] = self.purchase_contents.read()
         return json.dumps(data, default=str)
 
-    def get_horoscope(self, sign):
-        return f"{sign}: Next Tuesday you will befriend a baby otter."
-
-    def get_secret_message(self, name):
-        conclusion = "There is nothing"
-        match name:
-            case _:
-                conclusion = "Jangan lupa mandi, agar tidak bau, dan diterima PTN"
-                
-        return f"{name} The Secret Message is : {conclusion}"
-
     def do_chat(self):
         self.message_post(body=self.chatgpt_prompt, message_type='comment')
 
     def message_post(self, **kwargs):
         msg = super().message_post(**kwargs)
-
+        reply = "No reply was given."
         if kwargs.get('message_type') == 'comment' and kwargs.get('author_id') != self.env.ref('base.partner_root').id:
             reply = self.do_chatgpt(kwargs.get('body', ''))
             super().message_post(
@@ -338,49 +332,35 @@ class PurchaseOrder(models.Model):
                 message_type='comment',
                 author_id=self.env.ref('base.partner_root').id,
             )
+
+
+        # TODO :
+        #   - Disini ada bug dimana kalo kita return reply instead of msg, kita gabakal bsia chat di <chatter/> dan cuma bisa di wizard.
         return msg
+        # return reply
 
     def do_chatgpt(self, prompt):
+        history = json.loads(self.chat_history or "[]")
         tools = [
                 {
                     "type": "function",
-                    "name": "get_horoscope",
-                    "description": "Get today's horoscope for an astrological sign.",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "sign": {
-                                "type": "string",
-                                "description": "An astrological sign like Taurus or Aquarius",
-                            },
-                        },
-                        "required": ["sign"],
-                    },
-                },
-                {
-                    "type": "function",
-                    "name": "get_secret_message",
-                    "description": "Get the secret message based on the users name.",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "description": "Name of the user.",
-                            },
-                        },
-                        "required": ["name"],
-                    },
-                },
-                {
-                    "type": "function",
                     "name": "get_datas",
-                    "description": "Grab the information regarding the current purchase order data when needed for summarizing, or grabbing a specific information",
+                    "description": """
+                                    Use this when prompt requires data from the current purchase order entry only, the one you are currently in.
+                                    Example questions : Who is the vendor? What's the customers name? What' the payment term? When is the purchase order due?
+                                    How many days between posting date and due date?
+                                """,
                 },
                 {
                     "type" : "function",
                     "name" : "read_purchase_orders",
-                    "description" : "To gather information regarding all purchase order datas (the whole database), and not the current PO only. (such as for grabbing total amount from all purchases, how many POs are handles by a certain vendor, etc.)."
+                    "description" : """ 
+                                    Use this when prompt requires data from the entirety of the PO database, or all purchase order entries.
+                                    only the current purchase order.
+                                    For example : How many POs are there?, Which POs start with PO-2026?, Whats the total cost of all POs?
+                                    Which POs are handled by Ricky?
+                                    
+                                    """
                 }
                 ] 
 
@@ -388,10 +368,13 @@ class PurchaseOrder(models.Model):
 
         client = OpenAI()
 
+        history.append({"role": "user", "content": prompt})
+
         response = client.responses.create(
             model="gpt-5.6",
-            instructions = "You are currently in a page which shows a singular PO data. Users will ask for information regarding purchase order datas. Decide whether the user is asking for data of the current PO, or a question regarding the entirety of the PO database.",
-            input= input_list,
+            instructions = "You are currently in a page which shows a singular PO data. Assume questions ask about the current PO, and go get_datas(). Users will ask for information regarding purchase order datas Decide whether the user is asking for data of the current PO, or a question regarding the entirety of the PO database.",
+            # input= input_list,
+            input = history,
             tools= tools,
         )
 
@@ -399,36 +382,11 @@ class PurchaseOrder(models.Model):
 
         for item in response.output:
             if item.type == "function_call":
-                if item.name == "get_horoscope":
-                    # 3. Execute the function logic for get_horoscope
-                    sign = json.loads(item.arguments)["sign"]
-                    horoscope = self.get_horoscope(sign)
-
-                    # 4. Provide function call results to the model
-                    input_list.append(
-                        {
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": horoscope,
-                        }
-                    )
-                elif item.name == "get_secret_message":
-                    name = json.loads(item.arguments)["name"]
-                    secret_message = self.get_secret_message(name)
-
-                    # 4. Provide function call results to the model
-                    input_list.append(
-                        {
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": secret_message,
-                        }
-                    )
-                elif item.name == "get_datas":
+                if item.name == "get_datas":
                     all_datas = self.get_datas()
 
                     # 4. Provide function call results to the model
-                    input_list.append(
+                    history.append(
                         {
                             "type": "function_call_output",
                             "call_id": item.call_id,
@@ -437,7 +395,7 @@ class PurchaseOrder(models.Model):
                     )
                 elif item.name == "read_purchase_orders":
                     read_files = self.read_purchase_orders()
-                    input_list.append(
+                    history.append(
                         {
                             "type": "function_call_output",
                             "call_id": item.call_id,
@@ -445,15 +403,18 @@ class PurchaseOrder(models.Model):
                         }
                     )
 
-        # print("Final input:")
-        # print(input_list)
-
         response = client.responses.create(
             model="gpt-5.6",
             instructions="Respond appropraitely.",
             tools=tools,
-            input=input_list,
+            input=history,
         )
+
+        reply = response.output_text
+                
+        history.append({"role": "assistant", "content": reply})
+
+        self.chat_history = json.dumps(history)
 
         # 5. The model should be able to give a response!
         print("Final output:")

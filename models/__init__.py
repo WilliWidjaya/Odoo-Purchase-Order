@@ -12,3 +12,5 @@ from . import purchase_order_content
 from . import purchase_order_freight
 from . import po_request
 from . import purchase_order
+
+from . import po_chat_wizard

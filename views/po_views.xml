@@ -390,6 +390,31 @@
         
         <!-- Empty Page with PO as the model -->
         
+        <record id="launch_the_wizard" model="ir.actions.act_window">
+            <field name="name">Purchase Order Chatbot</field>
+            <field name="res_model">po_chat_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="purchase_order.model_purchase_order"/>
+        </record>
+        
+        <record id="ai_chat_wizard_view" model="ir.ui.view">
+            <field name="name">ai.chat.wizard.form</field>
+            <field name="model">po_chat_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="po_id"/>
+                        <field name="prompt"/>
+                        <field name="response" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_send" type="object" string="Send" class="btn-primary"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 
         <!-- Purchase Order Form -->
         <record id="po_form" model="ir.ui.view">
@@ -398,6 +423,8 @@
             <field name="arch" type="xml">
                 <form string="Halaman PO">
                     <header>
+                        <button name="%(purchase_order.launch_the_wizard)d" type="action" string="OpenAI Chat" context="{'default_po_id': id}"/>
+                        <button class = "po-header-button btn-primary fa fa-refresh" type = "action" string = "Run Chat Wizard" name ="purchase_order.launch_the_wizard"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update Spreadsheet" name ="run_bash_grab_data_psql"/>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
