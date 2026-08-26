@@ -11,5 +11,3 @@ purchase_order.access_po_shipping_location,access_po_shipping_location,purchase_
 purchase_order.access_po_item,access_po_item,purchase_order.model_po_item,base.group_user,1,1,1,1
 purchase_order.access_po_express,access_po_express,purchase_order.model_po_express,base.group_user,1,1,1,1
 purchase_order.access_po_pay_accounts,access_po_pay_accounts,purchase_order.model_po_pay_accounts,base.group_user,1,1,1,1
-purchase_order.access_empty_model,access_empty_model,purchase_order.model_po_empty_model,base.group_user,1,1,1,1
-purchase_order.access_po_chat_wizard,access_po_chat_wizard,purchase_order.model_po_chat_wizard,base.group_user,1,1,1,1

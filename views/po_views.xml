@@ -55,7 +55,7 @@
         <record id="po_list_action" model="ir.actions.act_window">
             <field name="name">Purchase Order List</field>
             <field name="res_model">purchase_order</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">list,kanban,form</field>
         </record>
         
         <!-- Tampilih empty -->
@@ -77,8 +77,6 @@
                     </group>                    
                 </form>             
             </field>
-            
-            
         </record>
             
         <!-- REQUEST SECTION -->
@@ -343,6 +341,40 @@
             </field>
         </record>
         
+        <!-- PO Kanban View yang muncul pada mobile form. -->
+        <record id="purchase_order_kanban" model="ir.ui.view">
+            <field name="name">po.view.kanban</field>
+            <field name="model">purchase_order</field>
+            <!-- <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/> -->
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1" quick_create="false">
+                    <templates>
+                        <t t-name="card">
+                            <field class="font-weight-bold h3" name="name"/>
+                            <div class="row"> 
+                                <div>Vendor - </div>
+                                <field name="vendor"/>
+                            </div>
+                            <field name="vendor_ref_no"/>
+                            <field name="ad_container"/>
+                            <!-- <div class="d-flex mb-2" style="justify-content: space-between;">
+                                <field name="name" class="fw-bolder fs-5" />
+                                <field name="vendor" class="ms-1 text-muted fs-5"/>
+                            </div> -->
+                            <footer>
+                                <div>
+                                    <field name="payment_terms" width = "50px" widget="badge" decoration-success="payment_terms == 'pay_cash'" decoration-info="payment_terms == 'pay_bank'"/>
+                                    <field name="status" width = "50px" widget="badge" decoration-success="status == 'finalized'"/>
+                                </div>
+                            </footer>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        
+        <!-- NOTE: INI NAMA IDnya harusnya purchase_order_list -->
         <!-- PO VIEWLIST, yang muncul di halaman utama -->
         <record id="po_attachment_list" model="ir.ui.view">
             <field name="name">po.view.list</field>
@@ -352,6 +384,7 @@
                     <field name="po_number" width = "50px"/>
                     <field name="name" width = "50px"/>
                     <field name="vendor" width = "50px"/>
+                    <field class="" name="vendor_ref_no" width="50x"/>
                     <field name="posting_date" width = "50px"/>
                     <field name="due_date" width = "50px"/>
                     <field name="total_amount" width = "50px"/>
@@ -388,34 +421,6 @@
             </field>
         </record>
         
-        <!-- Empty Page with PO as the model -->
-        
-        <record id="launch_the_wizard" model="ir.actions.act_window">
-            <field name="name">Purchase Order Chatbot</field>
-            <field name="res_model">po_chat_wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="binding_model_id" ref="purchase_order.model_purchase_order"/>
-        </record>
-        
-        <record id="ai_chat_wizard_view" model="ir.ui.view">
-            <field name="name">ai.chat.wizard.form</field>
-            <field name="model">po_chat_wizard</field>
-            <field name="arch" type="xml">
-                <form>
-                    <group>
-                        <field name="po_id"/>
-                        <field name="prompt"/>
-                        <field name="response" readonly="1"/>
-                    </group>
-                    <footer>
-                        <button name="action_send" type="object" string="Send" class="btn-primary"/>
-                        <button string="Close" class="btn-secondary" special="cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-
         <!-- Purchase Order Form -->
         <record id="po_form" model="ir.ui.view">
             <field name="name">po.form</field>
@@ -423,8 +428,6 @@
             <field name="arch" type="xml">
                 <form string="Halaman PO">
                     <header>
-                        <button name="%(purchase_order.launch_the_wizard)d" type="action" string="OpenAI Chat" context="{'default_po_id': id}"/>
-                        <button class = "po-header-button btn-primary fa fa-refresh" type = "action" string = "Run Chat Wizard" name ="purchase_order.launch_the_wizard"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update Spreadsheet" name ="run_bash_grab_data_psql"/>
                         <button class = "po-header-button btn-primary fa fa-paper-plane" type = "object" string = "Send" name ="count_total"/>
                         <button class = "po-header-button btn-primary fa fa-refresh" type = "object" string = "Update" name ="count_total"/>
@@ -432,144 +435,169 @@
                         <button class = "po-header-button btn-primary fa fa-print" type = "object" string = "Create Receiving Report" name ="template_create_receiving_report"/>
                     </header>
                     <sheet>
-                        <group class ="format-grid">
-                            <group class = "format-bg">
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">PO Number</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="po_number" placeholder = "e.g. PO2244001"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Vendor</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="vendor"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Name</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="name" placeholder = "e.g. John Doe Johnson"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Contact Person</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="contact_person"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Vendor Ref. No.</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="vendor_ref_no" placeholder = "e.g. 112200334"/>
-                                </div>
+                        <span class = "d-lg-none">
+                            <h3>Viewing from mobile!</h3>
+                        </span>
+                        <span class = "d-none d-lg-block">
+                            <group class ="format-grid">
+                                <group class = "format-bg">
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">PO Number</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="po_number" placeholder = "e.g. PO2244001"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Vendor</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="vendor"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Name</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="name" placeholder = "e.g. John Doe Johnson"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Contact Person</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="contact_person"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Vendor Ref. No.</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="vendor_ref_no" placeholder = "e.g. 112200334"/>
+                                    </div>
+                                </group>
+                                <group class = "format-bg">
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">STA Date</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="sta_date"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Posting Date</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="posting_date"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Payment Date</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="payment_date"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Due Date</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="due_date"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Rate</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="rate"/>
+                                    </div>
+                                </group>
+                                <group class = "format-bg">
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Discount (%)</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="discount_percentage"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Tax</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="tax"/>
+                                    </div>
+                                    
+                                    <!-- TOTAL BEFORE DISCOUNT CALCULATIONS -->
+                                    
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override readonly">Total Before Disc.</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box readonly-bg text-center input-text-center" name="total_before_disc"/>
+                                    </div>
+                                    
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override readonly">Discount Amnt.</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box readonly-bg text-center" name="discount_amount"/>
+                                    </div>
+                                    
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override readonly">Total</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box readonly-bg text-center" name="total_amount"/>
+                                    </div>
+                                    
+                                    <!-- END TOTAL BEFORE DISCOUNT CALCULATION -->
+                                </group>
+                                <group class = "format-bg-with-remarks">
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Payment Term</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="payment_terms"/>
+                                    </div>
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Status</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "input-box" name="status"/>
+                                    </div>
+                                    
+                                    <span class = "o_form_label o_td_label">
+                                        <div class = "o_form_label_override">Remarks</div>
+                                    </span>
+                                    <div class = "input-box-parent-div">
+                                        <field class = "remarks-input-box" name="remarks" placeholder = "Write relevant remarks"/>
+                                    </div>
+                                </group>
                             </group>
-                            <group class = "format-bg">
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">STA Date</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="sta_date"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Posting Date</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="posting_date"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Payment Date</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="payment_date"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Due Date</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="due_date"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Rate</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="rate"/>
-                                </div>
-                            </group>
-                            <group class = "format-bg">
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Discount (%)</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="discount_percentage"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Tax</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="tax"/>
-                                </div>
-
-                                <!-- TOTAL BEFORE DISCOUNT CALCULATIONS -->
-                                
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override readonly">Total Before Disc.</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg text-center input-text-center" name="total_before_disc"/>
-                                </div>
-
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override readonly">Discount Amnt.</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg text-center" name="discount_amount"/>
-                                </div>
-
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override readonly">Total</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box readonly-bg text-center" name="total_amount"/>
-                                </div>
-
-                                <!-- END TOTAL BEFORE DISCOUNT CALCULATION -->
-                            </group>
-                            <group class = "format-bg-with-remarks">
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Payment Term</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="payment_terms"/>
-                                </div>
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Status</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="status"/>
-                                </div>
-
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">Remarks</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "remarks-input-box" name="remarks" placeholder = "Write relevant remarks"/>
-                                </div>
-                                
-                                <span class = "o_form_label o_td_label">
-                                    <div class = "o_form_label_override">ChatGPT Prompt</div>
-                                </span>
-                                <div class = "input-box-parent-div">
-                                    <field class = "input-box" name="chatgpt_prompt"/>
-                                </div>
-                                
-                            </group>
-                        </group>
+                        </span>
                         <notebook>
+                            <page class="d-lg-none" string = "Main">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="po_number"/>
+                                    <field name="vendor"/>
+                                    <field name="vendor_ref_no"/>
+                                    <field name="contact_person"/>
+                                    <field name="posting_date"/>
+                                    <field name="sta_date"/>
+                                    <field name="payment_date"/>
+                                    <field name="due_date"/>
+                                    <field name="rate"/>
+                                    <field name="discount_percentage"/>
+                                    <field name="tax"/>
+                                    <field name="total_before_disc"/>
+                                    <field name="discount_amount"/>
+                                    <field name="total_amount"/>
+                                    <field name="payment_terms"/>
+                                    <field name="status"/>
+                                    <field name="remarks"/>
+                                </group>
+                            </page>
+                            
                             <page string="Content">
                                 <field name="purchase_contents"/>
                             </page>
+                            
+                            <page class="d-lg-none" string="Attachments">
+                                <field name="att_attachment"/>
+                            </page>
+                            
                             <page string="Logistics">
                                 <group>
                                     <group>
@@ -592,10 +620,11 @@
                                     </group>
                                 </group>
                             </page>
+
                             <page string="Freight">
                                 <field name="purchase_freights"/>
                             </page>
-                            <page string="Attachment">
+                            <page class="d-none d-lg-block" string="Attachment">
                                 <field name="att_attachment"/>
                             </page>
                             <page string = "Additional">
@@ -709,12 +738,6 @@
                                         </div>
 
                                     </group>
-                                </group>
-                            </page>
-                            <page string="ChatBot (ChatGPT)">
-                                <group class = "chatbot-container">
-                                    <!-- <chatter/>-->
-                                    <h1>Kalo Iri Bilang Boss!</h1>
                                 </group>
                             </page>
                             <page string="Report Configurations">

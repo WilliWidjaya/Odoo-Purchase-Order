@@ -7,8 +7,6 @@ import base64
 # For Opening the file after making the pdf
 from pathlib import Path
 
-# bagian open AI
-from openai import OpenAI
 import json
 
 # For Running Bash
@@ -19,13 +17,14 @@ import pandas as pd
 import psycopg2
 import os
 
-#LLM Tool
+#LLM Tool for the MCP Server
 from odoo.addons.llm_tool.decorators import llm_tool
 
 class PurchaseOrder(models.Model):
     _name = "purchase_order"
     _description = "Purchase Order"
     _inherit = ['mail.thread']
+
 
     po_number = fields.Char(string = "Purchase Order No", copy = False) # No Char
 
@@ -217,7 +216,6 @@ class PurchaseOrder(models.Model):
             'target' : 'new',
         }
 
-
     def template_create_purchase_report(self):
         early_path = __file__ # __file__ points to this current .py file.
         def_filepath = Path(early_path).resolve().parent.parent # grab parent folder of our parent folder.
@@ -277,153 +275,6 @@ class PurchaseOrder(models.Model):
 
 
     # ------------------------------ END OF REPORT CREATION
-
-    # -------------------- OPEN AI START
-
-    chatgpt_prompt = fields.Char()
-
-    def read_purchase_orders(self):
-        os_cwd = os.getcwd()
-        script_folder_path = Path(os_cwd) / "OdooExternalPrograms" / "export_purchase_order_to_spreadsheet"
-
-        output_path = script_folder_path / "input_files" / "purchase_orders.xlsx"
-
-        if not output_path.exists(): 
-            self.bash_export_to_xlsx()
-            return "tell the player that you updated the table, and ask the user to ask again."
-
-        read_output = pd.read_excel(output_path) 
-
-        data = read_output.to_dict(orient='records')
-        dumped_json = json.dumps(data, default=str)
-        return dumped_json
-
-    def get_all_purchase_orders(self):
-        print("RUNNING GET ALL PURCHASE ORDERS")
-        datas = self.env['purchase_order'].search([])
-
-        data_list = []
-
-        for order in datas:
-            data_list.append(order.read()[0])
-
-
-        # grabbed_purchase_orders = datas.read()[0]
-        # print("GRABBED PO : ", grabbed_purchase_orders)
-        return json.dumps(data_list, default=str)
-        # return "There are no datas for now, say BANANA"
-
-    def get_datas(self):
-        self.ensure_one()
-        data = self.read()[0]
-        data['purchase_contents'] = self.purchase_contents.read()
-        return json.dumps(data, default=str)
-
-    def do_chat(self):
-        self.message_post(body=self.chatgpt_prompt, message_type='comment')
-
-    def message_post(self, **kwargs):
-        msg = super().message_post(**kwargs)
-        reply = "No reply was given."
-        if kwargs.get('message_type') == 'comment' and kwargs.get('author_id') != self.env.ref('base.partner_root').id:
-            reply = self.do_chatgpt(kwargs.get('body', ''))
-            super().message_post(
-                body=reply,
-                message_type='comment',
-                author_id=self.env.ref('base.partner_root').id,
-            )
-
-
-        # TODO :
-        #   - Disini ada bug dimana kalo kita return reply instead of msg, kita gabakal bsia chat di <chatter/> dan cuma bisa di wizard.
-        return msg
-        # return reply
-
-    def do_chatgpt(self, prompt):
-        history = json.loads(self.chat_history or "[]")
-        tools = [
-                {
-                    "type": "function",
-                    "name": "get_datas",
-                    "description": """
-                                    Use this when prompt requires data from the current purchase order entry only, the one you are currently in.
-                                    Example questions : Who is the vendor? What's the customers name? What' the payment term? When is the purchase order due?
-                                    How many days between posting date and due date?
-                                """,
-                },
-                {
-                    "type" : "function",
-                    "name" : "read_purchase_orders",
-                    "description" : """ 
-                                    Use this when prompt requires data from the entirety of the PO database, or all purchase order entries.
-                                    only the current purchase order.
-                                    For example : How many POs are there?, Which POs start with PO-2026?, Whats the total cost of all POs?
-                                    Which POs are handled by Ricky?
-                                    
-                                    """
-                }
-                ] 
-
-        input_list = [{"role": "user", "content": prompt}]
-
-        client = OpenAI()
-
-        history.append({"role": "user", "content": prompt})
-
-        response = client.responses.create(
-            model="gpt-5.6",
-            instructions = "You are currently in a page which shows a singular PO data. Assume questions ask about the current PO, and go get_datas(). Users will ask for information regarding purchase order datas Decide whether the user is asking for data of the current PO, or a question regarding the entirety of the PO database.",
-            # input= input_list,
-            input = history,
-            tools= tools,
-        )
-
-        input_list += response.output
-
-        for item in response.output:
-            if item.type == "function_call":
-                if item.name == "get_datas":
-                    all_datas = self.get_datas()
-
-                    # 4. Provide function call results to the model
-                    history.append(
-                        {
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": all_datas,
-                        }
-                    )
-                elif item.name == "read_purchase_orders":
-                    read_files = self.read_purchase_orders()
-                    history.append(
-                        {
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": read_files,
-                        }
-                    )
-
-        response = client.responses.create(
-            model="gpt-5.6",
-            instructions="Respond appropraitely.",
-            tools=tools,
-            input=history,
-        )
-
-        reply = response.output_text
-                
-        history.append({"role": "assistant", "content": reply})
-
-        self.chat_history = json.dumps(history)
-
-        # 5. The model should be able to give a response!
-        print("Final output:")
-        print(response.model_dump_json(indent=2))
-        print("\n" + response.output_text)
-        return response.output_text
-
-    # ------------------------------ OPEN AI END
-
 
     # --------------------- RUNNING BASH FILE
     
