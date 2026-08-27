@@ -41,7 +41,7 @@
         <record id="po_requests_list" model ="ir.actions.act_window">
             <field name = "name">Form Permintaan List</field>
             <field name = "res_model">po_request</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">list,kanban,form</field>
         </record>
         
         <!-- Tampilan Form Secara Individu -->
@@ -121,9 +121,19 @@
                     <header class = "req-header-pad">
                         <button class = "po-header-button btn-primary fa fa-print " type = "object" string = "Print Form" name ="create_request_form"/>
                     </header>
-                    <group class = "req-format-grid">
+                    <sheet class = "d-lg-none">
+                        <group class = "d-lg-none">
+                            <field name="name"/>
+                            <field name="document_no"/>
+                            <field name="revision_no"/>
+                            <field name="valid_date"/>
+                            <field name="affiliated_one"/>
+                            <field name="affiliated_two"/>
+                        </group>
+                    </sheet>
 
-                        <sheet class = "req-format-grid-child">
+                    <group class = "d-none d-lg-block req-format-grid">
+                        <sheet class = "d-none d-lg-block req-format-grid-child">
                             <group class = "req-grid-row req-format-grid-child-group">
                                 <div class = "expand"><h3>Document Info</h3></div>
                                 <group class = "req-aff-display">
@@ -135,7 +145,7 @@
                             </group>
                         </sheet>
 
-                        <sheet class = "req-format-grid-child">
+                        <sheet class = "d-none d-lg-block req-format-grid-child">
                             <group class = "req-grid-row req-format-grid-child-group">
                                 <div class = "expand"><h3>Affiliated Groups</h3></div>
                                 <group class = "req-aff-display">
@@ -439,6 +449,47 @@
             </field>
         </record>
         
+        <!-- PO REQUEST FORMS -->
+        <record id="request_search" model="ir.ui.view">
+            <field name="name">po.request.search</field>
+            <field name="model">po_request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="document_no"/>
+                    <field name="valid_date"/>
+                    <field name="affiliated_one"/> 
+                    <field name="affiliated_two"/>
+                    <!-- <filter string="Draft" name="status"
+                            domain="[('status','=','draft')]"/>
+                    <filter string="Finalized" name="status"
+                            domain="[('status','=','finalized')]"/> -->
+                    <separator/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="po_request_kanban" model="ir.ui.view">
+            <field name="name">po.request.view.kanban</field>
+            <field name="model">po_request</field>
+            <!-- <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/> -->
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1" quick_create="false">
+                    <templates>
+                        <t t-name="card">
+                            <field class="font-weight-bolder h5" name="name"/>
+                            <field class="font-weight-bold h6" name="document_no"/>
+                            <div><span class = "fw-bolder">1. </span><field class="" name="affiliated_one"/></div>
+                            <div><span class = "fw-bolder">2. </span><field class="" name="affiliated_two"/></div>
+                            <footer>
+                                <div class = "text-warning">Revision No. <field name="revision_no"/> </div>
+                            </footer>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
         <!-- Purchase Order Form -->
         <record id="po_form" model="ir.ui.view">
             <field name="name">po.form</field>
@@ -454,7 +505,13 @@
                     </header>
                     <sheet>
                         <span class = "d-lg-none">
-                            <h3>Viewing from mobile!</h3>
+                            <group>
+                                <field name="name"/>
+                                <field name="po_number"/>
+                                <field name="vendor"/>
+                                <field name="vendor_ref_no"/>
+                                <field name="ad_container"/>
+                            </group>
                         </span>
                         <span class = "d-none d-lg-block">
                             <group class ="format-grid">
@@ -585,7 +642,7 @@
                             </group>
                         </span>
                         <notebook>
-                            <page class="d-lg-none" string = "Main">
+                            <page class="d-lg-none" string = "(Mobile) Info Utama">
                                 <group>
                                     <field name="name"/>
                                     <field name="po_number"/>
@@ -608,7 +665,7 @@
                                 </group>
                             </page>
                             
-                            <page string="Content">
+                            <page string="Content" autofocus="autofocus" >
                                 <field name="purchase_contents"/>
                             </page>
                             
@@ -645,7 +702,26 @@
                             <page class="d-none d-lg-block" string="Attachment">
                                 <field name="att_attachment"/>
                             </page>
-                            <page string = "Additional">
+                            <page class = "d-lg-none" string = "Additional (Mobile)">
+                                <group>
+                                    <field class = "input-box" name="ad_vessel_flight" placeholder="---"/>
+                                    <field class = "input-box" name="ad_container" placeholder="---"/>
+                                    <field class = "input-box" name="ad_awb" placeholder="---"/>
+                                    <field class = "input-box" name="ad_pesawat" placeholder="---"/>
+                                    <field class = "input-box" name="ad_vendor_DO_no" placeholder="---"/>
+                                    <field class = "input-box" name="ad_no_tanggal_PIB" placeholder="---"/>
+                                    <field class = "input-box" name="ad_PIB_pesan" placeholder="---"/>
+                                    <field class = "input-box" name="ad_bank_name" placeholder="---"/>
+                                    <field class = "input-box" name="ad_pph" placeholder="---"/>
+                                    <field class = "input-box" name="ad_tgl_bbpcp" placeholder="---"/>
+                                    <field class = "input-box" name="ad_total_cf" placeholder="---"/>
+                                    <field class = "input-box" name="ad_NDPBM" placeholder="---"/>
+                                    <field class = "input-box" name="ad_pi_date" placeholder="---"/>
+                                    <field class = "input-box" name="ad_tgl_invoice" placeholder="---"/>
+                                </group>
+                            </page>
+                            
+                            <page class="d-none d-lg-block" string = "Additional">
                                 <group class = "format-grid-additional">
                                     <group class = "format-bg-add">
 
