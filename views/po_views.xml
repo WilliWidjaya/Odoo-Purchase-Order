@@ -350,21 +350,15 @@
                 <kanban class="o_kanban_mobile" sample="1" quick_create="false">
                     <templates>
                         <t t-name="card">
-                            <field class="font-weight-bold h3" name="name"/>
-                            <div class="row"> 
-                                <div>Vendor - </div>
-                                <field name="vendor"/>
-                            </div>
-                            <field name="vendor_ref_no"/>
-                            <field name="ad_container"/>
-                            <!-- <div class="d-flex mb-2" style="justify-content: space-between;">
-                                <field name="name" class="fw-bolder fs-5" />
-                                <field name="vendor" class="ms-1 text-muted fs-5"/>
-                            </div> -->
+                            <field class="font-weight-bolder h5" name="name"/>
+                            <field class="font-weight-bold h6" name="po_number"/>
+                            <div><span class = "fw-bolder">Vendor - </span><field class="" name="vendor"/></div>
+                            <div><span class = "fw-bolder">Vendor Ref No. - </span><field class="" name="vendor_ref_no"/></div>
+                            <div><span class = "fw-bolder">Container - </span><field class="" name="ad_container"/></div>
                             <footer>
-                                <div>
-                                    <field name="payment_terms" width = "50px" widget="badge" decoration-success="payment_terms == 'pay_cash'" decoration-info="payment_terms == 'pay_bank'"/>
-                                    <field name="status" width = "50px" widget="badge" decoration-success="status == 'finalized'"/>
+                                <div class = "d-flex">
+                                    <field class="" name="payment_terms" width = "50px" widget="badge" decoration-success="payment_terms == 'pay_cash'" decoration-info="payment_terms == 'pay_bank'"/>
+                                    <field class="" name="status" width = "50px" widget="badge" decoration-success="status == 'finalized'"/>
                                 </div>
                             </footer>
                         </t>
@@ -418,6 +412,30 @@
                 <xpath expr="//field[@name='res_field']" position="attributes">
                     <attribute name="column_invisible">True</attribute>
                 </xpath>
+            </field>
+        </record>
+        
+        <!-- SEARCHES -->
+        <record id="po_search" model="ir.ui.view">
+            <field name="name">po.search</field>
+            <field name="model">purchase_order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="po_number"/>
+                    <field name="vendor"/>
+                    <field name="vendor_ref_no"/>
+                    <field name="ad_container"/>
+                    <filter string="Draft" name="status"
+                            domain="[('status','=','draft')]"/>
+                    <filter string="Finalized" name="status"
+                            domain="[('status','=','finalized')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Vendor" name="group_vendor"
+                                context="{'group_by':'vendor'}"/>
+                    </group>
+                </search>
             </field>
         </record>
         
